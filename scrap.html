@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="style.css" rel="stylesheet" />
+<script type="module" src="spin.js"></script>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.20/cytoscape.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style type="text/css">
+#cyto {
+	width: 1000px;
+	height: 800px;
+	border: solid black 4px;
+	float: top;
+	display:none;
+}
+.chart_container {
+
+	justify-content: center; /* align horizontal */
+	background: white;
+
+	display: flex;
+}
+#animation {
+	background: white;
+	padding: 10px 30px;
+	height: 1000px;
+	width: 600px;
+	justify-content: center; /* align horizontal */
+}
+.loader {
+	border: 26px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 26px solid #3498db;
+	width: 548px;
+	height: 548px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+	justify-content: center; /* align horizontal */
+}
+.button_holder {
+	background: green;
+}
+@keyframes spinner-line-fade-more {
+  0%, 100% {
+    opacity: 0; /* minimum opacity */
+  }
+  1% {
+    opacity: 1;
+  }
+}
+@keyframes spinner-line-fade-quick {
+  0%, 39%, 100% {
+    opacity: 0.25; /* minimum opacity */
+  }
+  40% {
+    opacity: 1;
+  }
+}
+@keyframes spinner-line-fade-default {
+  0%, 100% {
+    opacity: 0.22; /* minimum opacity */
+  }
+  1% {
+    opacity: 1;
+  }
+}
+</style>
+<div id="cyto"></div>
+<div id="all_charts" class="chart_container">
+	<div id="animation">
+	</div>
+</div>
+<div id="button_holder">
+</div>
+<script type="text/javascript">
+function Get(yourUrl){
+	var Httpreq = new XMLHttpRequest(); // a new request
+	Httpreq.open("GET",yourUrl,false);
+	Httpreq.send(null);
+	return Httpreq.responseText;          
+}
+function 
+	//Collections arrays
+	console.log();
+	var years = {};
+	for (i=0; i<publications_json["publications"].length; i++){
+		var year = publications_json["publications"][i]["published"].split('-')[0];
+		if (years.hasOwnProperty(year)){
+			years[year].push(publications_json["publications"][i]);
+		} else {
+			years[year] = [];
+			years[year].push(publications_json["publications"][i]);
+		}
+	}
+	for (var year in years){
+		var dois = [];
+		var pmids = [];
+		var label_count = {};
+		var titles_for_word_cloud = "";
+		label_length_count = {}
+		for (i=0; i<years[year].length; i++){
+			var doi = years[year][i]["doi"];
+			var title = years[year][i]["title"];
+			var labels = years[year][i]["labels"];
+			var pmid = years[year][i]["pmid"];
+			pmids.push(pmid);
+			dois.push(doi);
+			titles_for_word_cloud = titles_for_word_cloud + " " + title;
+			var label_length = 0;
+			for (var key in labels){
+				//No idea why labels.length doesnt work...
+				label_length += 1;
+				if (label_count.hasOwnProperty(key)){
+					label_count[key] += 1;
+				} else {
+					label_count[key] = 1;
+				}
+			}
+			if (label_length != 0){
+				if (label_length_count.hasOwnProperty(label_length)){
+					label_length_count[label_length] += 1;
+				} else {
+					label_length_count[label_length] = 1;
+				}
+			}
+		}
+		//console.log(label_length_count);
+		//Pie chart of labels
+		var data = [{
+			values:[], 
+			labels:[], 
+			type: "pie", 
+			textinfo: "value", 
+			name: ""
+		}];
+		var layout = {
+			grid: {rows: 2, columns: 1, pattern: 'independent'},
+			title: chart_title, 
+			showlegend: false,
+			autosize: false,
+			width: 600,
+			height: 1000,
+			margin: {
+				l: 100,
+				r: 100,
+				b: 100,
+				t: 100,
+				pad: 1
+			},
+			yaxis2: {
+				title: "Publication count",
+			},
+			xaxis2: {
+				title: "Number of labels"
+			}
+		}
+		//console.log(label_count);
+		for (var lab in label_count){
+			data[0].values.push(label_count[lab]);
+			data[0].labels.push(lab);
+		}
+		//doing bar chart for labels
+		data.push({
+			x:[], 
+			y:[], 
+			type: "bar",
+			hoverinfo: "value+label",
+			xaxis: 'x2', //this sets it to 
+			yaxis: 'y2',  //seconnd chart area
+			name: ""
+		});
+		for (var lab_len in label_length_count){
+			data[1].x.push(lab_len);
+			data[1].y.push(label_length_count[lab_len]);
+		}
+		//$(target_div).append('<div id="pie'+year+'" style="display:none" class="piechart"></div>');
+		var innerDiv = document.createElement('div');
+		innerDiv.id = 'pie'+year;
+		innerDiv.className = 'piechart';
+		innerDiv.style.cssText = 'display:none';
+		$(target_div).append(innerDiv);
+
+
+		$('#button_holder').append('<button id="button'+year+'">'+year+'</button>');
+		Plotly.newPlot('pie'+year, data, layout, {displayModeBar: false});
+	}
+}
+function draw_cyto(target_div, publications_json){
+	var all_labels = [];
+	var all_collab_labels = [];
+	var edges = {};
+	var label_count = {};
+	for (i=0; i<publications_json["publications"].length; i++){
+		//console.log(publications_json["publications"][i]);
+		var pub_labels = publications_json["publications"][i]["labels"];
+		var tmp_labels = [];
+		for (var key in pub_labels){
+			//console.log(key);
+			//No idea why labels.length doesnt work...
+			//checking index of the key, if -1 its not in list yet
+			tmp_labels.push(key);
+			if (all_labels.indexOf(key)==-1){	
+				all_labels.push(key);
+			}
+		}
+		tmp_labels = tmp_labels.sort();
+		if (tmp_labels.length>1){
+			for (var j=0; j<tmp_labels.length-1;j++){
+				if (edges.hasOwnProperty(tmp_labels[j]+"+"+tmp_labels[j+1])){
+					edges[tmp_labels[j]+"+"+tmp_labels[j+1]] += 1;
+				}else{
+					edges[tmp_labels[j]+"+"+tmp_labels[j+1]] = 1;
+				}
+				if (all_collab_labels.indexOf(tmp_labels[j])==-1){	
+					all_collab_labels.push(tmp_labels[j]);
+				}	
+				//add all the labels except last one (which isnt looped through)
+			}
+			//add last label which wasnt looped in
+			if (all_collab_labels.indexOf(tmp_labels[tmp_labels.length - 1])==-1){	
+				all_collab_labels.push(tmp_labels[tmp_labels.length - 1]);
+			}	
+		}
+	}
+	console.log(all_collab_labels);
+	console.log(edges);
+	var options = {
+		name: 'cose',
+		// Called on `layoutready`
+		ready: function(){},
+		// Called on `layoutstop`
+		stop: function(){},
+		// Whether to animate while running the layout
+		// true : Animate continuously as the layout is running
+		// false : Just show the end result
+		// 'end' : Animate with the end result, from the initial positions to the end positions
+		animate: true,
+		// Easing of the animation for animate:'end'
+		animationEasing: undefined,
+		// The duration of the animation for animate:'end'
+		animationDuration: undefined,
+		// A function that determines whether the node should be animated
+		// All nodes animated by default on animate enabled
+		// Non-animated nodes are positioned immediately when the layout starts
+		animateFilter: function ( node, i ){ return true; },
+		// The layout animates only after this many milliseconds for animate:true
+		// (prevents flashing on fast runs)
+		animationThreshold: 250,
+		// Number of iterations between consecutive screen positions update
+		// (0 -> only updated on the end)
+		refresh: 20,
+		// Whether to fit the network view after when done
+		fit: true,
+		// Padding on fit
+		padding: 30,
+		// Constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+		boundingBox: undefined,
+		// Excludes the label when calculating node bounding boxes for the layout algorithm
+		nodeDimensionsIncludeLabels: false,
+		// Randomize the initial positions of the nodes (true) or use existing positions (false)
+		randomize: false,
+		// Extra spacing between components in non-compound graphs
+		componentSpacing: 40,
+		// Node repulsion (non overlapping) multiplier
+		nodeRepulsion: function( node ){ return 204800; },
+		// Node repulsion (overlapping) multiplier
+		nodeOverlap: 4,
+		// Ideal edge (non nested) length
+		idealEdgeLength: function( edge ){ return 32; },
+		// Divisor to compute edge forces
+		edgeElasticity: function( edge ){ return 320; },
+		// Nesting factor (multiplier) to compute ideal edge length for nested edges
+		nestingFactor: 1.2,
+		// Gravity force (constant)
+		gravity: 1,
+		// Maximum number of iterations to perform
+		numIter: 1000,
+		// Initial temperature (maximum node displacement)
+		initialTemp: 1000,
+		// Cooling factor (how the temperature is reduced between consecutive iterations
+		coolingFactor: 0.99,
+		// Lower temperature threshold (below this point the layout will end)
+		minTemp: 1.0,
+		// Pass a reference to weaver to use threads for calculations
+		weaver: false
+	};
+	var cy = cytoscape({
+	container: document.getElementById('cyto'),
+	elements: [],
+	style: [
+	{
+		selector: 'node',
+		style: {
+			shape: 'circle',
+			'background-color': 'blue',
+			label: 'data(id)',
+			"font-size": "24px",
+			"text-valign": "center",
+			"text-halign": "center",
+			"background-color": "#555",
+			"text-outline-color": "#555",
+			"text-outline-width": "2px",
+			"color": "#fff",
+			"overlay-padding": "6px",
+			"z-index": "10"
+		}
+	}]
+	});
+	for (var label in all_collab_labels){
+		//console.log(all_labels[label]);
+		cy.add({data:{id:all_collab_labels[label]}, style:{width:500, height:500}})
+	}
+	for (var key in edges){
+		var str_split = key.split("+");
+		cy.add({data:{id:key, source:str_split[0], target:str_split[1]}, style:{width: edges[key]}})
+		console.log(str_split);
+		console.log(edges[key]);
+	}
+	cy.layout(options).run()
+}
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var defaults = {
+    lines: 12,
+    length: 7,
+    width: 5,
+    radius: 10,
+    scale: 1.0,
+    corners: 1,
+    color: '#000',
+    fadeColor: 'transparent',
+    animation: 'spinner-line-fade-default',
+    rotate: 0,
+    direction: 1,
+    speed: 1,
+    zIndex: 2e9,
+    className: 'spinner',
+    top: '50%',
+    left: '50%',
+    shadow: '0 0 1px transparent',
+    position: 'absolute',
+};
+var Spinner = /** @class */ (function () {
+    function Spinner(opts) {
+        if (opts === void 0) { opts = {}; }
+        this.opts = __assign({}, defaults, opts);
+    }
+    /**
+     * Adds the spinner to the given target element. If this instance is already
+     * spinning, it is automatically removed from its previous target by calling
+     * stop() internally.
+     */
+    Spinner.prototype.spin = function (target) {
+        this.stop();
+        this.el = document.createElement('div');
+        this.el.className = this.opts.className;
+        this.el.setAttribute('role', 'progressbar');
+        css(this.el, {
+            position: this.opts.position,
+            width: 0,
+            zIndex: this.opts.zIndex,
+            left: this.opts.left,
+            top: this.opts.top,
+            transform: "scale(" + this.opts.scale + ")",
+        });
+        if (target) {
+            target.insertBefore(this.el, target.firstChild || null);
+        }
+        drawLines(this.el, this.opts);
+        return this;
+    };
+    /**
+     * Stops and removes the Spinner.
+     * Stopped spinners may be reused by calling spin() again.
+     */
+    Spinner.prototype.stop = function () {
+        if (this.el) {
+            if (typeof requestAnimationFrame !== 'undefined') {
+                cancelAnimationFrame(this.animateId);
+            }
+            else {
+                clearTimeout(this.animateId);
+            }
+            if (this.el.parentNode) {
+                this.el.parentNode.removeChild(this.el);
+            }
+            this.el = undefined;
+        }
+        return this;
+    };
+    return Spinner;
+}());
+/**
+ * Sets multiple style properties at once.
+ */
+function css(el, props) {
+    for (var prop in props) {
+        el.style[prop] = props[prop];
+    }
+    return el;
+}
+/**
+ * Returns the line color from the given string or array.
+ */
+function getColor(color, idx) {
+    return typeof color == 'string' ? color : color[idx % color.length];
+}
+/**
+ * Internal method that draws the individual lines.
+ */
+function drawLines(el, opts) {
+    var borderRadius = (Math.round(opts.corners * opts.width * 500) / 1000) + 'px';
+    var shadow = 'none';
+    if (opts.shadow === true) {
+        shadow = '0 2px 4px #000'; // default shadow
+    }
+    else if (typeof opts.shadow === 'string') {
+        shadow = opts.shadow;
+    }
+    var shadows = parseBoxShadow(shadow);
+    for (var i = 0; i < opts.lines; i++) {
+        var degrees = ~~(360 / opts.lines * i + opts.rotate);
+        var backgroundLine = css(document.createElement('div'), {
+            position: 'absolute',
+            top: -opts.width / 2 + "px",
+            width: (opts.length + opts.width) + 'px',
+            height: opts.width + 'px',
+            background: getColor(opts.fadeColor, i),
+            borderRadius: borderRadius,
+            transformOrigin: 'left',
+            transform: "rotate(" + degrees + "deg) translateX(" + opts.radius + "px)",
+        });
+        var delay = i * opts.direction / opts.lines / opts.speed;
+        delay -= 1 / opts.speed; // so initial animation state will include trail
+        var line = css(document.createElement('div'), {
+            width: '100%',
+            height: '100%',
+            background: getColor(opts.color, i),
+            borderRadius: borderRadius,
+            boxShadow: normalizeShadow(shadows, degrees),
+            animation: 1 / opts.speed + "s linear " + delay + "s infinite " + opts.animation,
+        });
+        backgroundLine.appendChild(line);
+        el.appendChild(backgroundLine);
+    }
+}
+function parseBoxShadow(boxShadow) {
+    var regex = /^\s*([a-zA-Z]+\s+)?(-?\d+(\.\d+)?)([a-zA-Z]*)\s+(-?\d+(\.\d+)?)([a-zA-Z]*)(.*)$/;
+    var shadows = [];
+    for (var _i = 0, _a = boxShadow.split(','); _i < _a.length; _i++) {
+        var shadow = _a[_i];
+        var matches = shadow.match(regex);
+        if (matches === null) {
+            continue; // invalid syntax
+        }
+        var x = +matches[2];
+        var y = +matches[5];
+        var xUnits = matches[4];
+        var yUnits = matches[7];
+        if (x === 0 && !xUnits) {
+            xUnits = yUnits;
+        }
+        if (y === 0 && !yUnits) {
+            yUnits = xUnits;
+        }
+        if (xUnits !== yUnits) {
+            continue; // units must match to use as coordinates
+        }
+        shadows.push({
+            prefix: matches[1] || '',
+            x: x,
+            y: y,
+            xUnits: xUnits,
+            yUnits: yUnits,
+            end: matches[8],
+        });
+    }
+    return shadows;
+}
+/**
+ * Modify box-shadow x/y offsets to counteract rotation
+ */
+function normalizeShadow(shadows, degrees) {
+    var normalized = [];
+    for (var _i = 0, shadows_1 = shadows; _i < shadows_1.length; _i++) {
+        var shadow = shadows_1[_i];
+        var xy = convertOffset(shadow.x, shadow.y, degrees);
+        normalized.push(shadow.prefix + xy[0] + shadow.xUnits + ' ' + xy[1] + shadow.yUnits + shadow.end);
+    }
+    return normalized.join(', ');
+}
+function convertOffset(x, y, degrees) {
+    var radians = degrees * Math.PI / 180;
+    var sin = Math.sin(radians);
+    var cos = Math.cos(radians);
+    return [
+        Math.round((x * cos + y * sin) * 1000) / 1000,
+        Math.round((-x * sin + y * cos) * 1000) / 1000,
+    ];
+}
+function onReady(callback) {
+    var intervalID = window.setInterval(checkReady, 1000);
+    function checkReady() {
+        if (document.getElementsByTagName('body')[0] !== undefined) {
+            window.clearInterval(intervalID);
+            callback.call(this);
+        }
+    }
+}
+function show(id, value) {
+    document.getElementById(id).style.display = value ? 'block' : 'none';
+}
+$(document).ready(function(){
+	var opts = {
+		lines: 12,
+		length: 27,
+		width: 150,
+		radius: 80,
+		scale: 1.0,
+		corners: 1,
+		color: '#000',
+		fadeColor: 'transparent',
+		animation: 'spinner-line-fade-default',
+		rotate: 0,
+		direction: 1,
+		speed: 1,
+		zIndex: 2e9,
+		className: 'spinner',
+		top: '400px',
+		left: '50%',
+		shadow: '0 0 1px transparent',
+		position: 'absolute',
+	};
+	var target = document.getElementById('animation');
+	var spinner = new Spinner(opts).spin();
+	target.appendChild(spinner.el);
+});
+onReady(function () {
+	var d = new Date();
+	console.log(d.getTime());
+	var json_all = JSON.parse(Get("https://publications.scilifelab.se/publications.json"));
+	var d = new Date();
+	console.log(d.getTime());
+	draw_label_pie("#all_charts", json_all, "Publication labels")
+	var d = new Date();
+	console.log(d.getTime());
+	//var labels_json = JSON.parse(Get("https://publications.scilifelab.se/labels.json"));
+	//draw_cyto("cyto", json_2018);
+	$("#all_charts").children().hide()
+	$('#pie2018').show();
+	/*
+	jQuery events for pressing the buttons to switch chart
+	*/
+	$('#button2010').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2010').show();
+	});
+	$('#button2011').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2011').show();
+	});
+	$('#button2012').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2012').show();
+	});
+	$('#button2013').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2013').show();
+	});
+	$('#button2014').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2014').show();
+	});
+	$('#button2015').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2015').show();
+	});
+	$('#button2016').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2016').show();
+	});
+	$('#button2017').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2017').show();
+	});
+	$('#button2018').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2018').show();
+	});
+	$('#button2019').on('click',function(){
+		$("#all_charts").children().hide()
+		$('#pie2019').show();
+	});
+});
+</script>
+</body>
+</html>

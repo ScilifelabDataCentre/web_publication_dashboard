@@ -1,0 +1,70 @@
+#cyto {
+	width: 1000px;
+	height: 800px;
+	border: solid black 4px;
+	float: top;
+	display:none;
+}
+.chart_container {
+
+	justify-content: center; /* align horizontal */
+	background: white;
+
+	display: flex;
+}
+#animation {
+	background: white;
+	padding: 10px 30px;
+	height: 1000px;
+	width: 600px;
+	justify-content: center; /* align horizontal */
+}
+.loader {
+	border: 26px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 26px solid #3498db;
+	width: 548px;
+	height: 548px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+	justify-content: center; /* align horizontal */
+}
+.button_holder {
+	background: green;
+}
+/* Safari */
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+@keyframes spinner-line-fade-more {
+  0%, 100% {
+    opacity: 0; /* minimum opacity */
+  }
+  1% {
+    opacity: 1;
+  }
+}
+
+@keyframes spinner-line-fade-quick {
+  0%, 39%, 100% {
+    opacity: 0.25; /* minimum opacity */
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@keyframes spinner-line-fade-default {
+  0%, 100% {
+    opacity: 0.22; /* minimum opacity */
+  }
+  1% {
+    opacity: 1;
+  }
+}
