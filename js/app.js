@@ -47,7 +47,7 @@ function   ($, spin, dash) {
 	onReady(function () {
 		var d = new Date();
 		console.log(d.getTime());
-		var tmp = Get("https://publications.scilifelab.se/publications/2018.json");
+		var tmp = Get("https://publications.scilifelab.se/publications.json");
 		console.log(d.getTime());
 		var json_all = JSON.parse(tmp);
 		var d = new Date();
@@ -56,54 +56,22 @@ function   ($, spin, dash) {
 		var d = new Date();
 		console.log(d.getTime());
 
-		//var labels_json = JSON.parse(Get("https://publications.scilifelab.se/labels.json"));
 		draw_cyto("cyto", json_all);
 
 		$("#all_charts").children().hide()
 		$('#pie2018').show();
+
 		/*
 		jQuery events for pressing the buttons to switch chart
 		*/
-		$('#button2010').on('click',function(){
+		$(".year_button").click(function(){
+			console.log($(this).attr("id").substring(6));
+			var year = $(this).attr("id").substring(6);
 			$("#all_charts").children().hide()
-			$('#pie2010').show();
-		});
-		$('#button2011').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2011').show();
-		});
-		$('#button2012').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2012').show();
-		});
-		$('#button2013').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2013').show();
-		});
-		$('#button2014').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2014').show();
-		});
-		$('#button2015').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2015').show();
-		});
-		$('#button2016').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2016').show();
-		});
-		$('#button2017').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2017').show();
-		});
-		$('#button2018').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2018').show();
-		});
-		$('#button2019').on('click',function(){
-			$("#all_charts").children().hide()
-			$('#pie2019').show();
-		});
+			$('#pie'+year).show();
+		})
+
+		// Turn off loading animation
 	    show('animation', false);
 	});
 });
