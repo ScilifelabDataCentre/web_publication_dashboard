@@ -3,7 +3,7 @@
 	height: 800px;
 	border: solid black 4px;
 	float: top;
-	display:none;
+	/*display:none;*/
 }
 .chart_container {
 

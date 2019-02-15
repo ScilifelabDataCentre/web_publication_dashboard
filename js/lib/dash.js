@@ -107,8 +107,6 @@ function draw_label_pie(target_div, publications_json, chart_title){
 	}
 }
 function draw_cyto(target_div, publications_json){
-	
-
 	var all_labels = [];
 	var all_collab_labels = [];
 	var edges = {};
@@ -124,6 +122,11 @@ function draw_cyto(target_div, publications_json){
 			tmp_labels.push(key);
 			if (all_labels.indexOf(key)==-1){	
 				all_labels.push(key);
+			}
+			if (label_count.hasOwnProperty(key)){
+				label_count[key] += 1;
+			} else {
+				label_count[key] = 1;
 			}
 		}
 		tmp_labels = tmp_labels.sort();
@@ -145,67 +148,39 @@ function draw_cyto(target_div, publications_json){
 			}	
 		}
 	}
-	console.log(all_collab_labels);
-	console.log(edges);
+	console.log(label_count)
+	//console.log(all_collab_labels);
+	//console.log(edges);
 	var options = {
-		name: 'cose',
-		// Called on `layoutready`
-		ready: function(){},
-		// Called on `layoutstop`
-		stop: function(){},
-		// Whether to animate while running the layout
-		// true : Animate continuously as the layout is running
-		// false : Just show the end result
-		// 'end' : Animate with the end result, from the initial positions to the end positions
-		animate: true,
-		// Easing of the animation for animate:'end'
-		animationEasing: undefined,
-		// The duration of the animation for animate:'end'
-		animationDuration: undefined,
-		// A function that determines whether the node should be animated
-		// All nodes animated by default on animate enabled
-		// Non-animated nodes are positioned immediately when the layout starts
-		animateFilter: function ( node, i ){ return true; },
-		// The layout animates only after this many milliseconds for animate:true
-		// (prevents flashing on fast runs)
-		animationThreshold: 250,
-		// Number of iterations between consecutive screen positions update
-		// (0 -> only updated on the end)
-		refresh: 20,
-		// Whether to fit the network view after when done
-		fit: true,
-		// Padding on fit
-		padding: 30,
-		// Constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-		boundingBox: undefined,
-		// Excludes the label when calculating node bounding boxes for the layout algorithm
-		nodeDimensionsIncludeLabels: false,
-		// Randomize the initial positions of the nodes (true) or use existing positions (false)
-		randomize: false,
-		// Extra spacing between components in non-compound graphs
-		componentSpacing: 40,
-		// Node repulsion (non overlapping) multiplier
-		nodeRepulsion: function( node ){ return 204800; },
-		// Node repulsion (overlapping) multiplier
-		nodeOverlap: 4,
-		// Ideal edge (non nested) length
-		idealEdgeLength: function( edge ){ return 32; },
-		// Divisor to compute edge forces
-		edgeElasticity: function( edge ){ return 320; },
-		// Nesting factor (multiplier) to compute ideal edge length for nested edges
-		nestingFactor: 1.2,
-		// Gravity force (constant)
-		gravity: 1,
-		// Maximum number of iterations to perform
-		numIter: 1000,
-		// Initial temperature (maximum node displacement)
-		initialTemp: 1000,
-		// Cooling factor (how the temperature is reduced between consecutive iterations
-		coolingFactor: 0.99,
-		// Lower temperature threshold (below this point the layout will end)
-		minTemp: 1.0,
-		// Pass a reference to weaver to use threads for calculations
-		weaver: false
+ name: 'concentric',
+
+  fit: true, // whether to fit the viewport to the graph
+  padding: 30, // the padding on fit
+  startAngle: 3 / 2 * Math.PI, // where nodes start in radians
+  sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
+  clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
+  equidistant: false, // whether levels have an equal radial distance betwen them, may cause bounding box overflow
+  minNodeSpacing: 10, // min spacing between outside of nodes (used for radius adjustment)
+  boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+  avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
+  nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
+  height: undefined, // height of layout area (overrides container height)
+  width: undefined, // width of layout area (overrides container width)
+  spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
+  concentric: function( node ){ // returns numeric value for each node, placing higher nodes in levels towards the centre
+  return node.degree();
+  },
+  levelWidth: function( nodes ){ // the letiation of concentric values in each level
+  return nodes.maxDegree() / 4;
+  },
+  animate: false, // whether to transition the node positions
+  animationDuration: 500, // duration of animation in ms if enabled
+  animationEasing: undefined, // easing of animation if enabled
+  animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+  ready: undefined, // callback on layoutready
+  stop: undefined, // callback on layoutstop
+  transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
+
 	};
 	var cy = cytoscape({
 	container: document.getElementById('cyto'),
@@ -214,9 +189,10 @@ function draw_cyto(target_div, publications_json){
 	{
 		selector: 'node',
 		style: {
-			'shape': 'square',
 			'background-color': 'blue',
 			'label': 'data(id)',
+			"width": "mapData(score, 0, 200, 200, 600)",
+			"height": "mapData(score, 0, 200, 200, 600)",
 			"font-size": "24px",
 			"text-valign": "center",
 			"text-halign": "center",
@@ -225,19 +201,24 @@ function draw_cyto(target_div, publications_json){
 			"text-outline-width": "2px",
 			"color": "#fff",
 			"overlay-padding": "6px",
-			"z-index": "10"
+			"z-index": "10", 
+			"text-wrap": "wrap", 
+			"text-max-width": 40
 		}
 	}]
 	});
 	for (var label in all_collab_labels){
-		//console.log(all_labels[label]);
-		cy.add({data:{id:all_collab_labels[label]}, style:{width:500, height:500}})
+		console.log(all_labels[label]);
+		console.log(label_count[all_labels[label]]);
+		var node_size = label_count[all_labels[label]];
+		console.log(node_size);
+		cy.add({data:{id:all_collab_labels[label], score:node_size}})
 	}
 	for (var key in edges){
 		var str_split = key.split("+");
-		cy.add({data:{id:key, source:str_split[0], target:str_split[1]}, style:{width: edges[key]}})
 		console.log(str_split);
-		console.log(edges[key]);
+		cy.add({data:{id:key, source:str_split[0], target:str_split[1]}, selector: ".multiline-auto", style:{width: edges[key], "text-wrap": "wrap", "text-max-width": 80 }})
+		//console.log(edges[key]);
 	}
 	cy.layout(options).run()
 }
