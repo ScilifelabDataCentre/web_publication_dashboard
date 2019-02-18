@@ -7,7 +7,7 @@ requirejs.config({
 });
 
 // Start the main app logic requiring jquery and spin
-requirejs(['jquery', 'spin', 'dash'],
+requirejs(['jquery', 'spin', 'helpers', 'cytoscape_network', 'plotly_charts'],
 function   ($, spin, dash) {
 	/*
 	End of code from https://requirejs.org/docs/api.html#jsfiles
