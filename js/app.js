@@ -16,8 +16,7 @@ function   ($, spin, dash) {
 	that requirejs has loaded the libs into
 	*/
 
-
-
+	// Options for the loading animation
 	var opts = {
 	  lines: 13, // The number of lines to draw
 	  length: 42, // The length of each line
@@ -39,27 +38,27 @@ function   ($, spin, dash) {
 	  position: 'absolute' // Element positioning
 	};
 
+	// Start the loading animation
 	var target = document.getElementById('animation');
-
 	var spinner = new Spinner().spin();
 	target.appendChild(spinner.el);
 
+	// Start the rest of the processing
 	onReady(function () {
-		var d = new Date();
-		console.log(d.getTime());
+		// API call to publication.scilifelav.se
 		var tmp = Get("https://publications.scilifelab.se/publications.json");
-		console.log(d.getTime());
+		// Parse json
 		var json_all = JSON.parse(tmp);
-		var d = new Date();
-		console.log(d.getTime());
-		draw_label_pie("#all_charts", json_all, "Publication labels")
-		var d = new Date();
-		console.log(d.getTime());
 
+		// Draw the pie charts
+		draw_label_pie("#all_charts", json_all, "Publication labels")
+
+		// Draw the cytoscape network
 		draw_cyto("cyto", json_all);
 
+		// Hide all charts except 2019
 		$("#all_charts").children().hide()
-		$('#pie2018').show();
+		$('#pie2019').show();
 
 		/*
 		jQuery events for pressing the buttons to switch chart
