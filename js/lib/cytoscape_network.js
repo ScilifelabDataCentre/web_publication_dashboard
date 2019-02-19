@@ -146,7 +146,7 @@ function draw_cyto(target_div, publications_json){
 
 	// Start the cytoscape object
 	var cy = cytoscape({
-	container: document.getElementById('cyto'),
+	container: document.getElementById(target_div),
 	elements: [], // Adding the elements later
 	minZoom: 0.2, // Better zoom limits
 	maxZoom: 1.2, // Better zoom limits
