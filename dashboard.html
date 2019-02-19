@@ -7,9 +7,15 @@
 <script data-main="js/app.js" src="js/require.js"></script>
 </head>
 <body>
-<div id="cyto"></div>
-<div id="all_charts" class="chart_container">
-	<div id="animation"></div>
-</div>
-<div id="button_holder"></div>
+	<div>
+		<button id="loadcyto" class="load_button">load cyto</button>
+		<button id="loadplotly" class="load_button">load plotly</button>
+	</div>
+	<div id="cyto">
+		<div id="spinner_cyto" style="display: none"></div>
+	</div>
+	<div id="all_charts" class="chart_container">
+		<div id="spinner_plotly" style="display: none"></div>
+	</div>
+	<div id="button_holder"></div>
 </body>
