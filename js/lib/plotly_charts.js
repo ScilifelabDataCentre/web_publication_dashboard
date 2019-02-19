@@ -92,7 +92,7 @@ function draw_label_pie(target_div, publications_json, chart_title){
 			data[1].y.push(label_length_count[lab_len]);
 		}
 
-		$(target_div).append('<div id="pie'+year+'" style="display:none" class="piechart"></div>');
+		$(target_div).append('<div id="pie'+year+'" style="display:none;" class="piechart"></div>');
 		$('#button_holder').append('<button id="button'+year+'" class="year_button">'+year+'</button>');
 		// console.log(year)
 
