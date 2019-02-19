@@ -82,8 +82,8 @@ function draw_cyto(target_div, publications_json){
 	// Counts for all labels
 	var label_count = {};
 
-	for (i=0; i<publications_json["publications"].length; i++){
-		var pub_labels = publications_json["publications"][i]["labels"];
+	for (i=0; i<publications_json.length; i++){
+		var pub_labels = publications_json[i]["labels"];
 
 		// Using these labels because we want to remove some...
 		var used_labels = Object.keys(pub_labels);

@@ -1,14 +1,13 @@
 function draw_label_pie(target_div, publications_json, chart_title){
-	//Collections arrays
-	console.log();
+	// console.log(publications_json);
 	var years = {};
-	for (i=0; i<publications_json["publications"].length; i++){
-		var year = publications_json["publications"][i]["published"].split('-')[0];
+	for (i=0; i<publications_json.length; i++){
+		var year = publications_json[i]["published"].split('-')[0];
 		if (years.hasOwnProperty(year)){
-			years[year].push(publications_json["publications"][i]);
+			years[year].push(publications_json[i]);
 		} else {
 			years[year] = [];
-			years[year].push(publications_json["publications"][i]);
+			years[year].push(publications_json[i]);
 		}
 	}
 	for (var year in years){
