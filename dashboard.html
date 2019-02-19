@@ -7,15 +7,21 @@
 <script data-main="js/app.js" src="js/require.js"></script>
 </head>
 <body>
-	<div>
-		<button id="loadcyto" class="load_button">load cyto</button>
-		<button id="loadplotly" class="load_button">load plotly</button>
+	<div id="menubar">
+		<button id="load_current_status" class="load_button">Current status</button>
+		<button id="load_facility_network" class="load_button">Facility network</button>
+		<button id="load_publication_stats" class="load_button">Publication stats</button>
+		<button id="load_facility_output" class="load_button">Facility output</button>
 	</div>
-	<div id="cyto">
-		<div id="spinner_cyto" style="display: none"></div>
+	<div id="dashboards">
+		<div id="facility_network">
+			<div id="cytoscape_network" style="display: none;"></div>
+			<div id="spinner_cyto" style="display: none"></div>
+		</div>
+		<div id="facility_output">
+			<div id="charts" class="chart_container"></div>
+			<div id="spinner_plotly" style="display: none"></div>
+			<div id="button_holder"></div>
+		</div>
 	</div>
-	<div id="all_charts" class="chart_container">
-		<div id="spinner_plotly" style="display: none"></div>
-	</div>
-	<div id="button_holder"></div>
 </body>

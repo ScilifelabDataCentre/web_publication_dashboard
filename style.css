@@ -1,16 +1,19 @@
-#cyto {
-	width: 100%;
+#facility_network {
+	float: top;
+	justify-content: center;
+	display: flex;
+}
+#cytoscape_network {
+	width: 800px;
 	height: 800px;
 	border: solid black 1px;
-	float: top;
-	/*display:none;*/
 }
-.chart_container {
-
+#charts {
 	justify-content: center; /* align horizontal */
-	background: white;
-
 	display: flex;
+}
+#facility_output {
+	justify-content: center; /* align horizontal */
 }
 .loader {
 	border: 26px solid #f3f3f3;
@@ -22,8 +25,9 @@
 	animation: spin 2s linear infinite;
 	justify-content: center; /* align horizontal */
 }
-.button_holder {
-	background: green;
+#button_holder {
+	justify-content: center; /* align horizontal */
+	display: flex;
 }
 /* Safari */
 @-webkit-keyframes spin {

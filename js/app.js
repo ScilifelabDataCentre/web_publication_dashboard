@@ -56,21 +56,29 @@ function($, spin, helpers, cytoscape_network, plotly_charts){
 	onReady(function () {
 		// API calls to publication.scilifelab.se
 
+		// Loaded flags
+		var loaded_cyto = false;
+		var loaded_plotly = false;
+		var loaded_wordcloud = false;
+
+		var all_publications = null;
+		var recent_publications = null;
+
 		// Workers
 		let worker_plotly = new Worker('js/lib/fetch.js');
 		let worker_cyto = new Worker('js/lib/fetch.js');
 		
 		// Worker return function for plotly
 		worker_plotly.onmessage = function(e) {
-			var worker_plotly_result = e.data;
+			all_publications = e.data;
 			// console.log(worker_result);
 			// console.log('Message received from worker');
 
 			// Draw the pie charts
-			 draw_label_pie("#all_charts", worker_plotly_result, "Publication labels");
+			 draw_label_pie("#charts", all_publications, "Publication labels");
 
 			// Hide all charts except 2019
-			$("#all_charts").children().hide()
+			$("#charts").children().hide();
 			$('#pie2019').show();
 
 			/*
@@ -79,35 +87,62 @@ function($, spin, helpers, cytoscape_network, plotly_charts){
 			$(".year_button").click(function(){
 				// console.log($(this).attr("id").substring(6));
 				var year = $(this).attr("id").substring(6);
-				$("#all_charts").children().hide()
+				$("#charts").children().hide()
 				$('#pie'+year).show();
 			})
+
+			loaded_plotly = true;
+
 			// Turn off loading animation
 			show('spinner_plotly', false);
 		}
 
 		// Worker return function for cytoscape
 		worker_cyto.onmessage = function(e) {
-			var worker_cyto_result = e.data;
-			// Draw the cytoscape network
-			draw_cyto("cyto", worker_cyto_result);
+			recent_publications = e.data;
+			// Draw the cytoscape network	
+
+			show('cytoscape_network', true);
+			
+			draw_cyto("cytoscape_network", recent_publications);
+			
+			loaded_cyto = true;
+
 			// Turn off loading animation
 			show('spinner_cyto', false);
 		}
 
-		$("#loadplotly").click(function(){
-			show('spinner_plotly', true);
-			worker_plotly.postMessage(["https://publications.scilifelab.se/publications.json"]);
+		$("#load_facility_output").click(function(){
+			$("#dashboards").children().hide();
+			$("#facility_output").show();
+			if (loaded_plotly === false) {
+				loaded_plotly = true;
+				show('spinner_plotly', true);
+				worker_plotly.postMessage(["https://publications.scilifelab.se/publications.json"]);
+
+			}
 		});
 		
-		$("#loadcyto").click(function(){
-			show('spinner_cyto', true);
-			console.log("CYTOCLICK")
-			worker_cyto.postMessage(["https://publications.scilifelab.se/publications/2017.json",
-				"https://publications.scilifelab.se/publications/2018.json",
-				"https://publications.scilifelab.se/publications/2019.json"]);
+		$("#load_facility_network").click(function(){
+			$("#dashboards").children().hide();
+			$("#facility_network").show();
+			$("#cytoscape_network").show();
+			if (loaded_cyto === false){
+				loaded_cyto = true;
+				show('spinner_cyto', true);
+				worker_cyto.postMessage(["https://publications.scilifelab.se/publications/2017.json",
+					"https://publications.scilifelab.se/publications/2018.json",
+					"https://publications.scilifelab.se/publications/2019.json"]);
+			}
 		});
+		$("#load_current_status").click(function(){
+			$("#dashboards").children().hide();
+			$("#current_status").show();
 
-
+		});
+		$("#load_publication_stats").click(function(){
+			$("#dashboards").children().hide();
+			$("#publication_stats").show();
+		});
 	});
 });
