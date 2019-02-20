@@ -16,6 +16,6 @@ function onReady(callback) {
 }
 
 function show(id, value) {
-	// Shows an element
+	// Shows/hides an element
     document.getElementById(id).style.display = value ? 'block' : 'none';
 }
