@@ -132,6 +132,14 @@ function($, spin, helpers, cytoscape_network, plotly_charts, current_status){
 					"https://publications.scilifelab.se/publications/2018.json?full=false",
 					"https://publications.scilifelab.se/publications/2019.json?full=false"]);
 			}
+			else {
+				/*
+				Redraw the entire network every time you change to the tab, 
+				to mitigate the issue with zoom-locked networks. 
+				It does not take noticeable time, however, the network looks different each time.
+				*/
+				draw_cyto("cytoscape_network", recent_publications);
+			}
 		});
 		$("#load_current_status").click(function(){
 			$("#dashboards").children().hide();
