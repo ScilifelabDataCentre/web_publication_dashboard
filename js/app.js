@@ -10,8 +10,11 @@ function show(id, value) {
     document.getElementById(id).style.display = value ? 'block' : 'none';
 }
 // Start the main app logic requiring jquery, spin and my own stuff
-requirejs(['jquery', 'spin', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status'],
-function($, spin, helpers, cytoscape_network, plotly_charts, current_status){
+// spin.js from https://spin.js.org
+// wordcloud2.js from https://github.com/timdream/wordcloud2.js
+
+requirejs(['jquery', 'spin', 'wordcloud2', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status', 'publication_stats'],
+function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current_status, publication_stats){
 	/*
 	End of code from https://requirejs.org/docs/api.html#jsfiles
 
@@ -54,6 +57,10 @@ function($, spin, helpers, cytoscape_network, plotly_charts, current_status){
 	var spinner_current = new Spinner(opts).spin();
 	target_current.appendChild(spinner_current.el);
 
+	var target_stats = document.getElementById('spinner_stats');
+	var spinner_stats = new Spinner(opts).spin();
+	target_stats.appendChild(spinner_stats.el);
+
 
 
 	// Start the rest of the processing
@@ -68,10 +75,12 @@ function($, spin, helpers, cytoscape_network, plotly_charts, current_status){
 
 		var all_publications = null;
 		var recent_publications = null;
+		var all_publications_pubmed_xml = null;
 
 		// Workers
 		let worker_plotly = new Worker('js/lib/fetch.js');
 		let worker_cyto = new Worker('js/lib/fetch.js');
+		let worker_cloud = new Worker('js/lib/fetch_pubmed.js');
 		
 		// Worker return function for plotly
 		worker_plotly.onmessage = function(e) {
@@ -109,6 +118,16 @@ function($, spin, helpers, cytoscape_network, plotly_charts, current_status){
 
 			// Turn off loading animation
 			show('spinner_cyto', false);
+		}
+
+		// Worker return function for pubmed keywords
+		worker_cloud.onmessage = function(e) {
+			all_publications_pubmed_xml = e.data;
+
+			draw_wordcloud(all_publications_pubmed_xml);
+			
+			// Turn off loading animation
+			show('spinner_stats', false);
 		}
 
 		$("#load_facility_output").click(function(){
@@ -162,6 +181,18 @@ function($, spin, helpers, cytoscape_network, plotly_charts, current_status){
 		$("#load_publication_stats").click(function(){
 			$("#dashboards").children().hide();
 			$("#publication_stats").show();
+			show('spinner_stats', true);
+
+			if (loaded_wordcloud === false) {
+				loaded_wordcloud = true;
+				worker_cloud.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
+			}
+			else{
+				draw_wordcloud(all_publications_pubmed_xml);
+
+				// Turn off loading animation
+				show('spinner_stats', false);
+			}
 		});
 	});
 });

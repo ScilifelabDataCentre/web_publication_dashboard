@@ -29,6 +29,10 @@
 	justify-content: center; /* align horizontal */
 	display: flex;
 }
+#publication_stats_wordcloud {
+	height: 800px;
+	width: 800px;
+}
 /* Safari */
 @-webkit-keyframes spin {
 	0% { -webkit-transform: rotate(0deg); }
