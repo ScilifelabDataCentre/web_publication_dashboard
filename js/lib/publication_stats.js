@@ -6,6 +6,7 @@ function Get(yourUrl){
 }
 
 function draw_wordcloud(pubmed_xml_raw){
+
 	var xml_parser = new DOMParser();
 	var pm_xml = xml_parser.parseFromString(pubmed_xml_raw, "text/xml");
 
@@ -32,9 +33,9 @@ function draw_wordcloud(pubmed_xml_raw){
 
 	var cloud_opts = {
 		list: word_list,
-		gridSize: Math.round(16 * $('#publication_stats_wordcloud').width() / 1024),
+		gridSize: Math.round(12 * $('#fake_canvas').width() / 1024),
 		weightFactor: function (size) {
-			return Math.pow(size, 3) * $('#publication_stats_wordcloud').width() / 1024;
+			return Math.pow(size, 2.6) * $('#fake_canvas').width() / 1024;
 		},
 		fontFamily: 'Arial Unicode MS',
 		color: 'random-light',
@@ -44,5 +45,47 @@ function draw_wordcloud(pubmed_xml_raw){
 	};
 	console.log(word_list);
 
-	WordCloud(document.getElementById('publication_stats_wordcloud'), cloud_opts );
+
+	// The following masks the canvas in the shape of the image we loaded in app.js
+	cloud_opts.clearCanvas = false;
+	var $canvas = $('#fake_canvas');
+	/* Determine bgPixel by creating
+	another canvas and fill the specified background color. */
+	var bctx = document.createElement('canvas').getContext('2d');
+
+	bctx.fillStyle = cloud_opts.backgroundColor || '#fff';
+	bctx.fillRect(0, 0, 1, 1);
+	var bgPixel = bctx.getImageData(0, 0, 1, 1).data;
+
+	var maskCanvasScaled = document.createElement('canvas');
+	maskCanvasScaled.width = $canvas[0].width;
+	maskCanvasScaled.height = $canvas[0].height;
+	var ctx = maskCanvasScaled.getContext('2d');
+
+	ctx.drawImage(maskCanvas,
+	0, 0, maskCanvas.width, maskCanvas.height,
+	0, 0, maskCanvasScaled.width, maskCanvasScaled.height);
+
+	var imageData = ctx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
+	var newImageData = ctx.createImageData(imageData);
+	for (var i = 0; i < imageData.data.length; i += 4) {
+		if (imageData.data[i + 3] > 128) {
+			newImageData.data[i] = bgPixel[0];
+			newImageData.data[i + 1] = bgPixel[1];
+			newImageData.data[i + 2] = bgPixel[2];
+			newImageData.data[i + 3] = bgPixel[3];
+		} else {
+		// This color must not be the same w/ the bgPixel.
+			newImageData.data[i] = bgPixel[0];
+			newImageData.data[i + 1] = bgPixel[1];
+			newImageData.data[i + 2] = bgPixel[2];
+			newImageData.data[i + 3] = bgPixel[3] ? (bgPixel[3] - 1) : 0;
+		}
+	}
+	ctx.putImageData(newImageData, 0, 0);
+	ctx = $canvas[0].getContext('2d');
+	ctx.drawImage(maskCanvasScaled, 0, 0);
+	// maskCanvasScaled = ctx = imageData = newImageData = bctx = bgPixel = undefined;
+
+	WordCloud([document.getElementById('fake_canvas'), document.getElementById('publication_stats_wordcloud')], cloud_opts );
 }

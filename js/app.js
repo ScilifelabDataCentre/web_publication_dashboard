@@ -9,7 +9,48 @@ function show(id, value) {
 	// Shows an element
     document.getElementById(id).style.display = value ? 'block' : 'none';
 }
-// Start the main app logic requiring jquery, spin and my own stuff
+function mask_canvas(){
+	var img = new Image();
+	img.src = "./assets/cloud.png";
+
+	img.onload = function readPixels() {
+		maskCanvas = document.getElementById('fake_canvas');
+		maskCanvas.width = img.width;
+		maskCanvas.height = img.height;
+
+		var ctx = maskCanvas.getContext('2d');
+		ctx.drawImage(img, 0, 0, img.width, img.height);
+
+		var imageData = ctx.getImageData(
+		0, 0, maskCanvas.width, maskCanvas.height);
+		var newImageData = ctx.createImageData(imageData);
+
+		for (var i = 0; i < imageData.data.length; i += 4) {
+			var tone = imageData.data[i] +
+			imageData.data[i + 1] +
+			imageData.data[i + 2];
+			var alpha = imageData.data[i + 3];
+
+			if (alpha < 128 || tone > 128 * 3) {
+				// Area not to draw
+				newImageData.data[i] =
+				newImageData.data[i + 1] =
+				newImageData.data[i + 2] = 255;
+				newImageData.data[i + 3] = 0;
+			} else {
+				// Area to draw
+				newImageData.data[i] =
+				newImageData.data[i + 1] =
+				newImageData.data[i + 2] = 0;
+				newImageData.data[i + 3] = 255;
+			}
+		}
+		ctx.putImageData(newImageData, 0, 0);
+	}
+}
+
+
+// Start the main app logic requiring jquery, spin, wordcloud and my own stuff
 // spin.js from https://spin.js.org
 // wordcloud2.js from https://github.com/timdream/wordcloud2.js
 
@@ -21,6 +62,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 	The rest is dashboard specific and runs in this function 
 	that requirejs has loaded the libs into
 	*/
+
+
 
 	// Options for the loading animation
 	var opts = {
@@ -61,6 +104,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 	var spinner_stats = new Spinner(opts).spin();
 	target_stats.appendChild(spinner_stats.el);
 
+	// Starts the masking of the word cloud canvas
+	mask_canvas();
 
 
 	// Start the rest of the processing
@@ -125,7 +170,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			all_publications_pubmed_xml = e.data;
 
 			draw_wordcloud(all_publications_pubmed_xml);
-			
+
 			// Turn off loading animation
 			show('spinner_stats', false);
 		}
@@ -188,8 +233,6 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				worker_cloud.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
 			}
 			else{
-				draw_wordcloud(all_publications_pubmed_xml);
-
 				// Turn off loading animation
 				show('spinner_stats', false);
 			}
