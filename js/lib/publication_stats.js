@@ -25,16 +25,18 @@ function draw_wordcloud(pubmed_xml_raw){
 	}
 	var word_list = [];
 	for (var key in keyword_dict){
-		word_list.push([key,keyword_dict[key]]);
+		if (keyword_dict[key]>1){
+			word_list.push([key,keyword_dict[key]]);
+		}
 	}
 
 	var cloud_opts = {
 		list: word_list,
 		gridSize: Math.round(16 * $('#publication_stats_wordcloud').width() / 1024),
 		weightFactor: function (size) {
-			return Math.pow(size, 2.3) * $('#publication_stats_wordcloud').width() / 1024;
+			return Math.pow(size, 3) * $('#publication_stats_wordcloud').width() / 1024;
 		},
-		fontFamily: 'Times, serif',
+		fontFamily: 'Arial Unicode MS',
 		color: 'random-light',
 		rotateRatio: 0,
 		// rotationSteps: 2,
