@@ -156,11 +156,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		worker_cyto.onmessage = function(e) {
 			recent_publications = e.data;
 			// Draw the cytoscape network	
-
-			show('cytoscape_network', true);
-			
 			draw_cyto("cytoscape_network", recent_publications);
-
+			
 			// Turn off loading animation
 			show('spinner_cyto', false);
 		}
