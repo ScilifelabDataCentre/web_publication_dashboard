@@ -54,6 +54,20 @@ var platform_map = {
 	"BioMaterial Interactions (BioMat)": "Regional facilities of national interest",
 	"Advanced Mass Spectrometry Proteomics": "Regional facilities of national interest"
 }
+var platform_colour_map = {
+	"Affinity Proteomics": "#8dd3c7",
+	"Bioimaging": "#ffffb3",
+	"Bioinformatics": "#bebada",
+	"Cellular and Molecular Imaging": "#fb8072",
+	"Chemical Biology and Genome Engineering": "#80b1d3",
+	"Drug Discovery and Development": "#fdb462",
+	"Diagnostics Development": "#b3de69",
+	"Functional Genomics": "#d9d9d9",
+	"Genomics": "#fccde5",
+	"Next-Generation Diagnostics": "#bc80bd",
+	"Proteomics and Metabolomics": "#ccebc5",
+	"Regional facilities of national interest": "#ffed6f"
+}
 
 function draw_num_pubs(){
 
@@ -113,6 +127,7 @@ function conjure_table(publications, year){
 		var cell_name = row.insertCell(0);
 		var cell_no = row.insertCell(1);
 
+		row.style.backgroundColor = platform_colour_map[platforms_sorted[i][0]];
 		cell_name.innerHTML = platforms_sorted[i][0];
 		cell_no.innerHTML = platforms_sorted[i][1];
 	}
