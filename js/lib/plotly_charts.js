@@ -54,7 +54,7 @@ facility_colour_map = {
 	"Advanced Mass Spectrometry Proteomics": "#ffed6f" // Regional facilities of national interest
 }
 
-function draw_label_pie(target_div, publications_json, chart_title){
+function draw_label_pie(target_div, publications_json){
 	// console.log(publications_json);
 	var years = {};
 	for (i=0; i<publications_json.length; i++){
@@ -128,7 +128,6 @@ function draw_label_pie(target_div, publications_json, chart_title){
 		}];
 		var layout = {
 			// grid: {rows: 2, columns: 1, pattern: 'independent'},
-			// title: chart_title, 
 			showlegend: false,
 			// autosize: false,
 			// width: 600,
@@ -174,4 +173,17 @@ function draw_label_pie(target_div, publications_json, chart_title){
 
 		Plotly.newPlot('pie'+year, data, layout, {displayModeBar: false});
 	}
+
+	// Hide all charts except 2019
+	$("#charts").children().hide();
+	$('#pie2019').show();
+
+	/*
+	jQuery events for pressing the buttons to switch chart
+	*/
+	$(".year_button").click(function(){
+		var year = $(this).attr("id").substring(6);
+		$("#charts").children().hide()
+		$('#pie'+year).show();
+	});
 }

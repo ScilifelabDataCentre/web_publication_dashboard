@@ -113,6 +113,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		// API calls to publication.scilifelab.se
 
 		// Loaded flags
+		var loaded_bg = false;
 		var loaded_cyto = false;
 		var loaded_plotly = false;
 		var loaded_wordcloud = false;
@@ -123,31 +124,25 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		var all_publications_pubmed_xml = null;
 
 		// Workers
+		// Starts to download everything in the background when page loads
+		let worker_background = new Worker('js/lib/fetch.js');
+
 		let worker_plotly = new Worker('js/lib/fetch.js');
 		let worker_cyto = new Worker('js/lib/fetch.js');
+		
+		// Fetches from publications db and pubmed
 		let worker_cloud = new Worker('js/lib/fetch_pubmed.js');
 		
 		// Worker return function for plotly
 		worker_plotly.onmessage = function(e) {
 			all_publications = e.data;
+			loaded_bg = true;
 			// console.log(worker_result);
 			// console.log('Message received from worker');
 
 			// Draw the pie charts
 			 draw_label_pie("#charts", all_publications, "Publication labels");
 
-			// Hide all charts except 2019
-			$("#charts").children().hide();
-			$('#pie2019').show();
-
-			/*
-			jQuery events for pressing the buttons to switch chart
-			*/
-			$(".year_button").click(function(){
-				var year = $(this).attr("id").substring(6);
-				$("#charts").children().hide()
-				$('#pie'+year).show();
-			});
 			// Turn off loading animation
 			show('spinner_plotly', false);
 		}
@@ -172,13 +167,26 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			show('spinner_stats', false);
 		}
 
+		worker_background.onmessage = function(e) {
+			all_publications = e.data;
+			loaded_bg = true;
+		}
+		worker_background.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
+
 		$("#load_facility_output").click(function(){
 			$("#dashboards").children().hide();
 			$("#facility_output").show();
 			if (loaded_plotly === false) {
 				loaded_plotly = true;
 				show('spinner_plotly', true);
-				worker_plotly.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
+				if (loaded_bg === true) {
+					// Draw the pie charts
+			 		draw_label_pie("#charts", all_publications);
+					show('spinner_plotly', false);
+				}
+				else {
+					worker_plotly.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
+				}
 			}
 		});
 		
@@ -210,6 +218,9 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				show('spinner_current', true);
 				if (loaded_cyto === true){
 					conjure_table(recent_publications, 2019);
+				}
+				else if (loaded_bg === true){
+					conjure_table(all_publications, 2019);
 				}
 				else if (loaded_plotly === true){
 					conjure_table(all_publications, 2019);
