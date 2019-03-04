@@ -6,14 +6,23 @@ function Get(yourUrl){
 }
 
 function draw_wordcloud(pubmed_xml_raw){
-
+	
 	var xml_parser = new DOMParser();
-	var pm_xml = xml_parser.parseFromString(pubmed_xml_raw, "text/xml");
+	var articles_xml = [];
+
+	for (batch in pubmed_xml_raw){
+		// console.log(pubmed_xml_raw[batch]);
+		var pm_xml = xml_parser.parseFromString(pubmed_xml_raw[batch], "text/xml");
+		
+		for (var i=0; i<pm_xml.getElementsByTagName("PubmedArticle").length; i++){
+			articles_xml.push(pm_xml.getElementsByTagName("PubmedArticle")[i]);
+		}
+	}
 
 	var keyword_dict = {};
 
-	for (var i=0; i<pm_xml.getElementsByTagName("PubmedArticle").length; i++){
-		var pub_xml = pm_xml.getElementsByTagName("PubmedArticle")[i];
+	for (var i=0; i<articles_xml.length; i++){
+		var pub_xml = articles_xml[i];
 		var keywords = pub_xml.getElementsByTagName("Keyword");
 		for (var j=0; j<keywords.length; j++){
 			var keyword = keywords[j].childNodes[0].nodeValue.toUpperCase();
@@ -26,22 +35,30 @@ function draw_wordcloud(pubmed_xml_raw){
 	}
 	var word_list = [];
 	for (var key in keyword_dict){
-		if (keyword_dict[key]>1){
+		if (keyword_dict[key]>2){
 			word_list.push([key,keyword_dict[key]]);
 		}
 	}
 
 	var cloud_opts = {
 		list: word_list,
-		gridSize: Math.round(12 * $('#fake_canvas').width() / 1024),
+		gridSize: 10,
 		weightFactor: function (size) {
-			return Math.pow(size, 2.6) * $('#fake_canvas').width() / 1024;
+			return Math.pow(size, 1.6) * $('#fake_canvas').width() / 1024;
 		},
 		fontFamily: 'Arial Unicode MS',
-		color: 'random-light',
-		rotateRatio: 0,
-		// rotationSteps: 2,
-		backgroundColor: '#FFFFFF'
+		color: function() {
+			return (["#8dd3c7", "#ffffb3", "#bebada", 
+				"#fb8072", "#80b1d3", "#fdb462", 
+				"#b3de69", "#d9d9d9", "#fccde5", 
+				"#bc80bd", "#ccebc5", "#ffed6f"
+			])[Math.floor(Math.random() * 12)]
+		},
+		// color: 'random-light',
+		rotateRatio: 0.3,
+		rotationSteps: 3,
+		backgroundColor: '#FFFFFF',
+		drawOutOfBound: true
 	};
 	console.log(word_list);
 
