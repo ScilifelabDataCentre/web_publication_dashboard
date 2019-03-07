@@ -48,7 +48,7 @@ function draw_wordcloud(pubmed_xml_raw){
 		},
 		fontFamily: 'Arial Unicode MS',
 		color: function() {
-			return (["#8dd3c7", "#ffffb3", "#bebada", 
+			return (["#8dd3c7", "#AfAf73", "#bebada", 
 				"#fb8072", "#80b1d3", "#fdb462", 
 				"#b3de69", "#d9d9d9", "#fccde5", 
 				"#bc80bd", "#ccebc5", "#ffed6f"
