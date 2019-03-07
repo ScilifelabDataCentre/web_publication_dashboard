@@ -15,16 +15,13 @@
 #facility_output {
 	justify-content: center; /* align horizontal */
 }
-.loader {
-	border: 26px solid #f3f3f3;
-	border-radius: 50%;
-	border-top: 26px solid #3498db;
-	width: 548px;
-	height: 548px;
-	-webkit-animation: spin 2s linear infinite; /* Safari */
-	animation: spin 2s linear infinite;
-	justify-content: center; /* align horizontal */
+
+.loading_text {
+	position: relative;
+	left:310px;
+	top:330px;
 }
+
 #button_holder {
 	justify-content: center; /* align horizontal */
 	display: flex;

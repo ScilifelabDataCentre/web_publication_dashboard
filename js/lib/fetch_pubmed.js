@@ -8,10 +8,20 @@ function Get(yourUrl){
 onmessage = function(e) {
 	// console.log('Message received from main script');
 	var publications = [];
-	console.log(e.data);
-	for (var url in e.data){
-		console.log(e.data[url]);
-		publications.push.apply(publications, JSON.parse(Get(e.data[url]))["publications"]);
+	console.log(e.data.length);
+	loading_level = 0;
+
+	if (e.data.length == 1){
+		console.log(e.data[0])
+		publications.push.apply(publications, JSON.parse(Get(e.data[0]))["publications"]);
+
+		// Tell owner we have loaded a little bit
+		loading_level = 10;
+		postMessage([false, loading_level]);
+
+	}
+	else {
+		publications = e.data;
 	}
 
 	var base_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=";
@@ -36,7 +46,6 @@ onmessage = function(e) {
 		}
 	}
 
-
 	var batch_returns = [];
 
 	for (i in batches){
@@ -48,6 +57,15 @@ onmessage = function(e) {
 			console.log('There was a network error.');
 			}
 		}
+
+		loading_level = Math.round(loading_level + Math.round(1/(batches.length*1.2)*1000)/10);
+		console.log(loading_level);
+
+		if (loading_level > 99){
+			console.log("loading level over 9000! "+loading_level)
+			loading_level = 99;
+		}
+		postMessage([false, loading_level]);
 	}
-	postMessage(batch_returns);
+	postMessage([true, batch_returns]);
 }

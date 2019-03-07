@@ -159,12 +159,19 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 
 		// Worker return function for pubmed keywords
 		worker_cloud.onmessage = function(e) {
-			all_publications_pubmed_xml = e.data;
+			if (e.data[0] === true){
+				all_publications_pubmed_xml = e.data[1];
 
-			draw_wordcloud(all_publications_pubmed_xml);
+				draw_wordcloud(all_publications_pubmed_xml);
 
-			// Turn off loading animation
-			show('spinner_stats', false);
+				// Turn off loading animation
+				show('spinner_stats', false);				
+			}
+			else {
+				loading_level = e.data[1];
+				document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING . . . <br/> "+loading_level+" %"
+			}
+
 		}
 
 		worker_background.onmessage = function(e) {
@@ -238,7 +245,12 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 
 			if (loaded_wordcloud === false) {
 				loaded_wordcloud = true;
-				worker_cloud.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
+				if (loaded_bg === true){
+					worker_cloud.postMessage(all_publications);
+				}
+				else {
+					worker_cloud.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);	
+				}
 			}
 			else{
 				// Turn off loading animation
