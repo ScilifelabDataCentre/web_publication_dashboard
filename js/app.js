@@ -11,7 +11,7 @@ function show(id, value) {
 }
 function mask_canvas(){
 	var img = new Image();
-	img.src = "./assets/cloud.png";
+	img.src = "./assets/cloud_tall.png";
 
 	img.onload = function readPixels() {
 		maskCanvas = document.getElementById('fake_canvas');
