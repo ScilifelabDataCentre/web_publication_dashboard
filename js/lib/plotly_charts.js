@@ -56,7 +56,8 @@ facility_colour_map = {
 
 function draw_label_pie(target_div, publications_json){
 	// console.log(publications_json);
-	var years = {};
+	var years = {"all-time": []};
+
 	for (i=0; i<publications_json.length; i++){
 		var year = publications_json[i]["published"].split('-')[0];
 		if (years.hasOwnProperty(year)){
@@ -65,6 +66,7 @@ function draw_label_pie(target_div, publications_json){
 			years[year] = [];
 			years[year].push(publications_json[i]);
 		}
+		years["all-time"].push(publications_json[i])
 	}
 	for (var year in years){
 		var dois = [];
