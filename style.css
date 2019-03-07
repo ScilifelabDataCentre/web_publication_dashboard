@@ -1,12 +1,24 @@
+#dash_content {
+	float: top;
+	max-width: 717px;
+	margin: auto;
+	height: 1000px;
+	border: 2px solid #f3f3f3;
+}
+#menubar {
+	justify-content: center; /* align horizontal */
+	display: flex;
+}
+
 #facility_network {
 	float: top;
 	justify-content: center;
 	display: flex;
 }
 #cytoscape_network {
-	width: 800px;
-	height: 800px;
-	border: solid black 1px;
+	width: 700px;
+	height: 700px;
+	border: 2px solid black;
 }
 #charts {
 	justify-content: center; /* align horizontal */

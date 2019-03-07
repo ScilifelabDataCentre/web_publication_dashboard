@@ -7,34 +7,36 @@
 <script data-main="js/app.js" src="js/require.js"></script>
 </head>
 <body>
-	<div id="menubar">
-		<button id="load_current_status" class="load_button">Current status</button>
-		<button id="load_facility_network" class="load_button">Facility network</button>
-		<button id="load_publication_stats" class="load_button">Publication stats</button>
-		<button id="load_facility_output" class="load_button">Facility output</button>
-	</div>
-	<div id="dashboards">
-		<div id="facility_network" style="display: none">
-			<h1></h1>
-			<div id="cytoscape_network"></div>
-			<div id="spinner_cyto"></div>
+	<div id="dash_content">
+		<div id="menubar">
+			<button id="load_current_status" class="load_button">Current status</button>
+			<button id="load_facility_network" class="load_button">Facility network</button>
+			<button id="load_publication_stats" class="load_button">Publication stats</button>
+			<button id="load_facility_output" class="load_button">Facility output</button>
 		</div>
-		<div id="facility_output" style="display: none">
-			<div id="charts" class="chart_container"></div>
-			<div id="spinner_plotly"></div>
-			<div id="button_holder"></div>
-		</div>
-		<div id="current_status" style="display: none">
-			<div id="spinner_current"></div>
-			<p id="current_published_p"></p>
-			<table id="current_platform_table"></table>
-		</div>
-		<div id="publication_stats" style="display: none">
-			<div id="spinner_stats"></div>
-			<!-- the fake canvas is used to calculate the mask, 
-				which is then applied to the word cloud div -->
-			<canvas id="fake_canvas" style="display: none"></canvas>
-			<div id="publication_stats_wordcloud"></div>
+		<div id="dashboards">
+			<div id="facility_network" style="display: none" class="dashboard">
+				<h1></h1>
+				<div id="cytoscape_network"></div>
+				<div id="spinner_cyto"></div>
+			</div>
+			<div id="facility_output" style="display: none" class="dashboard">
+				<div id="charts" class="chart_container"></div>
+				<div id="spinner_plotly"></div>
+				<div id="button_holder"></div>
+			</div>
+			<div id="current_status" style="display: none" class="dashboard">
+				<div id="spinner_current"></div>
+				<p id="current_published_p"></p>
+				<table id="current_platform_table"></table>
+			</div>
+			<div id="publication_stats" style="display: none" class="dashboard">
+				<div id="spinner_stats"><p style="font-family: arial;" id="loading_text_pubications_stats" class="loading_text">LOADING . . . <br/> 0 %</p></div>
+				<!-- the fake canvas is used to calculate the mask, 
+					which is then applied to the word cloud div -->
+				<canvas id="fake_canvas" style="display: none"></canvas>
+				<div id="publication_stats_wordcloud"></div>
+			</div>
 		</div>
 	</div>
 </body>
