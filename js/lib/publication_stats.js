@@ -60,7 +60,7 @@ function draw_wordcloud(pubmed_xml_raw){
 		backgroundColor: '#FFFFFF',
 		drawOutOfBound: true
 	};
-	console.log(word_list);
+	// console.log(word_list);
 
 
 	// The following masks the canvas in the shape of the image we loaded in app.js

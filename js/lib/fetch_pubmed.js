@@ -29,7 +29,7 @@ onmessage = function(e) {
 				pmid_list.push(pmid);
 				if (pmid_list.length > 100){
 					batches.push(pmid_list);
-					console.log(pmid_list.length);
+					// console.log(pmid_list.length);
 					pmid_list = [];
 				}
 			}
