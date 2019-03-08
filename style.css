@@ -52,16 +52,16 @@
 	font-size: 1em;
 	color:#000000;
 	text-align:center;
-	transition: all 0.2s;
+	transition: all 0.1s;
 	background-color:transparent;
 
 }
 .load_button:hover{
-	color:#000000;
 	background-color:#95C11E;
 }
 .active{
 	background-color:#95C11E;
+	margin-top: 1em;
 }
 button.load_button:active{
 	background-color:#95C11E;
