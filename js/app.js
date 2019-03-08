@@ -65,6 +65,14 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 
 
 
+	// menu bar buttons
+
+	$(".load_button").click(function(){
+		$(".load_button").removeClass('active');
+		$(this).toggleClass('active'); 
+	});
+
+
 	// Options for the loading animation
 	var opts = {
 		lines: 12,
