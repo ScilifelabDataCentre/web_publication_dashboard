@@ -99,11 +99,19 @@ function conjure_table(publications, year){
 	}
 
 
-	document.getElementById("current_published_p").innerHTML = pub_list.length.toString() 
-		+ " articles published to date in "
-		+ year.toString();
+	document.getElementById("current_published_p").innerHTML = 'SciLifeLab facilities have contributed to<br/>'
+		+ '<span id="text_published_number">'
+		+ '<a id="current_year_db_link" href="https://publications.scilifelab.se/publications/'
+		+ year.toString() 
+		+'">'
+		+ pub_list.length.toString() 
+		+ '</a></span><br/>articles published to date in<br/><span id="text_current_year">'
+		+ year.toString()
+		+ '</span>';
 
-	// console.log(platforms);
+	// document.getElementById("current_platform_table_heading").innerHTML = "Platform distibution for articles published in "+year.toString();
+
+
 	// Create items array
 	var platforms_sorted = Object.keys(platforms).map(function(key) {
 		return [key, platforms[key]];
@@ -115,8 +123,15 @@ function conjure_table(publications, year){
 	});
 	// console.log(items);
 
+
+
 	// Find the table so we can add to it
 	var table = document.getElementById("current_platform_table");
+
+	// Add a caption to the table
+	var table_caption = document.getElementById("current_platform_table").createCaption();
+	table_caption.innerHTML = "Platform distibution in "+year.toString();
+
 
 	for (i in platforms_sorted){
 		console.log(platforms_sorted[i]);
@@ -128,8 +143,10 @@ function conjure_table(publications, year){
 		var cell_no = row.insertCell(1);
 
 		row.style.backgroundColor = platform_colour_map[platforms_sorted[i][0]];
-		cell_name.innerHTML = platforms_sorted[i][0];
-		cell_no.innerHTML = platforms_sorted[i][1];
+		cell_name.className = 'current_table_platform_name';
+		cell_no.className = 'current_table_platform_no';
+		cell_name.innerHTML = '<span class="current_table_platform_name">'+platforms_sorted[i][0]+'</span>';
+		cell_no.innerHTML = '<span class="current_table_platform_no">'+platforms_sorted[i][1]+'</span>';
 	}
 
 	// Need to add the thead last, because otherwise everything will be in the head - for reasons...
@@ -141,6 +158,9 @@ function conjure_table(publications, year){
 	var cell_platform = header_row.insertCell(0);
 	var cell_publications = header_row.insertCell(1);
 	// Add some bold text in the new cell:
+
+	cell_platform.className = 'current_table_platform_name_th';
+	cell_publications.className = 'current_table_platform_no_th';
 	cell_platform.innerHTML = "<b>Platform</b>";
 	cell_publications.innerHTML = "<b>Publications</b>";
 

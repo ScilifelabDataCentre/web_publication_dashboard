@@ -1,3 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Lora|Roboto');
+/*
+font-family: 'Abril Fatface', cursive;
+font-family: 'Lora', serif;
+font-family: 'Roboto', sans-serif;
+*/
+p{
+	font-family: 'Lora', sans-serif;
+}
+h1{
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.5em;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+thead{
+	padding:0;
+}
+tbody{
+	padding:0;
+}
+
+td{	
+	font-family: 'Lora', sans-serif;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 3px;
+	padding-top: 7px;
+	border:0;
+	border-style: solid;
+	border-top: 0;
+	border-bottom: 1px solid black;
+
+}
+#current_year_db_link {
+	text-decoration: none;
+	color: black;
+}
+#current_platform_table caption {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.5em;
+}
+
+td.current_table_platform_name_th {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.2em;
+	font-weight: black;
+	border-bottom: 2px solid black;
+}
+td.current_table_platform_no_th {
+	border-bottom: 2px solid black;
+	font-size: 1.2em;
+	font-weight: black;
+	font-family: 'Roboto', sans-serif;
+}
+
+td.current_table_platform_name {
+	font-family: 'Lora', sans-serif;
+}
+td.current_table_platform_no {
+	text-align: center;
+	font-family: 'Abril Fatface', cursive;
+}
+
 #dash_content {
 	float: top;
 	max-width: 717px;
@@ -19,6 +86,7 @@
 	width: 700px;
 	height: 700px;
 	border: 2px solid black;
+	position: relative;
 }
 #charts {
 	justify-content: center; /* align horizontal */
@@ -44,29 +112,50 @@
 .load_button{
 	display:inline-block;
 	padding:0.35em 1.2em;
-	border:0.1em solid #000000;
-	margin:0 0.1em 0.1em 0;
-	border-radius:0.12em;
-	font-family:'Arial',sans-serif;
-	font-weight:300;
+	border-top: 2px solid #FFFFFF;
+	border-right: 2px solid #FFFFFF;
+	border-left: 2px solid #FFFFFF;
+	border-bottom: 2px solid #000000;
+
+	font-family: 'Roboto', sans-serif;
+	font-weight:400;
 	font-size: 1em;
 	color:#000000;
 	text-align:center;
-	transition: all 0.1s;
 	background-color:transparent;
 
+}
+.load_button:focus{
+	outline:0;
 }
 .load_button:hover{
 	background-color:#95C11E;
 }
 .active{
+	border-top: 2px solid #000000;
+	border-right: 2px solid #000000;
+	border-left: 2px solid #000000;
+	border-bottom: 2px solid #FFFFFF;
 	background-color:#95C11E;
-	margin-top: 1em;
 }
 button.load_button:active{
+	border-top: 2px solid #000000;
+	border-right: 2px solid #000000;
+	border-left: 2px solid #000000;	
+	border-bottom: 2px solid #FFFFFF;
 	background-color:#95C11E;
 }
 
+
+
+#text_published_number {
+	font-size: 4em;
+	font-family: 'Abril Fatface', cursive;
+}
+#text_current_year {
+	font-size: 4em;
+	font-family: 'Abril Fatface', cursive;
+}
 
 
 /* Safari */

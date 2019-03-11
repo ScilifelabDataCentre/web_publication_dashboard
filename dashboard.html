@@ -17,21 +17,37 @@
 		<div id="dashboards">
 			<div id="facility_network" style="display: none" class="dashboard">
 				<h1></h1>
+				<p id="intro_facility_network" class="intro_text">
+					A network showing collaborative publications between all SciLifeLab facilities from 2017-2019.
+					Thickness of the edges in the network signify the number of collaborative publications in the dataset. 
+					Hover a facility bubble to see how many total publications they have contributed to, including non-collaborative.
+				</p>
 				<div id="cytoscape_network"></div>
 				<div id="spinner_cyto"></div>
 			</div>
 			<div id="facility_output" style="display: none" class="dashboard">
+				<p id="intro_facility_output" class="intro_text">
+					Charts describing SciLifeLab facility output over the years.
+				</p>
 				<div id="charts" class="chart_container"></div>
 				<div id="spinner_plotly"></div>
 				<div id="button_holder"></div>
 			</div>
 			<div id="current_status" style="display: none" class="dashboard">
+				<p id="intro_current_status" class="intro_text">
+					The current status of SciLifeLab scientific output. 
+				</p>				
 				<div id="spinner_current"></div>
 				<p id="current_published_p"></p>
 				<table id="current_platform_table"></table>
 			</div>
 			<div id="publication_stats" style="display: none" class="dashboard">
-				<div id="spinner_stats"><p style="font-family: arial;" id="loading_text_pubications_stats" class="loading_text">LOADING . . . <br/> 0 %</p></div>
+				<p id="intro_publication_stats" class="intro_text">
+					Collective statistics on the publication output from SciLifeLab facilities. Word cloud based on PubMed keywords for all publications from 2017-2019. 
+				</p>				
+				<div id="spinner_stats">
+					<p style="font-family: arial;" id="loading_text_pubications_stats" class="loading_text">LOADING . . . <br/> 0 %</p>
+				</div>
 				<!-- the fake canvas is used to calculate the mask, 
 					which is then applied to the word cloud div -->
 				<canvas id="fake_canvas" style="display: none"></canvas>
