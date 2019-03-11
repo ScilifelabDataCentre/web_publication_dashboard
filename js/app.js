@@ -265,5 +265,6 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				show('spinner_stats', false);
 			}
 		});
+		$("#load_current_status").click()
 	});
 });
