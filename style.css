@@ -78,12 +78,10 @@ td.current_table_platform_no {
 }
 
 #facility_network {
-	float: top;
 	justify-content: center;
-	display: flex;
 }
 #cytoscape_network {
-	width: 700px;
+	min-width: 700px;
 	height: 700px;
 	border: 2px solid black;
 	position: relative;
