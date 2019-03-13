@@ -1,11 +1,29 @@
 @import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Lora|Roboto');
+
+/* Adobe fonts font set containing Minion Pro */
+@import url("https://use.typekit.net/inu4nee.css");
+
 /*
+font-family: minion-pro, serif;
+font-weight: 400;
+font-style: normal;
 font-family: 'Abril Fatface', cursive;
 font-family: 'Lora', serif;
 font-family: 'Roboto', sans-serif;
 */
+
+/*
+SciLifeLab green
+#95C11E
+SciLifeLab blue
+#0093BD
+*/
+
 p{
-	font-family: 'Lora', sans-serif;
+	font-family: minion-pro, serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 1.2em;
 }
 h1{
 	font-family: 'Roboto', sans-serif;
@@ -24,7 +42,9 @@ tbody{
 }
 
 td{	
-	font-family: 'Lora', sans-serif;
+	font-family: minion-pro, serif;
+	font-weight: 400;
+	font-style: normal;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-bottom: 3px;
@@ -58,7 +78,9 @@ td.current_table_platform_no_th {
 }
 
 td.current_table_platform_name {
-	font-family: 'Lora', sans-serif;
+	font-family: minion-pro, serif;
+	font-weight: 400;
+	font-style: normal;
 }
 td.current_table_platform_no {
 	text-align: center;
