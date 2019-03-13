@@ -59,6 +59,10 @@ td{
 	text-decoration: none;
 	color: black;
 }
+#current_year_db_link:hover {
+	text-decoration: underline;
+	color: #95C11E;
+}
 #current_platform_table caption {
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.5em;
