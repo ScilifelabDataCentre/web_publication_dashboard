@@ -200,9 +200,17 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				show('spinner_publication_stats', false);				
 			}
 			else {
-				// Not done loading yet, update the loading text
-				loading_level = e.data[1];
-				document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING . . . <br/> "+loading_level+" %"
+				// Going to catch the network errors that may crop up
+				if (e.data[1] === "network_error"){
+					document.getElementById("loading_text_pubications_stats").innerHTML = "EFETCH<br/>NETWORK<br/>ERROR";
+					loading_publication_stats = false;
+					loaded_publication_stats = false;
+				}
+				else {
+					// Not done loading yet, update the loading text
+					loading_level = e.data[1];
+					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING . . . <br/> "+loading_level+" %";
+				}
 			}
 		}
 

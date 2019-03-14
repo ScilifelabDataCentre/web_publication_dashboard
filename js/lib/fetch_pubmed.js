@@ -1,20 +1,28 @@
 function Get(yourUrl){
 	var Httpreq = new XMLHttpRequest(); // a new request
 	Httpreq.open("GET",yourUrl,false);
-	Httpreq.send(null);
-	return Httpreq.responseText;          
+	try {
+		Httpreq.send(null);
+		return Httpreq.responseText;  
+	} catch(exception) {
+		console.log('There was an error.');
+		console.log(exception);
+		return null;
+	}          
 }
 
 onmessage = function(e) {
 	// console.log('Message received from main script');
 	var publications = [];
-	console.log(e.data.length);
-	loading_level = 0;
+	var loading_level = 0;
 
 	if (e.data.length == 1){
 		console.log(e.data[0])
-		publications.push.apply(publications, JSON.parse(Get(e.data[0]))["publications"]);
 
+		var get_request_result = Get(e.data[0]);
+		if (get_request_result !== null){
+			publications.push.apply(publications, JSON.parse(get_request_result)["publications"]);
+		}
 		// Tell owner we have loaded a little bit
 		loading_level = 10;
 		postMessage([false, loading_level]);
@@ -47,19 +55,19 @@ onmessage = function(e) {
 	}
 
 	var batch_returns = [];
+	var break_flag = false;
 
 	for (i in batches){
-		try {
-			var pubmed_xml_raw = Get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=".concat(batches[i].join(",")));
-			batch_returns.push(pubmed_xml_raw)
-		} catch(exception) {
-			if(exception instanceof NetworkError) {
-			console.log('There was a network error.');
-			}
-		}
+		var pubmed_xml_raw = Get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=".concat(batches[i].join(",")));
 
+		// Break if network error. This happens fairly often with Efetch
+		if (pubmed_xml_raw === null){
+			postMessage([false, "network_error"]);
+			break_flag = true;
+			break;
+		}
+		batch_returns.push(pubmed_xml_raw)
 		loading_level = Math.round(loading_level + Math.round(1/(batches.length*1.2)*1000)/10);
-		console.log(loading_level);
 
 		if (loading_level > 99){
 			console.log("loading level over 9000! "+loading_level)
@@ -67,5 +75,7 @@ onmessage = function(e) {
 		}
 		postMessage([false, loading_level]);
 	}
-	postMessage([true, batch_returns]);
+	if (break_flag === false){
+		postMessage([true, batch_returns]);
+	}
 }

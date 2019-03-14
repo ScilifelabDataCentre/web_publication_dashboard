@@ -15,7 +15,7 @@
 			<button id="load_facility_output" class="load_button">Facility output</button>
 		</div>
 		<div id="dashboards">
-			<div id="current_status" style="display: none" class="dashboard">
+			<div id="current_status" style="display: none;" class="dashboard">
 				<p id="intro_current_status" class="intro_text">
 					The current status of SciLifeLab scientific output. 
 				</p>				
@@ -23,7 +23,7 @@
 				<p id="current_published_p"></p>
 				<table id="current_platform_table"></table>
 			</div>
-			<div id="facility_network" style="display: none" class="dashboard">
+			<div id="facility_network" style="display: none;" class="dashboard">
 				<h1></h1>
 				<div>
 					<p id="intro_facility_network" class="intro_text">
@@ -35,19 +35,24 @@
 				<div id="cytoscape_network"></div>
 				<div id="spinner_facility_network"></div>
 			</div>
-			<div id="publication_stats" style="display: none" class="dashboard">
+			<div id="publication_stats" style="display: none;" class="dashboard">
 				<p id="intro_publication_stats" class="intro_text">
 					Collective statistics on the publication output from SciLifeLab facilities. Word cloud based on PubMed keywords for all publications from 2017-2019. 
 				</p>				
 				<div id="spinner_publication_stats">
 					<p style="font-family: arial;" id="loading_text_pubications_stats" class="loading_text">LOADING . . . <br/> 0 %</p>
 				</div>
+				<div id="network_error_publication_stats" style="display: none;">
+					<p>
+						<span style="">Network Error</span> when loading PubMed keywords for word cloud. This may be due to Efetch not responding. Please try again later. 
+					</p>
+				</div>
 				<!-- the fake canvas is used to calculate the mask, 
 					which is then applied to the word cloud div -->
-				<canvas id="fake_canvas" style="display: none"></canvas>
+				<canvas id="fake_canvas" style="display: none;"></canvas>
 				<div id="publication_stats_wordcloud" style="position: relative;"></div>
 			</div>
-			<div id="facility_output" style="display: none" class="dashboard">
+			<div id="facility_output" style="display: none;" class="dashboard">
 				<p id="intro_facility_output" class="intro_text">
 					Charts describing SciLifeLab facility output over the years.
 				</p>
