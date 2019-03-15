@@ -11,7 +11,7 @@ function show(id, value) {
 }
 function mask_canvas(){
 	var img = new Image();
-	img.src = "./assets/cloud_tall.png";
+	img.src = "./assets/rectangle_soft.png";
 
 	img.onload = function readPixels() {
 		maskCanvas = document.getElementById('fake_canvas');
@@ -293,6 +293,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 					// Dont do anything at the moment, just waiting
 				}
 				else{
+					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING . . . <br/> 0 %";
 					loading_publication_stats = true;
 					if (loaded_bg === true){
 						// Just load the pubmed data if publications are already loaded

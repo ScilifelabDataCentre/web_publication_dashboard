@@ -33,18 +33,52 @@ function draw_wordcloud(pubmed_xml_raw){
 			}
 		}
 	}
-	var word_list = [];
-	for (var key in keyword_dict){
-		if (keyword_dict[key]>2){
-			word_list.push([key,keyword_dict[key]]);
+
+	// Create keyword array instead of dict
+	var raw_word_list = Object.keys(keyword_dict).map(function(key) {
+		return [key, keyword_dict[key]];
+	});
+	// Sort the array based on the second element
+	raw_word_list.sort(function(first, second) {
+		return second[1] - first[1];
+	});
+	// console.log(raw_word_list);
+
+	var max_keyword_count = raw_word_list[0][1];
+
+	var normalize = 8.5/max_keyword_count;
+
+
+	for (var i=0; i<raw_word_list.length; i++) {
+		raw_word_list[i][1] = raw_word_list[i][1]*normalize;
+		if (raw_word_list[i][0].length > 20){
+			raw_word_list[i][1] = raw_word_list[i][1] * 20/raw_word_list[i][0].length;
+			//console.log(raw_word_list[i][0]);
 		}
 	}
 
+	var curated_word_list = [];
+	var max_total_value = 400;
+	var current_value = 0;
+	
+	for (var i=0; i<raw_word_list.length; i++) {
+		if (current_value < max_total_value) {	
+			curated_word_list.push(raw_word_list[i]);
+			current_value = current_value + raw_word_list[i][1];
+			// console.log(current_value);
+		}
+		else {
+			break;
+		}
+	}
+
+	// console.log(curated_word_list);
+
 	var cloud_opts = {
-		list: word_list,
-		gridSize: 10,
+		list: curated_word_list,
+		gridSize: 5,
 		weightFactor: function (size) {
-			return Math.pow(size, 1.6) * $('#fake_canvas').width() / 1024;
+			return Math.pow(size, 1.8);
 		},
 		fontFamily: 'Arial Unicode MS',
 		color: function() {
@@ -55,8 +89,8 @@ function draw_wordcloud(pubmed_xml_raw){
 			])[Math.floor(Math.random() * 12)]
 		},
 		// color: 'random-light',
-		rotateRatio: 0.3,
-		rotationSteps: 3,
+		rotateRatio: 0.5,
+		rotationSteps: 6,
 		backgroundColor: '#FFFFFF',
 		drawOutOfBound: true
 	};
