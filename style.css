@@ -30,21 +30,75 @@ h1{
 	font-size: 1.5em;
 }
 
-table {
+
+#dash_content {
+	float: top;
+	max-width: 717px;
+	margin: auto;
+	height: 1000px;
+	border: 2px solid #f3f3f3;
+}
+
+
+#current_status {
+	text-align: center
+}
+#current_published_p{
+	font-size: 1.5em;
+}
+#current_year_db_link {
+	text-decoration: none;
+	color: black;
+}
+#current_year_db_link:hover {
+	color: #95C11E;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#text_published_number {
+	font-family: 'Abril Fatface', cursive;
+	color: #555;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 250px;
+	font-weight: 800;
+	letter-spacing: -3px;
+	line-height: 1;
+	text-shadow: #FFFFFF 3px 2px 0;
+	position: relative;
+}
+#text_published_number:after {
+	content: attr(after-content);
+	position: absolute;
+	left: 8px;
+	top: 52px;
+	background-image: -webkit-linear-gradient(left top, transparent 0%, transparent 25%, #555 25%, #555 50%, transparent 50%, transparent 75%, #555 75%);
+	background-size: 4px 4px;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	z-index: -5;
+	display: block;
+	text-shadow: none;
+}
+
+#text_current_year {
+	font-size: 4em;
+	font-family: 'Abril Fatface', cursive;
+}
+#current_platform_table {
+	/*center aligning the table*/
+	margin: 0px auto;
+	margin-top: 50px;
 	border-collapse: collapse;
 }
-
-thead{
+#current_platform_table caption {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.8em;
+	font-weight: 800;
+}
+#current_platform_table thead tbody {
 	padding:0;
 }
-tbody{
-	padding:0;
-}
-
-td{	
-	font-family: minion-pro, serif;
-	font-weight: 400;
-	font-style: normal;
+#current_platform_table td{
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-bottom: 3px;
@@ -53,34 +107,16 @@ td{
 	border-style: solid;
 	border-top: 0;
 	border-bottom: 1px solid black;
-
 }
-#current_year_db_link {
-	text-decoration: none;
-	color: black;
-}
-#current_year_db_link:hover {
-	color: #95C11E;
-}
-#current_platform_table caption {
-	font-family: 'Roboto', sans-serif;
-	font-size: 1.5em;
-}
-
-td.current_table_platform_name_th {
+td.current_table_platform_name_th, td.current_table_platform_no_th{
+	text-align: left;
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.2em;
 	font-weight: black;
 	border-bottom: 2px solid black;
 }
-td.current_table_platform_no_th {
-	border-bottom: 2px solid black;
-	font-size: 1.2em;
-	font-weight: black;
-	font-family: 'Roboto', sans-serif;
-}
-
 td.current_table_platform_name {
+	text-align: left;
 	font-family: minion-pro, serif;
 	font-weight: 400;
 	font-style: normal;
@@ -90,18 +126,6 @@ td.current_table_platform_no {
 	font-family: 'Abril Fatface', cursive;
 }
 
-#dash_content {
-	float: top;
-	max-width: 717px;
-	margin: auto;
-	height: 1000px;
-	border: 2px solid #f3f3f3;
-}
-#menubar {
-	justify-content: center; /* align horizontal */
-	display: flex;
-	box-shadow: 0px -2px 0px #000000 inset; 
-}
 
 #facility_network {
 	justify-content: center;
@@ -112,27 +136,24 @@ td.current_table_platform_no {
 	border: 2px solid black;
 	position: relative;
 }
+
+
 #charts {
 	justify-content: center; /* align horizontal */
 	display: flex;
 }
-#facility_output {
-	justify-content: center; /* align horizontal */
-}
-
-.loading_text {
-	position: relative;
-	left:310px;
-	top:330px;
-}
-
 #button_holder {
 	justify-content: center; /* align horizontal */
 	display: flex;
 }
 
 
-/* menu buttons */
+/* menu */
+#menubar {
+	justify-content: center; /* align horizontal */
+	display: flex;
+	box-shadow: 0px -2px 0px #000000 inset; 
+}
 .load_button{
 	display:inline-block;
 	padding:0.35em 1.2em;
@@ -167,38 +188,13 @@ td.current_table_platform_no {
 	background-color:#95C11E;
 }
 
-#text_published_number {
-	font-family: 'Open Sans', sans-serif;
-	color: #555;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 250px;
-	font-weight: 800;
-	letter-spacing: -3px;
-	line-height: 1;
-	text-shadow: #FFFFFF 3px 2px 0;
+
+/*Loading animations*/
+.loading_text {
 	position: relative;
+	left:310px;
+	top:330px;
 }
-#text_published_number:after {
-	content: attr(after-content);
-	position: absolute;
-	left: 8px;
-	top: 28px;
-	background-image: -webkit-linear-gradient(left top, transparent 0%, transparent 25%, #555 25%, #555 50%, transparent 50%, transparent 75%, #555 75%);
-	background-size: 4px 4px;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	z-index: -5;
-	display: block;
-	text-shadow: none;
-}
-
-#text_current_year {
-	font-size: 4em;
-	font-family: 'Abril Fatface', cursive;
-}
-
-
 /* Safari */
 @-webkit-keyframes spin {
 	0% { -webkit-transform: rotate(0deg); }
