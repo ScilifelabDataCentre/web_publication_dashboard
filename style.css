@@ -146,7 +146,27 @@ td.current_table_platform_no {
 	justify-content: center; /* align horizontal */
 	display: flex;
 }
-
+button.year_button {
+	display: inline-block;
+	padding: 0.3em 0.3em;
+	border-top: 1px solid #000000;
+	border-right: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 800;
+	font-size: 1em;
+	color: #000000;
+	text-align: center;
+	background-color: transparent;
+}
+button.year_button:hover:not(.active) {
+	background-color:#0093BD;
+}
+button.year_button:active, button.year_button.active{
+	background-color:#95C11E;
+}
 
 /* menu */
 #menubar {
@@ -154,7 +174,7 @@ td.current_table_platform_no {
 	display: flex;
 	box-shadow: 0px -2px 0px #000000 inset; 
 }
-.load_button{
+button.load_button{
 	display:inline-block;
 	padding:0.35em 1.2em;
 	border-top: 2px solid #FFFFFF;
@@ -170,17 +190,17 @@ td.current_table_platform_no {
 	background-color:transparent;
 
 }
-.load_button:focus{
+button.load_button:focus{
 	outline:0;
 }
-.load_button:hover:not(.active) {
+button.load_button:hover:not(.active) {
 	border-top: 2px solid #000000;
 	border-right: 2px solid #000000;
 	border-left: 2px solid #000000;
 	border-bottom: 2px solid #FFFFFF;
 	background-color:#0093BD;
 }
-.active, button.load_button:active{
+button.load_button.active, button.load_button:active{
 	border-top: 2px solid #000000;
 	border-right: 2px solid #000000;
 	border-left: 2px solid #000000;

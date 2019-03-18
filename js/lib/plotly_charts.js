@@ -56,7 +56,7 @@ facility_colour_map = {
 
 function draw_label_pie(target_div, publications_json){
 	// console.log(publications_json);
-	var years = {"all-time": []};
+	var years = {"All-time": []};
 
 	for (i=0; i<publications_json.length; i++){
 		var year = publications_json[i]["published"].split('-')[0];
@@ -66,7 +66,7 @@ function draw_label_pie(target_div, publications_json){
 			years[year] = [];
 			years[year].push(publications_json[i]);
 		}
-		years["all-time"].push(publications_json[i])
+		years["All-time"].push(publications_json[i])
 	}
 	for (var year in years){
 		var dois = [];
@@ -123,31 +123,47 @@ function draw_label_pie(target_div, publications_json){
 		var data = [{
 			values:[], 
 			labels:[],
-			marker:{colors: [], line:{color:'rgb(100,100,100)', width:1}},
+			marker:{colors: [], line:{color:'rgb(000,000,000)', width:1}},
 			type: "pie",
 			textinfo: "value", 
-			name: ""
+			name: "",
+			insidetextfont: {
+				family: "Roboto",
+				size: 20,
+				color: "#000000"
+			},
+			outsidetextfont: {
+				size: 16
+			},
+			hovertemplate: "%{label}<br />Number of publications: %{value}<br />%{percent}",
+			hoverlabel: {
+				font: {
+					family: "Roboto",
+					size: 16 
+				},
+				bordercolor: "#000000"
+			}
 		}];
 		var layout = {
-			// grid: {rows: 2, columns: 1, pattern: 'independent'},
-			showlegend: false,
-			// autosize: false,
-			// width: 600,
-			// height: 1000,
-			margin: {
-				l: 10,
-				r: 10,
-				b: 10,
-				t: 100,
+			title: {
+				text: year,
+				font: {
+					family: "Roboto",
+					size: 60,
+					color: "#000000"
+				}
 			},
-			// yaxis2: {
-			// 	title: "Publication count",
-			// },
-			// xaxis2: {
-			// 	title: "Number of labels"
-			// }
+			showlegend: false,   
+			width: 700,
+			height: 700,
+				margin: {
+					l: 50,
+					r: 50,
+					b: 100,
+					t: 120,
+					pad: 0
+				}
 		}
-		//console.log(label_count);
 		for (var lab in label_count){
 			data[0].values.push(label_count[lab]);
 			data[0].labels.push(lab);
@@ -175,16 +191,18 @@ function draw_label_pie(target_div, publications_json){
 		Plotly.newPlot('pie'+year, data, layout, {displayModeBar: false});
 	}
 
-	// Hide all charts except 2019
-	$("#charts").children().hide();
-	$('#pie2019').show();
-
 	/*
 	jQuery events for pressing the buttons to switch chart
 	*/
 	$(".year_button").click(function(){
+		$(".year_button").removeClass('active');
+		$(this).toggleClass('active'); 
+
 		var year = $(this).attr("id").substring(6);
 		$("#charts").children().hide()
 		$('#pie'+year).show();
 	});
+
+	$("#button2019").click();
+
 }
