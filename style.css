@@ -32,6 +32,7 @@ h1{
 
 
 #dash_content {
+	position: relative;
 	float: top;
 	max-width: 717px;
 	margin: auto;
@@ -206,6 +207,20 @@ button.load_button.active, button.load_button:active{
 	border-left: 2px solid #000000;
 	border-bottom: 2px solid #FFFFFF;
 	background-color:#95C11E;
+}
+
+/* Footer */
+#footer{
+	width: 100%;
+	border-top: 2px solid #000000;
+	position: absolute; 
+	bottom: 0;
+}
+#footer_db_link {
+	color: #95C11E;
+}
+#footer_db_link:visited {
+	color: #0093BD;
 }
 
 
