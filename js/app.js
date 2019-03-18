@@ -82,7 +82,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		corners: 1,
 		color: '#95C11E',
 		fadeColor: 'transparent',
-		animation: 'spinner-line-fade-default',
+		animation: 'spinner-line-fade-quick',
 		rotate: 0,
 		direction: 1,
 		speed: 1,
@@ -90,7 +90,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		className: 'spinner',
 		top: '500px',
 		left: '50%',
-		shadow: '0 0 1px transparent',
+		shadow: 'inset 2px 2px black, inset -2px -2px black, inset 2px -2px black, inset -2px 2px black',
 		position: 'absolute',
 	};
 
@@ -209,7 +209,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				else {
 					// Not done loading yet, update the loading text
 					loading_level = e.data[1];
-					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING . . . <br/> "+loading_level+" %";
+					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING ...<br/> "+loading_level+" %";
 				}
 			}
 		}
@@ -293,7 +293,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 					// Dont do anything at the moment, just waiting
 				}
 				else{
-					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING . . . <br/> 0 %";
+					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING ...<br/> 0 %";
 					loading_publication_stats = true;
 					if (loaded_bg === true){
 						// Just load the pubmed data if publications are already loaded

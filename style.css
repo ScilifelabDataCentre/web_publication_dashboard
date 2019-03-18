@@ -191,9 +191,12 @@ td.current_table_platform_no {
 
 /*Loading animations*/
 .loading_text {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 800;
+	font-size: 1.5em;
+	text-align: center;
 	position: relative;
-	left:310px;
-	top:330px;
+	top:340px;
 }
 /* Safari */
 @-webkit-keyframes spin {
@@ -205,29 +208,11 @@ td.current_table_platform_no {
 	100% { transform: rotate(360deg); }
 }
 
-@keyframes spinner-line-fade-more {
-  0%, 100% {
+@keyframes spinner-line-fade-quick {
+  0%, 9%, 100% {
     opacity: 0; /* minimum opacity */
   }
-  1% {
-    opacity: 1;
-  }
-}
-
-@keyframes spinner-line-fade-quick {
-  0%, 39%, 100% {
-    opacity: 0.25; /* minimum opacity */
-  }
-  40% {
-    opacity: 1;
-  }
-}
-
-@keyframes spinner-line-fade-default {
-  0%, 100% {
-    opacity: 0.22; /* minimum opacity */
-  }
-  1% {
+  10% {
     opacity: 1;
   }
 }
