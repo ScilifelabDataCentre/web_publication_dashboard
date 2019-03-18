@@ -98,7 +98,6 @@ function conjure_table(publications, year){
 		}
 	}
 
-
 	document.getElementById("current_published_p").innerHTML = 'SciLifeLab facilities have contributed to<br/>'
 		+ '<span id="text_published_number">'
 		+ '<a id="current_year_db_link" href="https://publications.scilifelab.se/publications/'
@@ -109,8 +108,7 @@ function conjure_table(publications, year){
 		+ year.toString()
 		+ '</span>';
 
-	// document.getElementById("current_platform_table_heading").innerHTML = "Platform distibution for articles published in "+year.toString();
-
+	document.getElementById("text_published_number").setAttribute('after-content', pub_list.length.toString());
 
 	// Create items array
 	var platforms_sorted = Object.keys(platforms).map(function(key) {

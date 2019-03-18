@@ -60,7 +60,6 @@ td{
 	color: black;
 }
 #current_year_db_link:hover {
-	text-decoration: underline;
 	color: #95C11E;
 }
 #current_platform_table caption {
@@ -168,11 +167,32 @@ td.current_table_platform_no {
 	background-color:#95C11E;
 }
 
-
 #text_published_number {
-	font-size: 4em;
-	font-family: 'Abril Fatface', cursive;
+	font-family: 'Open Sans', sans-serif;
+	color: #555;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 250px;
+	font-weight: 800;
+	letter-spacing: -3px;
+	line-height: 1;
+	text-shadow: #FFFFFF 3px 2px 0;
+	position: relative;
 }
+#text_published_number:after {
+	content: attr(after-content);
+	position: absolute;
+	left: 8px;
+	top: 28px;
+	background-image: -webkit-linear-gradient(left top, transparent 0%, transparent 25%, #555 25%, #555 50%, transparent 50%, transparent 75%, #555 75%);
+	background-size: 4px 4px;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	z-index: -5;
+	display: block;
+	text-shadow: none;
+}
+
 #text_current_year {
 	font-size: 4em;
 	font-family: 'Abril Fatface', cursive;
