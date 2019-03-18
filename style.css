@@ -52,7 +52,7 @@ h1{
 }
 #current_year_db_link:hover {
 	color: #95C11E;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, #FFFFFF 3px 2px 0;
 }
 #text_published_number {
 	font-family: 'Abril Fatface', cursive;
@@ -108,7 +108,7 @@ h1{
 	border-top: 0;
 	border-bottom: 1px solid black;
 }
-td.current_table_platform_name_th, td.current_table_platform_no_th{
+#current_platform_table td.current_table_platform_name_th, #current_platform_table td.current_table_platform_no_th{
 	text-align: left;
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.2em;

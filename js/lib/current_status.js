@@ -98,13 +98,13 @@ function conjure_table(publications, year){
 		}
 	}
 
-	document.getElementById("current_published_p").innerHTML = 'SciLifeLab facilities have contributed to<br/>'
+	document.getElementById("current_published_p").innerHTML = '<br/>'
 		+ '<span id="text_published_number">'
 		+ '<a id="current_year_db_link" href="https://publications.scilifelab.se/publications/'
 		+ year.toString() 
-		+'">'
+		+'" target="_blank">'
 		+ pub_list.length.toString() 
-		+ '</a></span><br/>articles published to date in<br/><span id="text_current_year">'
+		+ '</a></span><br/>SciLifeLab publications published to date in<br/><span id="text_current_year">'
 		+ year.toString()
 		+ '</span>';
 
@@ -119,9 +119,6 @@ function conjure_table(publications, year){
 	platforms_sorted.sort(function(first, second) {
 		return second[1] - first[1];
 	});
-	// console.log(items);
-
-
 
 	// Find the table so we can add to it
 	var table = document.getElementById("current_platform_table");
