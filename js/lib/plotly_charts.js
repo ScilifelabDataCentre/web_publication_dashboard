@@ -41,7 +41,7 @@ facility_colour_map = {
 	"Autoimmunity Profiling": "#9cBb95", // Proteomics and Metabolomics
 	"Chemical Proteomics and Proteogenomics (MBB)": "#8cAb85", // Proteomics and Metabolomics
 	"Chemical Proteomics and Proteogenomics (OncPat)": "#7c9b75", // Proteomics and Metabolomics
-	"Chemical Proteomics & Proteogenomics": "#6c8bc65", // Proteomics and Metabolomics
+	"Chemical Proteomics & Proteogenomics": "#6c8b65", // Proteomics and Metabolomics
 	"PLA Proteomics": "#5c7b55", // Proteomics and Metabolomics
 	"Plasma Profiling": "#4c6b55", // Proteomics and Metabolomics
 	"Swedish Metabolomics Centre (SMC)": "#3c5b35", // Proteomics and Metabolomics
@@ -145,6 +145,8 @@ function draw_label_pie(target_div, publications_json){
 			}
 		}];
 		var layout = {
+			paper_bgcolor: 'rgba(0,0,0,0)',
+			plot_bgcolor: 'rgba(0,0,0,0)',
 			title: {
 				text: year,
 				font: {
@@ -159,8 +161,8 @@ function draw_label_pie(target_div, publications_json){
 				margin: {
 					l: 50,
 					r: 50,
-					b: 100,
-					t: 120,
+					b: 50,
+					t: 170,
 					pad: 0
 				}
 		}
@@ -189,6 +191,69 @@ function draw_label_pie(target_div, publications_json){
 		// console.log(year)
 
 		Plotly.newPlot('pie'+year, data, layout, {displayModeBar: false});
+
+		$('#pie'+year).append('<table id="table'+year+'" class="facility_table"></table>');
+
+		// Find the table so we can add to it
+		var facility_table = document.getElementById("table"+year);
+
+		// Add a caption to the table
+		var facility_table_caption = facility_table.createCaption();
+		facility_table_caption.innerHTML = "Facility output in "+year.toString();
+
+		var rowno = 0;
+
+		var label_count_sorted = Object.keys(label_count).map(function(key) {
+			return [key, label_count[key]];
+		});
+		// Sort the array based on the second element
+		label_count_sorted.sort(function(first, second) {
+			return second[1] - first[1];
+		});
+		for (var rowno in label_count_sorted){
+
+			// Create an empty <tr> element and add it to the 1st position of the table:
+			var row = facility_table.insertRow(rowno);
+
+			// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+			var cell_name = row.insertCell(0);
+			var cell_no = row.insertCell(1);
+
+			var col = facility_colour_map[label_count_sorted[rowno][0]]+"AA"
+
+			// var col = facility_colour_map[label_count_sorted[rowno][0]].substring(1, 7);
+
+			// col = "#44"+col
+
+			row.style.backgroundColor = col;
+			console.log(label_count_sorted[rowno][0]);
+			console.log(facility_colour_map[label_count_sorted[rowno][0]])
+			cell_name.className = 'current_table_platform_name';
+			cell_no.className = 'current_table_platform_no';
+			if (label_count_sorted[rowno][0] == "NGI Stockholm"){
+				cell_name.innerHTML = "<a href='https://publications.scilifelab.se/label/NGI%20Stockholm%20%28Genomics%20Applications%29' target='_blank' class='facility_table_link'>"+label_count_sorted[rowno][0]+"</a>";
+			} else {
+				cell_name.innerHTML = "<a href='https://publications.scilifelab.se/label/"+label_count_sorted[rowno][0]+"' target='_blank' class='facility_table_link'>"+label_count_sorted[rowno][0]+"</a>";
+			}
+			cell_no.innerHTML = label_count_sorted[rowno][1];
+		}
+
+		// Need to add the thead last, because otherwise everything will be in the head - for reasons...
+		// Create an empty <thead> element and add it to the table:
+		var header = facility_table.createTHead();
+		// Create an empty <tr> element and add it to the first position of <thead>:
+		var header_row = header.insertRow(0);    
+		// Insert a new cell (<td>) at the first position of the "new" <tr> element:
+		var cell_platform = header_row.insertCell(0);
+		var cell_publications = header_row.insertCell(1);
+		// Add some bold text in the new cell:
+
+		cell_platform.className = 'current_table_platform_name_th';
+		cell_publications.className = 'current_table_platform_no_th';
+		cell_platform.innerHTML = "<b>Facility</b>";
+		cell_publications.innerHTML = "<b>Publications</b>";
+
+
 	}
 
 	/*
@@ -201,6 +266,7 @@ function draw_label_pie(target_div, publications_json){
 		var year = $(this).attr("id").substring(6);
 		$("#charts").children().hide()
 		$('#pie'+year).show();
+		// $('#table'+year).show();
 	});
 
 	$("#button2019").click();

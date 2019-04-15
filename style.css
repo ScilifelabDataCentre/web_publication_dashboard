@@ -36,7 +36,8 @@ h1{
 	float: top;
 	max-width: 717px;
 	margin: auto;
-	height: 1000px;
+	min-height: 1000px;
+	height: auto;
 }
 
 
@@ -88,9 +89,10 @@ h1{
 	/*center aligning the table*/
 	margin: 0px auto;
 	margin-top: 50px;
+	margin-bottom: 100px;
 	border-collapse: collapse;
 }
-#current_platform_table caption {
+#current_platform_table caption, table.facility_table caption {
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.8em;
 	font-weight: 800;
@@ -138,10 +140,39 @@ td.current_table_platform_no {
 }
 
 
-#charts {
+#charts{
 	justify-content: center; /* align horizontal */
 	display: flex;
 }
+table.facility_table {
+	/*center aligning the table*/
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 150px;
+	border-collapse: collapse;
+}
+table.facility_table td{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 1px;
+	padding-top: 2px;
+	border:0;
+	border-style: solid;
+	border-top: 0;
+	border-bottom: 1px solid black;
+}
+table.facility_table td.current_table_platform_name_th, table.facility_table td.current_table_platform_no_th{
+	text-align: left;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.2em;
+	font-weight: black;
+	border-bottom: 2px solid black;
+}
+a.facility_table_link {
+	color: #000000;
+}
+
+
 #button_holder {
 	justify-content: center; /* align horizontal */
 	display: flex;
@@ -166,6 +197,9 @@ button.year_button:hover:not(.active) {
 }
 button.year_button:active, button.year_button.active{
 	background-color:#95C11E;
+}
+button.year_button:focus{
+	outline:0;
 }
 
 /* menu */
