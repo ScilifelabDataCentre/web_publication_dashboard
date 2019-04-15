@@ -171,20 +171,6 @@ function draw_label_pie(target_div, publications_json){
 			data[0].labels.push(lab);
 			data[0].marker.colors.push(facility_colour_map[lab]);
 		}
-		// //doing bar chart for labels
-		// data.push({
-		// 	x:[], 
-		// 	y:[], 
-		// 	type: "bar",
-		// 	hoverinfo: "value+label",
-		// 	xaxis: 'x2', //this sets it to 
-		// 	yaxis: 'y2',  //seconnd chart area
-		// 	name: ""
-		// });
-		// for (var lab_len in label_length_count){
-		// 	data[1].x.push(lab_len);
-		// 	data[1].y.push(label_length_count[lab_len]);
-		// }
 
 		$(target_div).append('<div id="pie'+year+'" style="display:none;" class="piechart"></div>');
 		$('#button_holder').append('<button id="button'+year+'" class="year_button">'+year+'</button>');
@@ -221,13 +207,7 @@ function draw_label_pie(target_div, publications_json){
 
 			var col = facility_colour_map[label_count_sorted[rowno][0]]+"AA"
 
-			// var col = facility_colour_map[label_count_sorted[rowno][0]].substring(1, 7);
-
-			// col = "#44"+col
-
 			row.style.backgroundColor = col;
-			console.log(label_count_sorted[rowno][0]);
-			console.log(facility_colour_map[label_count_sorted[rowno][0]])
 			cell_name.className = 'current_table_platform_name';
 			cell_no.className = 'current_table_platform_no';
 			if (label_count_sorted[rowno][0] == "NGI Stockholm"){
@@ -266,7 +246,6 @@ function draw_label_pie(target_div, publications_json){
 		var year = $(this).attr("id").substring(6);
 		$("#charts").children().hide()
 		$('#pie'+year).show();
-		// $('#table'+year).show();
 	});
 
 	$("#button2019").click();
