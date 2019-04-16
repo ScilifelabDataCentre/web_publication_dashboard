@@ -99,6 +99,10 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 	var spinner_current_status = new Spinner(opts).spin();
 	target_current_status.appendChild(spinner_current_status.el);
 
+	var target_latest_publications = document.getElementById('spinner_latest_publications');
+	var spinner_latest_publications = new Spinner(opts).spin();
+	target_latest_publications.appendChild(spinner_latest_publications.el);
+
 	var target_facility_network = document.getElementById('spinner_facility_network');
 	var spinner_facility_network = new Spinner(opts).spin();
 	target_facility_network.appendChild(spinner_facility_network.el);
@@ -120,17 +124,20 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		// Loaded flags
 		var loaded_bg = false;
 		var loaded_current_status = false;
+		var loaded_latest_publications = false;
 		var loaded_facility_network = false;
 		var loaded_publication_stats = false;
 		var loaded_facility_output = false;
 		// LoadING flags
 		var loading_bg = false;
 		var loading_current_status = false;
+		var loading_latest_publications = false;
 		var loading_facility_network = false;
 		var loading_publication_stats = false;
 		var loading_facility_output = false;
 		// Publication lists
 		var current_year_publications = null;
+		var latest_publications = null;
 		var recent_publications = null;
 		var all_publications = null;
 		var all_publications_pubmed_xml = null;
@@ -165,6 +172,20 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		// Send message to worker_current_status immediately
 		loading_current_status = true;
 		worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json?full=false"]);
+
+		// Shows the latest publications
+		let worker_latest_publications = new Worker('js/lib/fetch.js');
+		worker_latest_publications.onmessage = function(e) {
+			// Save publication list
+			latest_publications = e.data;
+
+			// Draw publications
+			
+			// Turn off loading animation
+			loading_latest_publications = false;
+			loaded_latest_publications = true;
+			show('spinner_latest_publications', false);
+		}
 
 		// Gets recent publications and draws cytoscape network
 		let worker_facility_network = new Worker('js/lib/fetch.js');
@@ -246,6 +267,27 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 					loading_current_status = true;
 					show('spinner_current_status', true);
 					worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json?full=false"]);
+				}
+			}
+		});
+
+		$("#load_latest_publications").click(function(){
+			// Hide all dashes
+			$("#dashboards").children().hide();
+			// Show this dashboard
+			$("#latest_publications").show();
+			if (loaded_latest_publications === false) {
+				// Show loading animation
+				show('spinner_latest_publications', true);
+				
+				if (loading_latest_publications === true) {
+					// Dont do anything at the moment, just waiting
+				}
+				else {
+					loading_latest_publications = true;
+					show('spinner_latest_publications', true);
+					worker_latest_publications.postMessage(["https://publications.scilifelab.se/publications/2018.json",
+						"https://publications.scilifelab.se/publications/2019.json"]);
 				}
 			}
 		});

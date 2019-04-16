@@ -69,8 +69,8 @@ var platform_colour_map = {
 	"Regional facilities of national interest": "#ffed6f"
 }
 
-function draw_num_pubs(){
-
+function draw_latest_publications(publications, JIF_threshold){
+	
 }
 function conjure_table(publications, year){
 	pub_list = [];
