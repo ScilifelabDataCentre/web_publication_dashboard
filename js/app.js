@@ -180,6 +180,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			latest_publications = e.data;
 
 			// Draw publications
+			draw_latest_publications(latest_publications, 25)
 			
 			// Turn off loading animation
 			loading_latest_publications = false;
@@ -377,6 +378,6 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			}
 		});
 
-		$("#load_current_status").click()
+		$("#load_latest_publications").click()
 	});
 });

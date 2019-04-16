@@ -1,57 +1,57 @@
 facility_colour_map = {
-	"Tissue Profiling": "#8dd3c7", // Affinity Proteomics
-	"Fluorescence Tissue Profiling": "#8dd3c7", // Affinity Proteomics
-	"Fluorescence Correlation Spectroscopy": "#ffffb3", // Bioimaging
-	// "Bioinformatics Compute and Storage": "#bebada", // Bioinformatics
-	"Bioinformatics Long-term Support WABI": "#bebada", // Bioinformatics
-	"Bioinformatics Support and Infrastructure": "#9e9aBa", // Bioinformatics
-	"Systems Biology": "#7e7a9a", // Bioinformatics
-	"Cryo-EM (SU)": "#8b1002", // Cellular and Molecular Imaging
-	"Advanced Light Microscopy (ALM)": "#9b2012", // Cellular and Molecular Imaging
-	"BioImage Informatics": "#Ab3022", // Cellular and Molecular Imaging
-	"Cell Profiling": "#Bb4032", // Cellular and Molecular Imaging
-	"Cryo-EM": "#Cb5042", // Cellular and Molecular Imaging
-	"Cryo-EM (UmU)": "#Eb7062", // Cellular and Molecular Imaging
-	"Protein Science Facility (PSF)": "#Db6052", // Cellular and Molecular Imaging
-	"Swedish NMR Centre (SNC)": "#fb8072", // Cellular and Molecular Imaging
-	"Chemical Biology Consortium Sweden (KI)": "#80b1d3", // Chemical Biology and Genome Engineering
-	"Chemical Biology Consortium Sweden (UmU)": "#80b1d3", // Chemical Biology and Genome Engineering
-	"Chemical Biology Consortium Sweden (CBCS)": "#80b1d3", // Chemical Biology and Genome Engineering
-	"Genome Engineering Zebrafish": "#80b1d3", // Chemical Biology and Genome Engineering
-	"High-throughput Genome Engineering (HTGE)": "#80b1d3", // Chemical Biology and Genome Engineering
-	"Clinical Genomics Gothenburg": "#D3Fe89", // Diagnostics Development
-	"Clinical Genomics Lund": "#b3de69", // Diagnostics Development
-	"Clinical Genomics Stockholm": "#93Be49", // Diagnostics Development
-	"Clinical Genomics Uppsala": "#739e29", // Diagnostics Development
-	"Drug Discovery and Development (DDD)": "#fdb462", // Drug Discovery and Development
-	"Karolinska High Throughput Center (KHTC)": "#d9d9d9", // Functional Genomics
-	"Ancient DNA": "#EcBdD5", // Genomics
-	"NGI Stockholm": "#fccde5", // Genomics
-	// "NGI Stockholm (Genomics Applications)": "#fccde5", // Genomics
-	// "NGI Stockholm (Genomics Production)": "#fccde5", // Genomics
-	"NGI Uppsala (SNP&SEQ Technology Platform)": "#DcAdC5", // Genomics
-	"NGI Uppsala (Uppsala Genome Center)": "#Ac7d95", // Genomics
-	"Eukaryotic Single Cell Genomics (ESCG)": "#Bc8dA5", // Genomics
-	"Microbial Single Cell Genomics": "#Cc9dB5", // Genomics
-	"Clinical Biomarkers": "#bc80bd", // Next-Generation Diagnostics
-	"Mass Cytometry (KI)": "#DcFbD5", // Proteomics and Metabolomics
-	"Mass Cytometry (LiU)": "#ccebc5", // Proteomics and Metabolomics
-	"Mass Cytometry": "#BcDbB5", // Proteomics and Metabolomics
-	"Single Cell Proteomics": "#AcCbA5", // Proteomics and Metabolomics
-	"Autoimmunity Profiling": "#9cBb95", // Proteomics and Metabolomics
-	"Chemical Proteomics and Proteogenomics (MBB)": "#8cAb85", // Proteomics and Metabolomics
-	"Chemical Proteomics and Proteogenomics (OncPat)": "#7c9b75", // Proteomics and Metabolomics
-	"Chemical Proteomics & Proteogenomics": "#6c8b65", // Proteomics and Metabolomics
-	"PLA Proteomics": "#5c7b55", // Proteomics and Metabolomics
-	"Plasma Profiling": "#4c6b55", // Proteomics and Metabolomics
-	"Swedish Metabolomics Centre (SMC)": "#3c5b35", // Proteomics and Metabolomics
-	"Clinical Proteomics Mass spectrometry": "#ffed6f", // Regional facilities of national interest
-	"Mass Spectrometry-based Proteomics, Uppsala": "#EfDd5f", // Regional facilities of national interest
-	"Array and Analysis Facility": "#DfCd4f", // Regional facilities of national interest
-	"Mutation Analysis Facility (MAF)": "#CfBd4f", // Regional facilities of national interest
-	"Bioinformatics and Expression Analysis (BEA)": "#BfAd3f", // Regional facilities of national interest
-	"BioMaterial Interactions (BioMat)": "#Af9d2f", // Regional facilities of national interest
-	"Advanced Mass Spectrometry Proteomics": "#9f8d1f" // Regional facilities of national interest
+	"Tissue Profiling": "#8dd3c7AA", // Affinity Proteomics
+	"Fluorescence Tissue Profiling": "#8dd3c7AA", // Affinity Proteomics
+	"Fluorescence Correlation Spectroscopy": "#ffffb3AA", // Bioimaging
+	// "Bioinformatics Compute and Storage": "#bebadaAA", // Bioinformatics
+	"Bioinformatics Long-term Support WABI": "#bebadaAA", // Bioinformatics
+	"Bioinformatics Support and Infrastructure": "#9e9aBaAA", // Bioinformatics
+	"Systems Biology": "#7e7a9aAA", // Bioinformatics
+	"Cryo-EM (SU)": "#8b1002AA", // Cellular and Molecular Imaging
+	"Advanced Light Microscopy (ALM)": "#9b2012AA", // Cellular and Molecular Imaging
+	"BioImage Informatics": "#Ab3022AA", // Cellular and Molecular Imaging
+	"Cell Profiling": "#Bb4032AA", // Cellular and Molecular Imaging
+	"Cryo-EM": "#Cb5042AA", // Cellular and Molecular Imaging
+	"Cryo-EM (UmU)": "#Eb7062AA", // Cellular and Molecular Imaging
+	"Protein Science Facility (PSF)": "#Db6052AA", // Cellular and Molecular Imaging
+	"Swedish NMR Centre (SNC)": "#fb8072AA", // Cellular and Molecular Imaging
+	"Chemical Biology Consortium Sweden (KI)": "#80b1d3AA", // Chemical Biology and Genome Engineering
+	"Chemical Biology Consortium Sweden (UmU)": "#80b1d3AA", // Chemical Biology and Genome Engineering
+	"Chemical Biology Consortium Sweden (CBCS)": "#80b1d3AA", // Chemical Biology and Genome Engineering
+	"Genome Engineering Zebrafish": "#80b1d3AA", // Chemical Biology and Genome Engineering
+	"High-throughput Genome Engineering (HTGE)": "#80b1d3AA", // Chemical Biology and Genome Engineering
+	"Clinical Genomics Gothenburg": "#D3Fe89AA", // Diagnostics Development
+	"Clinical Genomics Lund": "#b3de69AA", // Diagnostics Development
+	"Clinical Genomics Stockholm": "#93Be49AA", // Diagnostics Development
+	"Clinical Genomics Uppsala": "#739e29AA", // Diagnostics Development
+	"Drug Discovery and Development (DDD)": "#fdb462AA", // Drug Discovery and Development
+	"Karolinska High Throughput Center (KHTC)": "#d9d9d9AA", // Functional Genomics
+	"Ancient DNA": "#EcBdD5AA", // Genomics
+	"NGI Stockholm": "#fccde5AA", // Genomics
+	// "NGI Stockholm (Genomics Applications)": "#fccde5AA", // Genomics
+	// "NGI Stockholm (Genomics Production)": "#fccde5AA", // Genomics
+	"NGI Uppsala (SNP&SEQ Technology Platform)": "#DcAdC5AA", // Genomics
+	"NGI Uppsala (Uppsala Genome Center)": "#Ac7d95AA", // Genomics
+	"Eukaryotic Single Cell Genomics (ESCG)": "#Bc8dA5AA", // Genomics
+	"Microbial Single Cell Genomics": "#Cc9dB5AA", // Genomics
+	"Clinical Biomarkers": "#bc80bdAA", // Next-Generation Diagnostics
+	"Mass Cytometry (KI)": "#DcFbD5AA", // Proteomics and Metabolomics
+	"Mass Cytometry (LiU)": "#ccebc5AA", // Proteomics and Metabolomics
+	"Mass Cytometry": "#BcDbB5AA", // Proteomics and Metabolomics
+	"Single Cell Proteomics": "#AcCbA5AA", // Proteomics and Metabolomics
+	"Autoimmunity Profiling": "#9cBb95AA", // Proteomics and Metabolomics
+	"Chemical Proteomics and Proteogenomics (MBB)": "#8cAb85AA", // Proteomics and Metabolomics
+	"Chemical Proteomics and Proteogenomics (OncPat)": "#7c9b75AA", // Proteomics and Metabolomics
+	"Chemical Proteomics & Proteogenomics": "#6c8b65AA", // Proteomics and Metabolomics
+	"PLA Proteomics": "#5c7b55AA", // Proteomics and Metabolomics
+	"Plasma Profiling": "#4c6b55AA", // Proteomics and Metabolomics
+	"Swedish Metabolomics Centre (SMC)": "#3c5b35AA", // Proteomics and Metabolomics
+	"Clinical Proteomics Mass spectrometry": "#ffed6fAA", // Regional facilities of national interest
+	"Mass Spectrometry-based Proteomics, Uppsala": "#EfDd5fAA", // Regional facilities of national interest
+	"Array and Analysis Facility": "#DfCd4fAA", // Regional facilities of national interest
+	"Mutation Analysis Facility (MAF)": "#CfBd4fAA", // Regional facilities of national interest
+	"Bioinformatics and Expression Analysis (BEA)": "#BfAd3fAA", // Regional facilities of national interest
+	"BioMaterial Interactions (BioMat)": "#Af9d2fAA", // Regional facilities of national interest
+	"Advanced Mass Spectrometry Proteomics": "#9f8d1fAA" // Regional facilities of national interest
 }
 
 function draw_label_pie(target_div, publications_json){
@@ -205,9 +205,7 @@ function draw_label_pie(target_div, publications_json){
 			var cell_name = row.insertCell(0);
 			var cell_no = row.insertCell(1);
 
-			var col = facility_colour_map[label_count_sorted[rowno][0]]+"AA"
-
-			row.style.backgroundColor = col;
+			row.style.backgroundColor = facility_colour_map[label_count_sorted[rowno][0]]
 			cell_name.className = 'current_table_platform_name';
 			cell_no.className = 'current_table_platform_no';
 			if (label_count_sorted[rowno][0] == "NGI Stockholm"){

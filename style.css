@@ -129,6 +129,11 @@ td.current_table_platform_no {
 }
 
 
+.latest_publication_authors{
+	height: 50px;
+	/*overflow: hidden;*/
+}
+
 #facility_network {
 	justify-content: center;
 }
