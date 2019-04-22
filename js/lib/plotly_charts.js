@@ -144,24 +144,34 @@ function draw_label_pie(target_div, publications_json){
 				bordercolor: "#000000"
 			}
 		}];
+
+		if (year == "All-time"){
+			var bot_margin = 100;
+			var adjust_size_for_margin = 50;
+		}
+		else{
+			var bot_margin = 50;
+			var adjust_size_for_margin = 0;
+		}
+
 		var layout = {
 			paper_bgcolor: 'rgba(0,0,0,0)',
 			plot_bgcolor: 'rgba(0,0,0,0)',
 			title: {
-				text: year,
+				text: year+", publications: "+years[year].length,
 				font: {
 					family: "Roboto",
-					size: 60,
+					size: 50,
 					color: "#000000"
 				}
 			},
 			showlegend: false,   
-			width: 700,
-			height: 700,
+			width: 700 + adjust_size_for_margin,
+			height: 700 + adjust_size_for_margin,
 				margin: {
 					l: 50,
 					r: 50,
-					b: 50,
+					b: bot_margin,
 					t: 170,
 					pad: 0
 				}
