@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Lora|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Lora|Roboto:400,700');
 
 /* Adobe fonts font set containing Minion Pro */
 @import url("https://use.typekit.net/inu4nee.css");
@@ -95,7 +95,7 @@ h1{
 #current_platform_table caption, table.facility_table caption {
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.8em;
-	font-weight: 800;
+	font-weight: 400;
 }
 #current_platform_table thead tbody {
 	padding:0;
@@ -114,7 +114,7 @@ h1{
 	text-align: left;
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.2em;
-	font-weight: black;
+	font-weight: 400;
 	border-bottom: 2px solid black;
 }
 td.current_table_platform_name {
@@ -129,10 +129,78 @@ td.current_table_platform_no {
 }
 
 
-.latest_publication_authors{
-	height: 50px;
-	/*overflow: hidden;*/
+
+.latest_publication {
+	margin-bottom: 50px;
+	margin-top: 50px;
 }
+.latest_publication_title{
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.5em;
+	font-weight: 400;
+	color: #95C11E;
+	text-decoration: none;
+}
+.latest_publication_title:hover{
+	color: #0093BD;
+}
+.latest_publication_authors_container{
+	margin-top: 6px;
+	position: relative;
+}
+.latest_publication_authors{
+	height: auto;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1em;
+}
+.latest_publication_authors_hidden{
+	max-height: 1.2em;
+	overflow: hidden;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1em;
+}
+.latest_publication_journal{
+	margin-top: 20px;
+	font-family: 'Roboto', sans-serif;
+}
+.latest_publication_date{
+	font-family: 'Roboto', sans-serif;
+}
+.latest_publication_labels_container{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	max-width: 700px;
+}
+.latest_publication_label{
+	font-family: 'Roboto', sans-serif;
+	font-size: 1em;
+	font-weight: black;
+	text-decoration: none;
+	color: #000000;
+    border-radius: 20px;
+	padding: 5px 10px 5px 10px;
+	margin:	3px 10px 3px 0px;
+	display:inline-block
+}
+.latest_publication_label_type{
+	font-family: 'Roboto', sans-serif;
+}
+.latest_publication_show_more_button{
+	font-family: 'Roboto', sans-serif;
+	font-size: 0.8em;
+    cursor: pointer;
+    display: block;
+    font-weight: 400;
+    position: absolute;
+    right: 0px;
+    bottom: -1.4em;
+}
+.latest_publication_spacer{
+	margin-top: 10px;
+	border-bottom: solid 1px black;
+}
+
+
 
 #facility_network {
 	justify-content: center;
@@ -170,7 +238,7 @@ table.facility_table td.current_table_platform_name_th, table.facility_table td.
 	text-align: left;
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.2em;
-	font-weight: black;
+	font-weight: 400;
 	border-bottom: 2px solid black;
 }
 a.facility_table_link {
@@ -191,7 +259,7 @@ button.year_button {
 	border-bottom: 1px solid #000000;
 	margin: 0;
 	font-family: 'Roboto', sans-serif;
-	font-weight: 800;
+	font-weight: 400;
 	font-size: 1em;
 	color: #000000;
 	text-align: center;
@@ -265,11 +333,11 @@ button.load_button.active, button.load_button:active{
 /*Loading animations*/
 .loading_text {
 	font-family: 'Roboto', sans-serif;
-	font-weight: 800;
+	font-weight: 400;
 	font-size: 1.5em;
 	text-align: center;
 	position: relative;
-	top:340px;
+	top:400px;
 }
 /* Safari */
 @-webkit-keyframes spin {

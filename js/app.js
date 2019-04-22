@@ -180,8 +180,19 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			latest_publications = e.data;
 
 			// Draw publications
-			draw_latest_publications(latest_publications, 25)
+			returning_dois = draw_latest_publications(latest_publications);
 			
+			// Create a worker to fetch from crossref API
+			let worker_latest_publications_crossref = new Worker('js/lib/fetch_crossref.js');
+			worker_latest_publications_crossref.onmessage = function(e){
+				// Send the data from crossref to edit the table of publications
+				// This sets proper publication dates and gets full journal names
+				edit_latest_publications(e.data);
+			}
+			// Start the crossref API requests
+			// This will run in the bg while the site works as normal
+			worker_latest_publications_crossref.postMessage(returning_dois);
+
 			// Turn off loading animation
 			loading_latest_publications = false;
 			loaded_latest_publications = true;

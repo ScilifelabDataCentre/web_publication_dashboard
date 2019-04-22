@@ -25,17 +25,22 @@
 				<table id="current_platform_table"></table>
 			</div>
 			<div id="latest_publications" style="display: none;" class="dashboard">
+				<p id="intro_latest_publications" class="intro_text">
+					
+				</p>
 				<div id="latest_publications_container"></div>
-				<div id="spinner_latest_publications"></div>
+				<div id="spinner_latest_publications">
+					<p id="loading_text_latest_publications" class="loading_text">LOADING ...</p>
+				</div>
+				<div id="latest_publications_bottom_spacer" style="height: 100px"></div>
 			</div>
 			<div id="facility_network" style="display: none;" class="dashboard">
-				<h1></h1>
 				<div>
 					<p id="intro_facility_network" class="intro_text">
-					A network showing collaborative publications between all SciLifeLab facilities from 2017-2019.
-					Thickness of the edges in the network signify the number of collaborative publications in the dataset. 
-					<br />
-					Hover a facility bubble to see how many total publications they have contributed to, including non-collaborative.
+						A network showing collaborative publications between all SciLifeLab facilities from 2017-2019.
+						Thickness of the edges in the network signify the number of collaborative publications in the dataset. 
+						<br />
+						Hover a facility bubble to see how many total publications they have contributed to, including non-collaborative.
 					</p>
 				</div>
 				<div id="cytoscape_network"></div>
@@ -52,7 +57,7 @@
 					Collective statistics on the publication output from SciLifeLab facilities. Word cloud based on PubMed keywords for all publications from 2017-2019. 
 				</p>				
 				<div id="spinner_publication_stats">
-					<p style="font-family: arial;" id="loading_text_pubications_stats" class="loading_text">LOADING ...<br/> 0 %</p>
+					<p id="loading_text_pubications_stats" class="loading_text">LOADING ...<br/> 0 %</p>
 				</div>
 				<div id="network_error_publication_stats" style="display: none;">
 					<p>
