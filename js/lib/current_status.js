@@ -236,7 +236,6 @@ function draw_latest_publications(publications){
 				label_types.push(show_list[pub]["labels"][label])
 			}
 			$("#latest_labels_"+pub).append("<a style='background-color:"+facility_colour_map[label]+";' class='latest_publication_label' target='_blank' href='https://publications.scilifelab.se/label/"+label+"'>"+label+"</a>");
-			
 		}
 
 		// Create the string for the label types
@@ -252,9 +251,7 @@ function draw_latest_publications(publications){
 		$("#latest_label_types_"+pub).append("<span class='latest_publication_label_type'>"+label_types_string+"</span>");
 		
 		if (pub != show_list.length-1){
-			console.log(pub);
-			console.log(show_list.length-1);
-			// Add a spacer div, to be styled
+			// Add a spacer div, to be styled, if its not the last pub
 			$("#latest_"+pub).append('<div class="latest_publication_spacer"></div>');
 		}
 	}

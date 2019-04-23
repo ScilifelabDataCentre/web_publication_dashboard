@@ -8,7 +8,7 @@ function Get(yourUrl){
 onmessage = function(e) {
 	// console.log('Message received from main script');
 	var crossref_api_returns = [];
-	console.log(e.data);
+	//console.log(e.data);
 	for (var doi in e.data){
 		// console.log(e.data[doi]);
 		crossref_api_returns.push(JSON.parse(Get("https://api.crossref.org/v1/works/"+e.data[doi])));
