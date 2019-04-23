@@ -1,4 +1,4 @@
-function draw_cyto(target_div, publications_json){
+function draw_cyto(target_div, publications_json, years){
 
 	// Map from Facility label to Platform name
 	var platform_map = {
@@ -83,6 +83,10 @@ function draw_cyto(target_div, publications_json){
 	var label_count = {};
 
 	for (i=0; i<publications_json.length; i++){
+		var year = publications_json[i]["published"].split('-')[0];
+		if (years.indexOf(year) < 0){
+			continue;
+		}
 		var pub_labels = publications_json[i]["labels"];
 
 		// Using these labels because we want to remove some...

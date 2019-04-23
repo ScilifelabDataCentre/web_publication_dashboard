@@ -145,6 +145,9 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		var all_publications = null;
 		var all_publications_pubmed_xml = null;
 
+		// Configurations
+		var cytoscape_years = ["2017", "2018", "2019"];
+
 		// Workers
 		// Starts to download everything in the background when page loads
 		let worker_bg = new Worker('js/lib/fetch.js');
@@ -223,7 +226,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 
 			// Draw the cytoscape network
 			show('cytoscape_network', true);
-			draw_cyto("cytoscape_network", recent_publications);
+			draw_cyto("cytoscape_network", recent_publications, cytoscape_years);
 
 			// Turn off loading animation
 			loading_facility_network = false;
@@ -336,9 +339,20 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				}
 				else {
 					loading_facility_network = true;
-					worker_facility_network.postMessage(["https://publications.scilifelab.se/publications/2017.json?full=false",
-						"https://publications.scilifelab.se/publications/2018.json?full=false",
-						"https://publications.scilifelab.se/publications/2019.json?full=false"]);
+					if (loaded_bg === true) {
+						show('cytoscape_network', true);
+						draw_cyto("cytoscape_network", all_publications, cytoscape_years);
+						
+						// Turn off loading animation
+						loading_facility_network = false;
+						loaded_facility_network = true;
+						show('spinner_facility_network', false);
+					}
+					else{
+						worker_facility_network.postMessage(["https://publications.scilifelab.se/publications/2017.json?full=false",
+							"https://publications.scilifelab.se/publications/2018.json?full=false",
+							"https://publications.scilifelab.se/publications/2019.json?full=false"]);
+					}
 				}
 			}
 			else {
@@ -347,7 +361,12 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				to mitigate the issue with zoom-locked networks. 
 				It does not take noticeable time, however, the network looks different each time.
 				*/
-				draw_cyto("cytoscape_network", recent_publications);
+				if (loaded_bg === true) {
+					draw_cyto("cytoscape_network", all_publications, cytoscape_years);
+				}
+				else{
+					draw_cyto("cytoscape_network", recent_publications, cytoscape_years);
+				}
 			}
 		});
 
