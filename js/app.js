@@ -9,6 +9,9 @@ function show(id, value) {
 	// Shows an element
     document.getElementById(id).style.display = value ? 'block' : 'none';
 }
+function resize_iframe(obj) {
+	obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+}
 function mask_canvas(){
 	var img = new Image();
 	img.src = "./assets/rectangle_soft.png";
@@ -196,6 +199,19 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			// Turn off loading animation
 			loading_latest_publications = false;
 			loaded_latest_publications = true;
+
+			// The following needs same origin to work
+			// try{
+			// 	console.log("resize?");
+			// 	console.log(parent.document.getElementById(window.name));
+			// 	console.log(window.frameElement);
+			// 	resize_iframe(document.getElementById("dashboards_iframe"));
+			// }
+			// catch(err){
+			// 	console.log("noresize");
+			// 	console.log(err);
+			// }
+
 			show('spinner_latest_publications', false);
 		}
 
