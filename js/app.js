@@ -193,12 +193,14 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			worker_latest_publications_crossref.onmessage = function(e){
 				// Send the data from crossref to edit the table of publications
 				// This sets proper publication dates and gets full journal names
-				edit_latest_publications(e.data);
+				edit_latest_publications(e.data[0], e.data[1]);
 			}
 			// Start the crossref API requests
 			// This will run in the bg while the site works as normal
-			worker_latest_publications_crossref.postMessage(returning_dois);
-
+			for (i in returning_dois){
+				worker_latest_publications_crossref.postMessage([returning_dois[i], i]);
+			}
+			
 			// Turn off loading animation
 			loading_latest_publications = false;
 			loaded_latest_publications = true;
