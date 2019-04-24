@@ -167,8 +167,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			// Save publication list
 			current_year_publications = e.data;
 
-			// Draw table
-			conjure_table(current_year_publications, 2019);
+			// Draw content
+			current_status_content(current_year_publications, 2019);
 
 			// Turn off loading animation
 			loading_current_status = false;
@@ -177,7 +177,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		}
 		// Send message to worker_current_status immediately
 		loading_current_status = true;
-		worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json?full=false"]);
+		worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json"]);
 
 		// Shows the latest publications
 		let worker_latest_publications = new Worker('js/lib/fetch.js');
@@ -297,7 +297,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				else {
 					loading_current_status = true;
 					show('spinner_current_status', true);
-					worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json?full=false"]);
+					worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json"]);
 				}
 			}
 		});
@@ -424,6 +424,6 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			}
 		});
 
-		$("#load_latest_publications").click()
+		$("#load_current_status").click()
 	});
 });

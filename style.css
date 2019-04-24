@@ -89,7 +89,7 @@ h1{
 	/*center aligning the table*/
 	margin: 0px auto;
 	margin-top: 50px;
-	margin-bottom: 100px;
+	margin-bottom: 50px;
 	border-collapse: collapse;
 }
 #current_platform_table caption, table.facility_table caption {
@@ -319,7 +319,8 @@ button.load_button.active, button.load_button:active{
 #footer{
 	width: 100%;
 	border-top: 2px solid #000000;
-	position: absolute; 
+	position: absolute;
+	margin-top: 50px;
 	bottom: 0;
 }
 #footer_db_link {

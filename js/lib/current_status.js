@@ -258,9 +258,10 @@ function draw_latest_publications(publications){
 
 	return send_back_dois;
 }
-function conjure_table(publications, year){
-	pub_list = [];
-	platforms = {};
+function current_status_content(publications, year){
+	var pub_list = [];
+	var platforms = {};
+	var datetime_string_list = [];
 
 	for (pub in publications){
 		var pub_year = publications[pub]["published"].split('-')[0];
@@ -281,6 +282,16 @@ function conjure_table(publications, year){
 					platforms[platform] = 1;
 				}
 			}
+
+			// Add publication to timeseries plot
+			var datetime_string = "";
+			if (publications[pub]["created"].split("-")[0] != year){
+				datetime_string += year+"-01-01"
+			}else{
+				datetime_string += publications[pub]["created"].split("T")[0]
+			}
+			datetime_string += " " + publications[pub]["created"].split("T")[1].split(".")[0];
+			datetime_string_list.push(datetime_string);
 		}
 	}
 
@@ -345,5 +356,37 @@ function conjure_table(publications, year){
 	cell_platform.innerHTML = "<b>Platform</b>";
 	cell_publications.innerHTML = "<b>Publications</b>";
 
-
+	// Plot to graph the additions of papers in the DB
+	var datetime_Y_val = [];
+	for (i in datetime_string_list){
+		datetime_Y_val.push(parseInt(i)+1);
+	}
+	var data = [{
+		x: datetime_string_list.sort(),
+		y: datetime_Y_val,
+		type: 'scatter',
+		line: {color: '#0093BD'}
+	}];
+	var layout = {
+		title: {
+			text: 'Timeline of publications<br>added to database',
+			font: {
+				family: "Roboto",
+				size: 30,
+				color: "#000000"
+			}
+		},
+		xaxis: {
+			range: [year+'-01-01', year+'-12-31'],
+			type: 'date'
+		},
+		margin: {
+			l: 100,
+			r: 100,
+			b: 120,
+			t: 100,
+			pad: 0
+		}
+	}
+	Plotly.newPlot('current_status_time_plot', data, layout, {displayModeBar: false});
 }
