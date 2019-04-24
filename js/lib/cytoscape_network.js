@@ -164,6 +164,8 @@ function draw_cyto(target_div, publications_json, years){
 				"font-size": "50px",
 				"text-valign": "center",
 				"text-halign": "center",
+				"text-margin-x": "3px",
+				"text-margin-y": "-20px",
 				"background-color": "#AAAAAA", // Default bg colour of the node
 				"color": "#000000", // Text colour
 				"overlay-padding": "6px",
@@ -227,8 +229,10 @@ function draw_cyto(target_div, publications_json, years){
 		var node = evt.target; 
 		
 		// Set publications count as the name instead of facility name
-		node.data("name", node.data("score")+" publications");
+		node.data("name", node.data("score")+" pub.");
 		node.style("font-size", "100px");
+		node.style("text-margin-x", "15px");
+		node.style("text-margin-y", "-35px");
 		
 		// Set the colour of all connected edges to SciLifeLab Green
 		node.connectedEdges().animate({
@@ -242,6 +246,8 @@ function draw_cyto(target_div, publications_json, years){
 		var node = evt.target;
 		node.data("name", node.id());
 		node.style("font-size", "50px");
+		node.style("text-margin-x", "3px");
+		node.style("text-margin-y", "-20px");
 		node.connectedEdges().animate({
 			style: {lineColor: "#AAAAAA"},
 			"duration": 10
