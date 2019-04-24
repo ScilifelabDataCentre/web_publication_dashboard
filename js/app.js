@@ -146,7 +146,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		var all_publications_pubmed_xml = null;
 
 		// Configurations
-		var cytoscape_years = ["2017", "2018", "2019"];
+		var current_year = new Date().getFullYear();
+		var cytoscape_years = [(current_year-2).toString(), (current_year-1).toString(), current_year.toString()];
 
 		// Workers
 		// Starts to download everything in the background when page loads
@@ -168,7 +169,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			current_year_publications = e.data;
 
 			// Draw content
-			current_status_content(current_year_publications, 2019);
+			current_status_content(current_year_publications, current_year);
 
 			// Turn off loading animation
 			loading_current_status = false;
@@ -177,7 +178,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		}
 		// Send message to worker_current_status immediately
 		loading_current_status = true;
-		worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json"]);
+		worker_current_status.postMessage(["https://publications.scilifelab.se/publications/"+current_year.toString()+".json"]);
 
 		// Shows the latest publications
 		let worker_latest_publications = new Worker('js/lib/fetch.js');
@@ -299,7 +300,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				else {
 					loading_current_status = true;
 					show('spinner_current_status', true);
-					worker_current_status.postMessage(["https://publications.scilifelab.se/publications/2019.json"]);
+					worker_current_status.postMessage(["https://publications.scilifelab.se/publications/"+current_year.toString()+".json"]);
 				}
 			}
 		});
@@ -319,8 +320,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				else {
 					loading_latest_publications = true;
 					show('spinner_latest_publications', true);
-					worker_latest_publications.postMessage(["https://publications.scilifelab.se/publications/2018.json",
-						"https://publications.scilifelab.se/publications/2019.json"]);
+					worker_latest_publications.postMessage(["https://publications.scilifelab.se/publications/"+(current_year-1).toString()+".json",
+						"https://publications.scilifelab.se/publications/"+current_year.toString()+".json"]);
 				}
 			}
 		});
@@ -351,9 +352,9 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 						show('spinner_facility_network', false);
 					}
 					else{
-						worker_facility_network.postMessage(["https://publications.scilifelab.se/publications/2017.json?full=false",
-							"https://publications.scilifelab.se/publications/2018.json?full=false",
-							"https://publications.scilifelab.se/publications/2019.json?full=false"]);
+						worker_facility_network.postMessage(["https://publications.scilifelab.se/publications/"+cytoscape_years[0]+".json?full=false",
+							"https://publications.scilifelab.se/publications/"+cytoscape_years[1]+".json?full=false",
+							"https://publications.scilifelab.se/publications/"+cytoscape_years[2]+".json?full=false"]);
 					}
 				}
 			}
