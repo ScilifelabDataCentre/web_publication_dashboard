@@ -168,13 +168,13 @@ function draw_label_pie(target_div, publications_json){
 			showlegend: false,   
 			width: 700 + adjust_size_for_margin,
 			height: 700 + adjust_size_for_margin,
-				margin: {
-					l: 50,
-					r: 50,
-					b: bot_margin,
-					t: 170,
-					pad: 0
-				}
+			margin: {
+				l: 50,
+				r: 50,
+				b: bot_margin,
+				t: 170,
+				pad: 0
+			}
 		}
 		for (var lab in label_count){
 			data[0].values.push(label_count[lab]);
