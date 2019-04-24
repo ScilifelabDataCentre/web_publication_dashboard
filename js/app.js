@@ -12,44 +12,36 @@ function show(id, value) {
 function resize_iframe(obj) {
 	obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
 }
-function mask_canvas(){
-	var img = new Image();
-	img.src = "./assets/rectangle_soft.png";
 
-	img.onload = function readPixels() {
-		maskCanvas = document.getElementById('fake_canvas');
-		maskCanvas.width = img.width;
-		maskCanvas.height = img.height;
-
-		var ctx = maskCanvas.getContext('2d');
-		ctx.drawImage(img, 0, 0, img.width, img.height);
-
-		var imageData = ctx.getImageData(
-		0, 0, maskCanvas.width, maskCanvas.height);
-		var newImageData = ctx.createImageData(imageData);
-
-		for (var i = 0; i < imageData.data.length; i += 4) {
-			var tone = imageData.data[i] +
-			imageData.data[i + 1] +
-			imageData.data[i + 2];
-			var alpha = imageData.data[i + 3];
-
-			if (alpha < 128 || tone > 128 * 3) {
-				// Area not to draw
-				newImageData.data[i] =
-				newImageData.data[i + 1] =
-				newImageData.data[i + 2] = 255;
-				newImageData.data[i + 3] = 0;
-			} else {
-				// Area to draw
-				newImageData.data[i] =
-				newImageData.data[i + 1] =
-				newImageData.data[i + 2] = 0;
-				newImageData.data[i + 3] = 255;
-			}
-		}
-		ctx.putImageData(newImageData, 0, 0);
+function draw_content_latest_publications(publication_lists){
+	// Draw publications list
+	returning_dois = draw_latest_publications(publication_lists["this_year_publications"].concat(publication_lists["last_year_publications"]));
+	
+	// Create a worker to fetch from crossref API
+	let worker_latest_publications_crossref = new Worker('js/lib/fetch_crossref.js');
+	worker_latest_publications_crossref.onmessage = function(e){
+		// Send the data from crossref to edit the table of publications
+		// This sets proper publication dates and gets full journal names
+		edit_latest_publications(e.data[0], e.data[1]);
 	}
+	// Start the crossref API requests
+	// This will run in the bg while the site works as normal
+	for (i in returning_dois){
+		worker_latest_publications_crossref.postMessage([returning_dois[i], i]);
+	}
+	show('spinner_latest_publications', false);
+}
+function draw_content_facility_network(publication_lists, cytoscape_years){
+	// Draw the cytoscape network
+	show('cytoscape_network', true);
+	draw_cyto(
+		"cytoscape_network", 
+		publication_lists["this_year_publications"].concat(
+		publication_lists["last_year_publications"]).concat(
+		publication_lists["lastlast_year_publications"]),
+		cytoscape_years
+	);
+	show('spinner_facility_network', false);
 }
 
 
@@ -118,313 +110,126 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 	var spinner_facility_output = new Spinner(opts).spin();
 	target_facility_output.appendChild(spinner_facility_output.el);
 
-	// Starts the masking of the word cloud canvas
-	mask_canvas();
-
 	// Start the rest of the processing
 	onReady(function () {
 
-		// Loaded flags
-		var loaded_bg = false;
-		var loaded_current_status = false;
-		var loaded_latest_publications = false;
-		var loaded_facility_network = false;
-		var loaded_publication_stats = false;
-		var loaded_facility_output = false;
-		// LoadING flags
-		var loading_bg = false;
-		var loading_current_status = false;
-		var loading_latest_publications = false;
-		var loading_facility_network = false;
-		var loading_publication_stats = false;
-		var loading_facility_output = false;
-		// Publication lists
-		var current_year_publications = null;
-		var latest_publications = null;
-		var recent_publications = null;
-		var all_publications = null;
-		var all_publications_pubmed_xml = null;
-
+		// Flags for if things are loaded and ready
+		var loaded_flags = {
+			"all_publications": false,
+			"this_year_publications": false,
+			"last_year_publications": false,
+			"lastlast_year_publications": false,
+			"current_status": false,
+			"latest_publications": false,
+			"facility_network": false,
+			"publication_stats": false,
+			"facility_output": false
+		}
+		// The publication lists will be kept here
+		var publication_lists = {
+			"all_publications": null,
+			"this_year_publications": null,
+			"last_year_publications": null,
+			"lastlast_year_publications": null
+		}
 		// Configurations
 		var current_year = new Date().getFullYear();
 		var cytoscape_years = [(current_year-2).toString(), (current_year-1).toString(), current_year.toString()];
 
 		// Workers
-		// Starts to download everything in the background when page loads
-		let worker_bg = new Worker('js/lib/fetch.js');
-		worker_bg.onmessage = function(e) {
-			all_publications = e.data;
-			loading_bg = false;
-			loaded_bg = true;
-		}
-		// Send message to worker_bg immediately
-		loading_bg = true;
-		worker_bg.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
+		// bg workers start to download everything in the background when page loads
+		// Loading ALL pubs in the "full=false" version and the last three years in full version
+		let worker_all_bg = new Worker('js/lib/fetch.js');
+		worker_all_bg.onmessage = function(e) {
+			publication_lists["all_publications"] = e.data;
+			loaded_flags["all_publications"] = true;
 
-		// Workers
-		// Starts to download this years data when page loads
-		let worker_current_status = new Worker('js/lib/fetch.js');
-		worker_current_status.onmessage = function(e) {
-			// Save publication list
-			current_year_publications = e.data;
-
-			// Draw content
-			current_status_content(current_year_publications, current_year);
-
-			// Turn off loading animation
-			loading_current_status = false;
-			loaded_current_status = true;
-			show('spinner_current_status', false);
-		}
-		// Send message to worker_current_status immediately
-		loading_current_status = true;
-		worker_current_status.postMessage(["https://publications.scilifelab.se/publications/"+current_year.toString()+".json"]);
-
-		// Shows the latest publications
-		let worker_latest_publications = new Worker('js/lib/fetch.js');
-		worker_latest_publications.onmessage = function(e) {
-			// Save publication list
-			latest_publications = e.data;
-
-			// Draw publications
-			returning_dois = draw_latest_publications(latest_publications);
-			
-			// Create a worker to fetch from crossref API
-			let worker_latest_publications_crossref = new Worker('js/lib/fetch_crossref.js');
-			worker_latest_publications_crossref.onmessage = function(e){
-				// Send the data from crossref to edit the table of publications
-				// This sets proper publication dates and gets full journal names
-				edit_latest_publications(e.data[0], e.data[1]);
-			}
-			// Start the crossref API requests
-			// This will run in the bg while the site works as normal
-			for (i in returning_dois){
-				worker_latest_publications_crossref.postMessage([returning_dois[i], i]);
-			}
-			
-			// Turn off loading animation
-			loading_latest_publications = false;
-			loaded_latest_publications = true;
-
-			// The following needs same origin to work
-			// try{
-			// 	console.log("resize?");
-			// 	console.log(parent.document.getElementById(window.name));
-			// 	console.log(window.frameElement);
-			// 	resize_iframe(document.getElementById("dashboards_iframe"));
-			// }
-			// catch(err){
-			// 	console.log("noresize");
-			// 	console.log(err);
-			// }
-
-			show('spinner_latest_publications', false);
-		}
-
-		// Gets recent publications and draws cytoscape network
-		let worker_facility_network = new Worker('js/lib/fetch.js');
-		worker_facility_network.onmessage = function(e) {
-			// Save publication list
-			recent_publications = e.data;
-
-			// Draw the cytoscape network
-			show('cytoscape_network', true);
-			draw_cyto("cytoscape_network", recent_publications, cytoscape_years);
-
-			// Turn off loading animation
-			loading_facility_network = false;
-			loaded_facility_network = true;
-			show('spinner_facility_network', false);
-		}		
-
-		// Fetches from publications db and pubmed
-		let worker_publication_stats = new Worker('js/lib/fetch_pubmed.js');
-		worker_publication_stats.onmessage = function(e) {
-			// This worker sends several messages with information on how much is loaded
-			// e.data[0] === true means it is done loading
-			if (e.data[0] === true){
-				// Save keyword xml
-				all_publications_pubmed_xml = e.data[1];
-
-				// Draw the wordcloud
-				draw_wordcloud(all_publications_pubmed_xml);
-
-				// Turn off loading animation
-				loading_publication_stats = false;
-				loaded_publication_stats = true;
-				show('spinner_publication_stats', false);				
-			}
-			else {
-				// Going to catch the network errors that may crop up
-				if (e.data[1] === "network_error"){
-					document.getElementById("loading_text_pubications_stats").innerHTML = "EFETCH<br/>NETWORK<br/>ERROR";
-					loading_publication_stats = false;
-					loaded_publication_stats = false;
-				}
-				else {
-					// Not done loading yet, update the loading text
-					loading_level = e.data[1];
-					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING ...<br/> "+loading_level+" %";
-				}
-			}
-		}
-
-		// Gets all publications and draws plotly charts for the facility output tab
-		let worker_facility_output = new Worker('js/lib/fetch.js');
-		worker_facility_output.onmessage = function(e) {
-			// Save publication list
-			all_publications = e.data;
-
-			// Draw the pie charts
-			draw_label_pie("#charts", all_publications, "Publication labels");
-
-			// Turn off loading animation
-			loading_facility_output = false;
-			loaded_facility_output = true;
+	 		draw_label_pie("#charts", publication_lists["all_publications"]);
 			show('spinner_facility_output', false);
+	 		loaded_flags["facility_output"] = true;
 		}
+		let worker_this_bg = new Worker('js/lib/fetch.js');
+		worker_this_bg.onmessage = function(e) {
+			publication_lists["this_year_publications"] = e.data;
+			loaded_flags["this_year_publications"] = true;
+
+			// This should draw the current status tab content
+			if (loaded_flags["this_year_publications"]){
+				current_status_content(publication_lists["this_year_publications"], current_year);
+				show("spinner_current_status", false);
+				loaded_flags["current_status"] = true;
+			}
+			// This should draw the latest publications tab content
+			if (loaded_flags["this_year_publications"] && loaded_flags["last_year_publications"]){
+				draw_content_latest_publications(publication_lists);
+				loaded_flags["latest_publications"] = true;
+			}
+			// This should draw the facility network
+			if (loaded_flags["this_year_publications"] && loaded_flags["last_year_publications"] && loaded_flags["lastlast_year_publications"]){
+				draw_content_facility_network(publication_lists, cytoscape_years)
+				loaded_flags["facility_network"] = true;
+			}
+		}
+		let worker_last_bg = new Worker('js/lib/fetch.js');
+		worker_last_bg.onmessage = function(e) {
+			publication_lists["last_year_publications"] = e.data;
+			loaded_flags["last_year_publications"] = true;
+
+			// This should draw the latest publications tab content
+			if (loaded_flags["this_year_publications"] && loaded_flags["last_year_publications"]){
+				draw_content_latest_publications(publication_lists);
+				loaded_flags["latest_publications"] = true;
+			}
+			// This should draw the facility network
+			if (loaded_flags["this_year_publications"] && loaded_flags["last_year_publications"] && loaded_flags["lastlast_year_publications"]){
+				draw_content_facility_network(publication_lists, cytoscape_years)
+				loaded_flags["facility_network"] = true;
+			}
+		}
+		let worker_lastlast_bg = new Worker('js/lib/fetch.js');
+		worker_lastlast_bg.onmessage = function(e) {
+			publication_lists["lastlast_year_publications"] = e.data;
+			loaded_flags["lastlast_year_publications"] = true;
+
+			// This should draw the facility network
+			if (loaded_flags["this_year_publications"] && loaded_flags["last_year_publications"] && loaded_flags["lastlast_year_publications"]){
+				draw_content_facility_network(publication_lists, cytoscape_years)
+				loaded_flags["facility_network"] = true;
+			}
+		}
+
+		// Start the bg workers
+		worker_all_bg.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
+		worker_this_bg.postMessage(["https://publications.scilifelab.se/publications/"+current_year.toString()+".json"]);
+		worker_last_bg.postMessage(["https://publications.scilifelab.se/publications/"+(current_year-1).toString()+".json"]);
+		worker_lastlast_bg.postMessage(["https://publications.scilifelab.se/publications/"+(current_year-2).toString()+".json"]);
 
 		$("#load_current_status").click(function(){
 			// Hide all dashes
 			$("#dashboards").children().hide();
 			// Show this dashboard
 			$("#current_status").show();
-
-			if (loaded_current_status === false) {
-				// Show loading animation
-				show('spinner_current_status', true);
-				
-				if (loading_current_status === true) {
-					// Dont do anything at the moment, just waiting
-				}
-				else {
-					loading_current_status = true;
-					show('spinner_current_status', true);
-					worker_current_status.postMessage(["https://publications.scilifelab.se/publications/"+current_year.toString()+".json"]);
-				}
-			}
 		});
-
 		$("#load_latest_publications").click(function(){
-			// Hide all dashes
 			$("#dashboards").children().hide();
-			// Show this dashboard
 			$("#latest_publications").show();
-			if (loaded_latest_publications === false) {
-				// Show loading animation
-				show('spinner_latest_publications', true);
-				
-				if (loading_latest_publications === true) {
-					// Dont do anything at the moment, just waiting
-				}
-				else {
-					loading_latest_publications = true;
-					show('spinner_latest_publications', true);
-					worker_latest_publications.postMessage(["https://publications.scilifelab.se/publications/"+(current_year-1).toString()+".json",
-						"https://publications.scilifelab.se/publications/"+current_year.toString()+".json"]);
-				}
-			}
 		});
-		
 		$("#load_facility_network").click(function(){
-			// Hide all dashes
 			$("#dashboards").children().hide();
-			// Show this dashboard
 			$("#facility_network").show();
-
-			if (loaded_facility_network === false){
-				// Show loading animation
-				show('cytoscape_network', false);
-				show('spinner_facility_network', true);
-
-				if (loading_facility_network === true){
-					// Dont do anything at the moment, just waiting
-				}
-				else {
-					loading_facility_network = true;
-					if (loaded_bg === true) {
-						show('cytoscape_network', true);
-						draw_cyto("cytoscape_network", all_publications, cytoscape_years);
-						
-						// Turn off loading animation
-						loading_facility_network = false;
-						loaded_facility_network = true;
-						show('spinner_facility_network', false);
-					}
-					else{
-						worker_facility_network.postMessage(["https://publications.scilifelab.se/publications/"+cytoscape_years[0]+".json?full=false",
-							"https://publications.scilifelab.se/publications/"+cytoscape_years[1]+".json?full=false",
-							"https://publications.scilifelab.se/publications/"+cytoscape_years[2]+".json?full=false"]);
-					}
-				}
-			}
-			else {
-				/*
-				Redraw the entire network every time you change to the tab, 
-				to mitigate the issue with zoom-locked networks. 
-				It does not take noticeable time, however, the network looks different each time.
-				*/
-				if (loaded_bg === true) {
-					draw_cyto("cytoscape_network", all_publications, cytoscape_years);
-				}
-				else{
-					draw_cyto("cytoscape_network", recent_publications, cytoscape_years);
-				}
+			
+			// Always reload the network after click
+			if (loaded_flags["facility_network"] === true){
+				draw_content_facility_network(publication_lists, cytoscape_years)
 			}
 		});
-
 		$("#load_publication_stats").click(function(){
 			$("#dashboards").children().hide();
 			$("#publication_stats").show();
-
-			if (loaded_publication_stats === false) {
-				// Show loading animation
-				show('spinner_publication_stats', true);
-
-				if (loading_publication_stats === true) {
-					// Dont do anything at the moment, just waiting
-				}
-				else{
-					document.getElementById("loading_text_pubications_stats").innerHTML = "LOADING ...<br/> 0 %";
-					loading_publication_stats = true;
-					if (loaded_bg === true){
-						// Just load the pubmed data if publications are already loaded
-						worker_publication_stats.postMessage(all_publications);
-					}
-					else {
-						// If bg is not loaded, load everything
-						worker_publication_stats.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);	
-					}
-				}
-			}
 		});
-
 		$("#load_facility_output").click(function(){
 			$("#dashboards").children().hide();
 			$("#facility_output").show();
-
-			if (loaded_facility_output === false) {
-				// Show loading animation
-				show('spinner_facility_output', true);
-
-				if (loading_facility_output === true) {
-					// Dont do anything at the moment, just waiting
-				}
-				else {
-					loading_facility_output = true;
-					if (loaded_bg === true) {
-						// Draw the pie charts if publications are loaded already
-				 		draw_label_pie("#charts", all_publications);
-
-				 		// Turn off the loading animation
-				 		loaded_facility_output = true;
-						show('spinner_facility_output', false);
-					}
-					else {
-						worker_facility_output.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
-					}
-				}
-			}
 		});
 
 		$("#load_current_status").click()
