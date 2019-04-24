@@ -151,10 +151,14 @@ function edit_latest_publications(crossref_data, item_no){
 	}else{
 		crossref_published_date_string += "-"+crossref_published_date[1].toString();
 	}
-	if (crossref_published_date[2].toString().length<2){
-		crossref_published_date_string += "-0"+crossref_published_date[2].toString();
+	if (crossref_published_date.length>2){
+		if (crossref_published_date[2].toString().length<2){
+			crossref_published_date_string += "-0"+crossref_published_date[2].toString();
+		}else{
+			crossref_published_date_string += "-"+crossref_published_date[2].toString();
+		}
 	}else{
-		crossref_published_date_string += "-"+crossref_published_date[2].toString();
+		crossref_published_date_string += "-00"
 	}
 
 	document.getElementById("latest_journal_"+item_no).innerHTML = "Journal: "+crossref_journal_name;
