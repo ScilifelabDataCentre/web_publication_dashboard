@@ -146,8 +146,8 @@ function draw_label_pie(target_div, publications_json){
 		}];
 
 		if (year == "All-time"){
-			var bot_margin = 100;
-			var adjust_size_for_margin = 50;
+			var bot_margin = 200;
+			var adjust_size_for_margin = 150;
 		}
 		else{
 			var bot_margin = 50;
