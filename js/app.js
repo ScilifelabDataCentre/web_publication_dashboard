@@ -143,6 +143,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		worker_all_bg.onmessage = function(e) {
 			publication_lists["all_publications"] = e.data;
 			loaded_flags["all_publications"] = true;
+			console.log("all_publications loaded");
 
 	 		draw_label_pie("#charts", publication_lists["all_publications"]);
 			show('spinner_facility_output', false);
@@ -152,6 +153,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		worker_this_bg.onmessage = function(e) {
 			publication_lists["this_year_publications"] = e.data;
 			loaded_flags["this_year_publications"] = true;
+			console.log("this_year_publications loaded");
 
 			// This should draw the current status tab content
 			if (loaded_flags["this_year_publications"]){
@@ -174,6 +176,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		worker_last_bg.onmessage = function(e) {
 			publication_lists["last_year_publications"] = e.data;
 			loaded_flags["last_year_publications"] = true;
+			console.log("last_year_publications loaded");
 
 			// This should draw the latest publications tab content
 			if (loaded_flags["this_year_publications"] && loaded_flags["last_year_publications"]){
@@ -190,6 +193,7 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		worker_lastlast_bg.onmessage = function(e) {
 			publication_lists["lastlast_year_publications"] = e.data;
 			loaded_flags["lastlast_year_publications"] = true;
+			console.log("lastlast_year_publications loaded");
 
 			// This should draw the facility network
 			if (loaded_flags["this_year_publications"] && loaded_flags["last_year_publications"] && loaded_flags["lastlast_year_publications"]){

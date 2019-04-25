@@ -8,7 +8,7 @@ function Get(yourUrl){
 onmessage = function(e) {
 	// console.log('Message received from main script');
 	var publications = [];
-	console.log(e.data);
+	// console.log(e.data);
 	for (var url in e.data){
 		console.log(e.data[url]);
 		publications.push.apply(publications, JSON.parse(Get(e.data[url]))["publications"]);

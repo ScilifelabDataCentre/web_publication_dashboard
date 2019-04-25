@@ -195,7 +195,7 @@ function draw_latest_publications(publications){
 	var send_back_dois = [];
 
 	for (pub in show_list){
-		console.log(show_list[pub]["title"]);
+		// console.log(show_list[pub]["title"]);
 		$("#latest_publications_container").append('<div id="latest_'+pub+'" class="latest_publication"></div>');
 		if (show_list[pub]["doi"] != null){
 			send_back_dois[pub] = show_list[pub]["doi"];
@@ -343,7 +343,7 @@ function current_status_content(publications, year){
 
 
 	for (i in platforms_sorted){
-		console.log(platforms_sorted[i]);
+		// console.log(platforms_sorted[i]);
 
 		// Create an empty <tr> element and add it to the 1st position of the table:
 		var row = table.insertRow(i);
