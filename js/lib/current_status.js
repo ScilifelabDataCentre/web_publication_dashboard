@@ -339,7 +339,7 @@ function current_status_content(publications, year){
 
 	// Add a caption to the table
 	var table_caption = document.getElementById("current_platform_table").createCaption();
-	table_caption.innerHTML = "Platform distibution in "+year.toString();
+	table_caption.innerHTML = "Platform distribution in "+year.toString();
 
 
 	for (i in platforms_sorted){
