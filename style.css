@@ -138,11 +138,12 @@ td.current_table_platform_no {
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.5em;
 	font-weight: 400;
-	color: #95C11E;
+	color: #0093BD;
 	text-decoration: none;
 }
 .latest_publication_title:hover{
 	color: #0093BD;
+	text-decoration: underline;
 }
 .latest_publication_authors_container{
 	margin-top: 6px;
