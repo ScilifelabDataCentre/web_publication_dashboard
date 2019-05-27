@@ -53,7 +53,7 @@ h1{
 }
 #current_year_db_link:hover {
 	color: #95C11E;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, #FFFFFF 3px 2px 0;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black, #FFFFFF 3px 2px 0;
 }
 #text_published_number {
 	font-family: 'Abril Fatface', cursive;
