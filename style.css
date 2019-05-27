@@ -209,7 +209,7 @@ td.current_table_platform_no {
 #cytoscape_network {
 	min-width: 700px;
 	height: 700px;
-	border: inset 2px solid black;
+	border: 2px solid black;
 	position: relative;
 }
 
