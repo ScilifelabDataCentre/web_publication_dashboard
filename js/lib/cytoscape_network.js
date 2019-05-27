@@ -236,7 +236,7 @@ function draw_cyto(target_div, publications_json, years){
 		
 		// Set the colour of all connected edges to SciLifeLab Green
 		node.connectedEdges().animate({
-			"style": {lineColor: "#95C11E"},
+			"style": {lineColor: "#0093BD"},
 			"duration": 10
 		});
 	});
