@@ -10,9 +10,9 @@
 	<div id="dash_content">
 		<div id="menubar">
 			<button id="load_current_status" class="load_button">Current status</button>
-			<button id="load_latest_publications" class="load_button">Latest publications</button>
+			<button id="load_latest_publications" class="load_button">Recent publications</button>
 			<button id="load_facility_network" class="load_button">Facility network</button>
-			<button id="load_publication_stats" class="load_button">Publication stats</button>
+			<button id="load_publication_stats" class="load_button">Publication<br/>word cloud</button>
 			<button id="load_facility_output" class="load_button">Facility output</button>
 		</div>
 		<div id="dashboards">
@@ -40,7 +40,7 @@
 					<p id="intro_facility_network" class="intro_text">
 						A network showing collaborative publications between all SciLifeLab facilities from 2017-2019.
 						Thickness of the edges in the network signify the number of collaborative publications in the dataset. 
-						<br />
+						<br/>
 						Hover a facility bubble to see how many total publications they have contributed to, including non-collaborative.
 					</p>
 				</div>
@@ -49,13 +49,13 @@
 			</div>
 			<div id="publication_stats" style="display: none;" class="dashboard">
 				<p id="intro_publication_stats" class="intro_text">
-					Collective statistics on the publication output from SciLifeLab facilities. Word cloud based on PubMed keywords for all publications from 2017-2019. 
+					Word cloud based on PubMed keywords for all publications in our database from 2017-2019. 
 				</p>	
 				<img src="./assets/static_word_clouds/190415_2017-2018-2019_word_cloud_keywords.png" alt="Word cloud 17-19" style="width:700px;">
 			</div>
 			<div id="old_publication_stats" style="display: none;" class="dashboard">
 				<p id="intro_publication_stats" class="intro_text">
-					Collective statistics on the publication output from SciLifeLab facilities. Word cloud based on PubMed keywords for all publications from 2017-2019. 
+					Word cloud based on PubMed keywords for all publications in our database from 2017-2019. 
 				</p>				
 				<div id="spinner_publication_stats">
 					<p id="loading_text_pubications_stats" class="loading_text">LOADING ...<br/> 0 %</p>
