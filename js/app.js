@@ -18,7 +18,30 @@ function draw_content_latest_publications(publication_lists){
 	returning_dois = draw_latest_publications(publication_lists["this_year_publications"].concat(publication_lists["last_year_publications"]));
 	
 	// Create a worker to fetch from crossref API
-	let worker_latest_publications_crossref = new Worker('js/lib/fetch_crossref.js');
+	var crossref_fetch_worker_function_url = URL.createObjectURL( new Blob(['(',
+		function(){
+			onmessage = function(e) {
+				function Get(yourUrl){
+					var Httpreq = new XMLHttpRequest(); // a new request
+					Httpreq.open("GET",yourUrl,false);
+					Httpreq.send(null);
+					return Httpreq.responseText;          
+				}
+				// console.log('Message received from main script');
+				// var crossref_api_returns = [];
+				var doi = e.data[0];
+				var send_back = e.data[1];
+				//console.log(e.data);
+				crossref_api_returns = JSON.parse(Get("https://api.crossref.org/v1/works/"+doi));
+				// console.log('Posting message back to main script');
+				postMessage([crossref_api_returns, send_back]);
+			}
+		}.toString(),')()' ], { type: 'application/javascript' } ) );
+
+	var worker_latest_publications_crossref = new Worker(crossref_fetch_worker_function_url);
+	// Won't be needing this anymore
+	URL.revokeObjectURL(crossref_fetch_worker_function_url);
+
 	worker_latest_publications_crossref.onmessage = function(e){
 		// Send the data from crossref to edit the table of publications
 		// This sets proper publication dates and gets full journal names
@@ -49,8 +72,8 @@ function draw_content_facility_network(publication_lists, cytoscape_years){
 // spin.js from https://spin.js.org
 // wordcloud2.js from https://github.com/timdream/wordcloud2.js
 
-requirejs(['jquery', 'spin', 'wordcloud2', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status', 'publication_stats'],
-function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current_status, publication_stats){
+requirejs([ 'jquery', 'require_trick', 'spin', 'wordcloud2', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status', 'publication_stats'],
+function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current_status, publication_stats){
 	/*
 	End of code from https://requirejs.org/docs/api.html#jsfiles
 
@@ -139,7 +162,30 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 		// Workers
 		// bg workers start to download everything in the background when page loads
 		// Loading ALL pubs in the "full=false" version and the last three years in full version
-		let worker_all_bg = new Worker('js/lib/fetch.js');
+		// Build a worker from an anonymous function body
+		var fetch_worker_function_url = URL.createObjectURL( new Blob(['(',
+		function(){
+			onmessage = function(e) {
+				function Get(yourUrl){
+					var Httpreq = new XMLHttpRequest(); // a new request
+					Httpreq.open("GET",yourUrl,false);
+					Httpreq.send(null);
+					return Httpreq.responseText;          
+				}
+				// console.log('Message received from main script');
+				var publications = [];
+				// console.log(e.data);
+				for (var url in e.data){
+					console.log(e.data[url]);
+					publications.push.apply(publications, JSON.parse(Get(e.data[url]))["publications"]);
+				}
+				// console.log('Posting message back to main script');
+				postMessage(publications);
+			}
+		}.toString(),')()' ], { type: 'application/javascript' } ) );
+
+		var
+ worker_all_bg = new Worker(fetch_worker_function_url);
 		worker_all_bg.onmessage = function(e) {
 			publication_lists["all_publications"] = e.data;
 			loaded_flags["all_publications"] = true;
@@ -149,7 +195,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 			show('spinner_facility_output', false);
 	 		loaded_flags["facility_output"] = true;
 		}
-		let worker_this_bg = new Worker('js/lib/fetch.js');
+		var
+ worker_this_bg = new Worker(fetch_worker_function_url);
 		worker_this_bg.onmessage = function(e) {
 			publication_lists["this_year_publications"] = e.data;
 			loaded_flags["this_year_publications"] = true;
@@ -172,7 +219,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				loaded_flags["facility_network"] = true;
 			}
 		}
-		let worker_last_bg = new Worker('js/lib/fetch.js');
+		var
+ worker_last_bg = new Worker(fetch_worker_function_url);
 		worker_last_bg.onmessage = function(e) {
 			publication_lists["last_year_publications"] = e.data;
 			loaded_flags["last_year_publications"] = true;
@@ -189,7 +237,8 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				loaded_flags["facility_network"] = true;
 			}
 		}
-		let worker_lastlast_bg = new Worker('js/lib/fetch.js');
+		var
+ worker_lastlast_bg = new Worker(fetch_worker_function_url);
 		worker_lastlast_bg.onmessage = function(e) {
 			publication_lists["lastlast_year_publications"] = e.data;
 			loaded_flags["lastlast_year_publications"] = true;
@@ -201,6 +250,9 @@ function($, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current
 				loaded_flags["facility_network"] = true;
 			}
 		}
+
+		// Won't be needing this anymore
+		URL.revokeObjectURL(fetch_worker_function_url);
 
 		// Start the bg workers
 		worker_all_bg.postMessage(["https://publications.scilifelab.se/publications.json?full=false"]);
