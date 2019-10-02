@@ -261,7 +261,7 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 			$("#dashboards").children().hide();
 			// Show this dashboard
 			$("#current_status").show();
-			The following needs same origin to work
+			// The following needs same origin to work
 			try{
 				console.log("resize?");
 				console.log(parent.document.getElementById(window.name));
