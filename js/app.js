@@ -184,8 +184,7 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 			}
 		}.toString(),')()' ], { type: 'application/javascript' } ) );
 
-		var
- worker_all_bg = new Worker(fetch_worker_function_url);
+		var worker_all_bg = new Worker(fetch_worker_function_url);
 		worker_all_bg.onmessage = function(e) {
 			publication_lists["all_publications"] = e.data;
 			loaded_flags["all_publications"] = true;
@@ -195,8 +194,7 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 			show('spinner_facility_output', false);
 	 		loaded_flags["facility_output"] = true;
 		}
-		var
- worker_this_bg = new Worker(fetch_worker_function_url);
+		var worker_this_bg = new Worker(fetch_worker_function_url);
 		worker_this_bg.onmessage = function(e) {
 			publication_lists["this_year_publications"] = e.data;
 			loaded_flags["this_year_publications"] = true;
@@ -219,8 +217,7 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 				loaded_flags["facility_network"] = true;
 			}
 		}
-		var
- worker_last_bg = new Worker(fetch_worker_function_url);
+		var worker_last_bg = new Worker(fetch_worker_function_url);
 		worker_last_bg.onmessage = function(e) {
 			publication_lists["last_year_publications"] = e.data;
 			loaded_flags["last_year_publications"] = true;
@@ -237,8 +234,7 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 				loaded_flags["facility_network"] = true;
 			}
 		}
-		var
- worker_lastlast_bg = new Worker(fetch_worker_function_url);
+		var worker_lastlast_bg = new Worker(fetch_worker_function_url);
 		worker_lastlast_bg.onmessage = function(e) {
 			publication_lists["lastlast_year_publications"] = e.data;
 			loaded_flags["lastlast_year_publications"] = true;
