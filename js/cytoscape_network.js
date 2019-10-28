@@ -229,7 +229,7 @@ function draw_cyto(target_div, publications_json, years){
 		var node = evt.target; 
 		
 		// Set publications count as the name instead of facility name
-		node.data("name", node.data("score")+" pub.");
+		node.data("name", node.data("score"));
 		node.style("font-size", "100px");
 		node.style("text-margin-x", "15px");
 		node.style("text-margin-y", "-35px");
