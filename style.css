@@ -141,6 +141,18 @@ td.current_table_platform_no {
 	color: #0093BD;
 	text-decoration: none;
 }
+.latest_publication_DOI_link{
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.2em;
+	font-weight: black;
+	text-decoration: none;
+	color: #000000;
+	background-color: #95C11E;
+	border-radius: 20px;
+	padding: 5px 10px 5px 10px;
+	margin:	5px 10px 5px 0px;
+	display:inline-block
+}
 .latest_publication_title:hover{
 	color: #0093BD;
 	text-decoration: underline;
@@ -178,7 +190,7 @@ td.current_table_platform_no {
 	font-weight: black;
 	text-decoration: none;
 	color: #000000;
-    border-radius: 20px;
+	border-radius: 20px;
 	padding: 5px 10px 5px 10px;
 	margin:	3px 10px 3px 0px;
 	display:inline-block
@@ -321,7 +333,7 @@ button.load_button.active, button.load_button:active{
 	width: 100%;
 	border-top: 2px solid #000000;
 	position: absolute;
-	margin-top: 50px;
+	margin-top: 150px;
 	bottom: 0;
 }
 #footer_db_link {

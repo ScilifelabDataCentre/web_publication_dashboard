@@ -199,22 +199,25 @@ function draw_latest_publications(publications){
 		$("#latest_publications_container").append('<div id="latest_'+pub+'" class="latest_publication"></div>');
 		if (show_list[pub]["doi"] != null){
 			send_back_dois[pub] = show_list[pub]["doi"];
-			var publication_href = "https://www.doi.org/"+show_list[pub]["doi"];
+			var publication_href_doi = "https://www.doi.org/"+show_list[pub]["doi"];
+			var publication_href = show_list[pub]["links"]["display"]["href"];
 		}
 		else{
 			// Not sure if this ever happens for high impact items, but keeping it anyway
 			console.log("no DOI, "+pub)
-			var publication_href = show_list[pub]["links"]["display"]["href"]
+			var publication_href_doi = show_list[pub]["links"]["display"]["href"];
+			var publication_href = show_list[pub]["links"]["display"]["href"];
 		}
-		$("#latest_"+pub).append('<div class="latest_publication_title_container"><a class="latest_publication_title" target="_blank" href="'+publication_href+'">'+show_list[pub]["title"]+'</a></div>');
+		$("#latest_"+pub).append('<div class="latest_publication_title_container"><a class="latest_publication_title" target="_blank" href="'+publication_href+'">'+show_list[pub]["title"]+'</a>'+
+			'<br/><a class="latest_publication_DOI_link" target="_blank" href="'+publication_href_doi+'">DOI</a></div>');
 
 		var author_string = "";
 		for (author in show_list[pub]["authors"]){
 			if (show_list[pub]["authors"][author]["family"] != null){
 				if (author_string != ""){
-					author_string += ", "
+					author_string += ", ";
 				}
-				author_string += show_list[pub]["authors"][author]["family"] + " " + show_list[pub]["authors"][author]["initials"]
+				author_string += show_list[pub]["authors"][author]["family"] + " " + show_list[pub]["authors"][author]["initials"];
 			}
 		}
 
