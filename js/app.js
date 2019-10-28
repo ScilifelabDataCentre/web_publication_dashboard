@@ -68,12 +68,11 @@ function draw_content_facility_network(publication_lists, cytoscape_years){
 }
 
 
-// Start the main app logic requiring jquery, spin, wordcloud and my own stuff
+// Start the main app logic requiring jquery, spin, and my own stuff
 // spin.js from https://spin.js.org
-// wordcloud2.js from https://github.com/timdream/wordcloud2.js
 
-requirejs([ 'jquery', 'require_trick', 'spin', 'wordcloud2', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status', 'publication_stats'],
-function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_charts, current_status, publication_stats){
+requirejs([ 'jquery', 'require_trick', 'spin', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status'],
+function($, requirejs, spin, helpers, cytoscape_network, plotly_charts, current_status){
 	/*
 	End of code from https://requirejs.org/docs/api.html#jsfiles
 
@@ -125,9 +124,9 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 	var spinner_facility_network = new Spinner(opts).spin();
 	target_facility_network.appendChild(spinner_facility_network.el);
 
-	var target_publication_stats = document.getElementById('spinner_publication_stats');
-	var spinner_publication_stats = new Spinner(opts).spin();
-	target_publication_stats.appendChild(spinner_publication_stats.el);
+	// var target_word_cloud = document.getElementById('spinner_word_cloud');
+	// var spinner_word_cloud = new Spinner(opts).spin();
+	// target_word_cloud.appendChild(spinner_word_cloud.el);
 
 	var target_facility_output = document.getElementById('spinner_facility_output');
 	var spinner_facility_output = new Spinner(opts).spin();
@@ -145,7 +144,7 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 			"current_status": false,
 			"latest_publications": false,
 			"facility_network": false,
-			"publication_stats": false,
+			"word_cloud": false,
 			"facility_output": false
 		}
 		// The publication lists will be kept here
@@ -286,9 +285,9 @@ function($, requirejs, spin, wordcloud2, helpers, cytoscape_network, plotly_char
 				draw_content_facility_network(publication_lists, cytoscape_years)
 			}
 		});
-		$("#load_publication_stats").click(function(){
+		$("#load_word_cloud").click(function(){
 			$("#dashboards").children().hide();
-			$("#publication_stats").show();
+			$("#word_cloud").show();
 		});
 		$("#load_facility_output").click(function(){
 			$("#dashboards").children().hide();
