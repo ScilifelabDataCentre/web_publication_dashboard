@@ -67,23 +67,17 @@ function draw_content_facility_network(publication_lists, cytoscape_years){
 	show('spinner_facility_network', false);
 }
 
-
 // Start the main app logic requiring jquery, spin, and my own stuff
 // spin.js from https://spin.js.org
 
-requirejs([ 'jquery', 'require_trick', 'spin', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status', 'latest_publications'],
-function($, requirejs, spin, helpers, cytoscape_network, plotly_charts, current_status, latest_publications){
+requirejs([ 'jquery', 'require_trick', 'spin', 'helpers', 'cytoscape_network', 'facility_output', 'current_status', 'latest_publications'],
+function($, requirejs, spin, helpers, cytoscape_network, facility_output, current_status, latest_publications){
 	/*
-	End of code from https://requirejs.org/docs/api.html#jsfiles
-
 	The rest is dashboard specific and runs in this function 
 	that requirejs has loaded the libs into
 	*/
 
-
-
-	// menu bar buttons
-
+	// menu bar button click functions to handle colouring them
 	$(".load_button").click(function(){
 		$(".load_button").removeClass('active');
 		$(this).toggleClass('active'); 
