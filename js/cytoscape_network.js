@@ -1,3 +1,17 @@
+function draw_content_facility_network(publication_lists, cytoscape_years){
+	// Set up and call the cytoscape draw funtion
+	show('cytoscape_network', true);
+	// Draw the cytoscape network
+	draw_cyto(
+		"cytoscape_network", 
+		publication_lists["this_year_publications"].concat(
+		publication_lists["last_year_publications"]).concat(
+		publication_lists["lastlast_year_publications"]),
+		cytoscape_years
+	);
+	show('spinner_facility_network', false);
+}
+
 function draw_cyto(target_div, publications_json, years){
 
 	// Map from Facility label to Platform name

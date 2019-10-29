@@ -5,13 +5,6 @@ requirejs.config({
 	//By default load any module IDs from js/lib
 	baseUrl: 'js/lib',
 });
-function show(id, value) {
-	// Shows an element
-    document.getElementById(id).style.display = value ? 'block' : 'none';
-}
-function resize_iframe(obj) {
-	obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-}
 function draw_content_latest_publications(publication_lists){
 	// Draw publications list
 	returning_dois = draw_latest_publications(publication_lists["this_year_publications"].concat(publication_lists["last_year_publications"]));
@@ -52,18 +45,6 @@ function draw_content_latest_publications(publication_lists){
 		worker_latest_publications_crossref.postMessage([returning_dois[i], i]);
 	}
 	show('spinner_latest_publications', false);
-}
-function draw_content_facility_network(publication_lists, cytoscape_years){
-	// Draw the cytoscape network
-	show('cytoscape_network', true);
-	draw_cyto(
-		"cytoscape_network", 
-		publication_lists["this_year_publications"].concat(
-		publication_lists["last_year_publications"]).concat(
-		publication_lists["lastlast_year_publications"]),
-		cytoscape_years
-	);
-	show('spinner_facility_network', false);
 }
 
 // Start the main app logic requiring jquery, spin, and my own stuff
