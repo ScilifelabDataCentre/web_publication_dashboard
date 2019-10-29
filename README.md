@@ -1,11 +1,30 @@
 # web_publication_dashboard
-Working on a dashboard for showing publication visualisations in a browser
+A dashboard for showing publication visualisations based on SciLifeLab Publications Database https://publications.scilifelab.se 
 
-## Building js into one file
+Will be hosted on scilifelab.se
+
+## Dependencies
+
+### spin.js
+https://spin.js.org
+
+### Cytoscape
+https://js.cytoscape.org
+
+### Plotly
+https://plot.ly/javascript/
+
+### requirejs 
+https://requirejs.org/docs/download.html
+
+This project uses requirejs to combine all javascript files into one.
+
+Installed with:
+```
+npm install -g requirejs
+```
+#### Building js into one file
 In the js folder:
 ```
 r.js -o baseUrl=. name=app out=app-built.js
 ```
-This uses requirejs https://requirejs.org/docs/download.html
-## Word cloud
-from https://github.com/timdream/wordcloud2.js
