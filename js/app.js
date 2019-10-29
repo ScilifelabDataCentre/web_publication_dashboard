@@ -71,8 +71,8 @@ function draw_content_facility_network(publication_lists, cytoscape_years){
 // Start the main app logic requiring jquery, spin, and my own stuff
 // spin.js from https://spin.js.org
 
-requirejs([ 'jquery', 'require_trick', 'spin', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status'],
-function($, requirejs, spin, helpers, cytoscape_network, plotly_charts, current_status){
+requirejs([ 'jquery', 'require_trick', 'spin', 'helpers', 'cytoscape_network', 'plotly_charts', 'current_status', 'latest_publications'],
+function($, requirejs, spin, helpers, cytoscape_network, plotly_charts, current_status, latest_publications){
 	/*
 	End of code from https://requirejs.org/docs/api.html#jsfiles
 
