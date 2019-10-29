@@ -124,10 +124,6 @@ function($, requirejs, spin, helpers, cytoscape_network, plotly_charts, current_
 	var spinner_facility_network = new Spinner(opts).spin();
 	target_facility_network.appendChild(spinner_facility_network.el);
 
-	// var target_word_cloud = document.getElementById('spinner_word_cloud');
-	// var spinner_word_cloud = new Spinner(opts).spin();
-	// target_word_cloud.appendChild(spinner_word_cloud.el);
-
 	var target_facility_output = document.getElementById('spinner_facility_output');
 	var spinner_facility_output = new Spinner(opts).spin();
 	target_facility_output.appendChild(spinner_facility_output.el);
@@ -144,7 +140,6 @@ function($, requirejs, spin, helpers, cytoscape_network, plotly_charts, current_
 			"current_status": false,
 			"latest_publications": false,
 			"facility_network": false,
-			"word_cloud": false,
 			"facility_output": false
 		}
 		// The publication lists will be kept here
@@ -270,6 +265,7 @@ function($, requirejs, spin, helpers, cytoscape_network, plotly_charts, current_
 			$("#facility_network").show();
 			
 			// Always reload the network after click
+			// There is a bug with how the network is displayed if hidden and shown again
 			if (loaded_flags["facility_network"] === true){
 				draw_content_facility_network(publication_lists, cytoscape_years)
 			}
