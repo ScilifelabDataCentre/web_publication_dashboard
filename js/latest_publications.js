@@ -85,6 +85,49 @@ var facility_colour_map = {
 	"BioMaterial Interactions (BioMat)": "#Af9d2fAA", // Regional facilities of national interest
 	"Advanced Mass Spectrometry Proteomics": "#9f8d1fAA" // Regional facilities of national interest
 };
+
+function draw_content_latest_publications(publication_lists){
+	// Draw publications list
+	returning_dois = draw_latest_publications(publication_lists["this_year_publications"].concat(publication_lists["last_year_publications"]));
+	
+	// Create a worker to fetch from crossref API
+	var crossref_fetch_worker_function_url = URL.createObjectURL( new Blob(['(',
+		function(){
+			onmessage = function(e) {
+				function Get(yourUrl){
+					var Httpreq = new XMLHttpRequest(); // a new request
+					Httpreq.open("GET",yourUrl,false);
+					Httpreq.send(null);
+					return Httpreq.responseText;          
+				}
+				// console.log('Message received from main script');
+				// var crossref_api_returns = [];
+				var doi = e.data[0];
+				var send_back = e.data[1];
+				//console.log(e.data);
+				crossref_api_returns = JSON.parse(Get("https://api.crossref.org/v1/works/"+doi));
+				// console.log('Posting message back to main script');
+				postMessage([crossref_api_returns, send_back]);
+			}
+		}.toString(),')()' ], { type: 'application/javascript' } ) );
+
+	var worker_latest_publications_crossref = new Worker(crossref_fetch_worker_function_url);
+	// Won't be needing this anymore
+	URL.revokeObjectURL(crossref_fetch_worker_function_url);
+
+	worker_latest_publications_crossref.onmessage = function(e){
+		// Send the data from crossref to edit the table of publications
+		// This sets proper publication dates and gets full journal names
+		edit_latest_publications(e.data[0], e.data[1]);
+	}
+	// Start the crossref API requests
+	// This will run in the bg while the site works as normal
+	for (i in returning_dois){
+		worker_latest_publications_crossref.postMessage([returning_dois[i], i]);
+	}
+	show('spinner_latest_publications', false);
+}
+
 function get_author_height(el){
 	// Function to compute the height of the author list, if printed out normally
 
@@ -127,7 +170,6 @@ function edit_latest_publications(crossref_data, item_no){
 
 	document.getElementById("latest_journal_"+item_no).innerHTML = "Journal: "+crossref_journal_name;
 	document.getElementById("latest_journal_date_"+item_no).innerHTML = "Published: "+crossref_published_date_string;
-
 }
 
 function draw_latest_publications(publications){
