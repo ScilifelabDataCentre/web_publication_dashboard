@@ -12,7 +12,6 @@ function show(id, value) {
 function resize_iframe(obj) {
 	obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
 }
-
 function draw_content_latest_publications(publication_lists){
 	// Draw publications list
 	returning_dois = draw_latest_publications(publication_lists["this_year_publications"].concat(publication_lists["last_year_publications"]));
@@ -151,6 +150,8 @@ function($, requirejs, spin, helpers, cytoscape_network, facility_output, curren
 		// bg workers start to download everything in the background when page loads
 		// Loading ALL pubs in the "full=false" version and the last three years in full version
 		// Build a worker from an anonymous function body
+		// This URL.createObjectURL Blob is a workaround for the fact that this setup needs all js in a single file
+		// Normally workers would be specified in separate js files, instead they are here in the Blob
 		var fetch_worker_function_url = URL.createObjectURL( new Blob(['(',
 		function(){
 			onmessage = function(e) {
@@ -244,6 +245,7 @@ function($, requirejs, spin, helpers, cytoscape_network, facility_output, curren
 		worker_last_bg.postMessage(["https://publications.scilifelab.se/publications/"+(current_year-1).toString()+".json"]);
 		worker_lastlast_bg.postMessage(["https://publications.scilifelab.se/publications/"+(current_year-2).toString()+".json"]);
 
+		// Click functions for all menu bar items
 		$("#load_current_status").click(function(){
 			// Hide all dashes
 			$("#dashboards").children().hide();
@@ -257,9 +259,9 @@ function($, requirejs, spin, helpers, cytoscape_network, facility_output, curren
 		$("#load_facility_network").click(function(){
 			$("#dashboards").children().hide();
 			$("#facility_network").show();
-			
 			// Always reload the network after click
 			// There is a bug with how the network is displayed if hidden and shown again
+			// This is a workaround for that bug, but it does change the layout every time since it is random
 			if (loaded_flags["facility_network"] === true){
 				draw_content_facility_network(publication_lists, cytoscape_years)
 			}
