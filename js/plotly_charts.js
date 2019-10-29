@@ -55,25 +55,31 @@ facility_colour_map = {
 }
 
 function draw_label_pie(target_div, publications_json){
-	// console.log(publications_json);
+	// Creating the datastructure for years
+	// Including one set with all publications called All-time
 	var years = {"All-time": []};
 
 	for (i=0; i<publications_json.length; i++){
 		var year = publications_json[i]["published"].split('-')[0];
+
+		// Push the publication to the correct list
 		if (years.hasOwnProperty(year)){
 			years[year].push(publications_json[i]);
 		} else {
 			years[year] = [];
 			years[year].push(publications_json[i]);
 		}
+		// Push all publications to this list
 		years["All-time"].push(publications_json[i])
 	}
+
 	for (var year in years){
 		var dois = [];
 		var pmids = [];
 		var label_count = {};
-		var titles_for_word_cloud = "";
-		label_length_count = {}
+		var label_length_count = {};
+
+		// Goes through all the publications in the year
 		for (i=0; i<years[year].length; i++){
 			var doi = years[year][i]["doi"];
 			var title = years[year][i]["title"];
@@ -84,6 +90,8 @@ function draw_label_pie(target_div, publications_json){
 			var used_labels = Object.keys(labels);
 			
 			// Cleaning up the labels with these rules
+			// Remove the two NGI Stockholm () ones and add a single NGI Stockholm
+			// Remove Bioinformatics Compute and Storage
 			if (used_labels.indexOf("NGI Stockholm (Genomics Applications)") >= 0){
 				used_labels.splice(used_labels.indexOf("NGI Stockholm (Genomics Applications)"), 1);
 				used_labels.splice(used_labels.indexOf("NGI Stockholm (Genomics Production)"), 1);
@@ -100,10 +108,10 @@ function draw_label_pie(target_div, publications_json){
 
 			pmids.push(pmid);
 			dois.push(doi);
-			titles_for_word_cloud = titles_for_word_cloud + " " + title;
+
+			// After labels have been cleaned up, add them to the counts
 			var label_length = 0;
 			for (var key in used_labels){
-				//No idea why labels.length doesnt work...
 				label_length += 1;
 				if (label_count.hasOwnProperty(used_labels[key])){
 					label_count[used_labels[key]] += 1;
@@ -120,6 +128,7 @@ function draw_label_pie(target_div, publications_json){
 			}
 		}
 
+		// Plot defaults
 		var data = [{
 			values:[], 
 			labels:[],
@@ -145,6 +154,7 @@ function draw_label_pie(target_div, publications_json){
 			}
 		}];
 
+		// The All-time plot needs more space than the others
 		if (year == "All-time"){
 			var bot_margin = 200;
 			var adjust_size_for_margin = 150;
@@ -176,18 +186,22 @@ function draw_label_pie(target_div, publications_json){
 				pad: 0
 			}
 		}
+
+		// Push the label count and name into the plot data object
 		for (var lab in label_count){
 			data[0].values.push(label_count[lab]);
 			data[0].labels.push(lab);
 			data[0].marker.colors.push(facility_colour_map[lab]);
 		}
 
+		// Create div for the plot
 		$(target_div).append('<div id="pie'+year+'" style="display:none;" class="piechart"></div>');
 		$('#button_holder').append('<button id="button'+year+'" class="year_button">'+year+'</button>');
-		// console.log(year)
 
+		// Finally create the plot and place it in its div
 		Plotly.newPlot('pie'+year, data, layout, {displayModeBar: false});
 
+		// Create a table with the same info as the plot
 		$('#pie'+year).append('<table id="table'+year+'" class="facility_table"></table>');
 
 		// Find the table so we can add to it
@@ -215,9 +229,14 @@ function draw_label_pie(target_div, publications_json){
 			var cell_name = row.insertCell(0);
 			var cell_no = row.insertCell(1);
 
+			// Styling the cells
 			row.style.backgroundColor = facility_colour_map[label_count_sorted[rowno][0]]
 			cell_name.className = 'current_table_platform_name';
 			cell_no.className = 'current_table_platform_no';
+
+			// This is a workaround for the fact that NGI Stockholm has two labels that needed to be merged into a single item.
+			// The link goes out to one of the two NGI Stockholm pubdb labels, it is hard coded.
+			// Other labels just link out to their label name
 			if (label_count_sorted[rowno][0] == "NGI Stockholm"){
 				cell_name.innerHTML = "<a href='https://publications.scilifelab.se/label/NGI%20Stockholm%20%28Genomics%20Applications%29' target='_blank' class='facility_table_link'>"+label_count_sorted[rowno][0]+"</a>";
 			} else {
@@ -240,8 +259,6 @@ function draw_label_pie(target_div, publications_json){
 		cell_publications.className = 'current_table_platform_no_th';
 		cell_platform.innerHTML = "<b>Facility</b>";
 		cell_publications.innerHTML = "<b>Publications</b>";
-
-
 	}
 
 	/*
@@ -256,6 +273,7 @@ function draw_label_pie(target_div, publications_json){
 		$('#pie'+year).show();
 	});
 
-	$("#button2019").click();
+	var current_year = new Date().getFullYear().toString();
+	$("#button"+current_year).click();
 
 }
