@@ -1,10 +1,3 @@
-/*
-requirejs code from https://requirejs.org/docs/api.html#jsfiles
-*/
-requirejs.config({
-	//By default load any module IDs from js/lib
-	baseUrl: 'js/lib',
-});
 function draw_content_latest_publications(publication_lists){
 	// Draw publications list
 	returning_dois = draw_latest_publications(publication_lists["this_year_publications"].concat(publication_lists["last_year_publications"]));
