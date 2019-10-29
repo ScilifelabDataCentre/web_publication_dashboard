@@ -1,12 +1,11 @@
 // Start the main app logic requiring jquery, spin, and my own stuff
+// requirejs code from https://requirejs.org/docs/api.html#jsfiles
 // spin.js from https://spin.js.org
 
 requirejs([ 'jquery', 'require_trick', 'spin', 'helpers', 'cytoscape_network', 'facility_output', 'current_status', 'latest_publications'],
 function($, requirejs, spin, helpers, cytoscape_network, facility_output, current_status, latest_publications){
-	/*
-	The rest is dashboard specific and runs in this function 
-	that requirejs has loaded the libs into
-	*/
+	// The rest is dashboard specific and runs in this function 
+	// that requirejs has loaded the libs into
 
 	// menu bar button click functions to handle colouring them
 	$(".load_button").click(function(){
