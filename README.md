@@ -28,3 +28,6 @@ In the js folder:
 ```
 r.js -o baseUrl=. name=app out=app-built.js
 ```
+
+### Deploying to web page
+Contact company representative via email to make a pull from the master branch on this repository.
