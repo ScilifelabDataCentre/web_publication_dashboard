@@ -2,7 +2,7 @@ facility_colour_map = {
 	"Tissue Profiling": "#8dd3c7AA", // Affinity Proteomics
 	"Fluorescence Tissue Profiling": "#8dd3c7AA", // Affinity Proteomics
 	"Fluorescence Correlation Spectroscopy": "#ffffb3AA", // Bioimaging
-	// "Bioinformatics Compute and Storage": "#bebadaAA", // Bioinformatics
+	"Bioinformatics Compute and Storage": "#bebadaAA", // Bioinformatics
 	"Bioinformatics Long-term Support WABI": "#bebadaAA", // Bioinformatics
 	"Bioinformatics Support and Infrastructure": "#9e9aBaAA", // Bioinformatics
 	"Systems Biology": "#7e7a9aAA", // Bioinformatics
@@ -27,8 +27,8 @@ facility_colour_map = {
 	"Karolinska High Throughput Center (KHTC)": "#d9d9d9AA", // Functional Genomics
 	"Ancient DNA": "#EcBdD5AA", // Genomics
 	"NGI Stockholm": "#fccde5AA", // Genomics
-	// "NGI Stockholm (Genomics Applications)": "#fccde5AA", // Genomics
-	// "NGI Stockholm (Genomics Production)": "#fccde5AA", // Genomics
+	"NGI Stockholm (Genomics Applications)": "#fccde5AA", // Genomics
+	"NGI Stockholm (Genomics Production)": "#fccde5AA", // Genomics
 	"NGI Uppsala (SNP&SEQ Technology Platform)": "#DcAdC5AA", // Genomics
 	"NGI Uppsala (Uppsala Genome Center)": "#Ac7d95AA", // Genomics
 	"Eukaryotic Single Cell Genomics (ESCG)": "#Bc8dA5AA", // Genomics
@@ -51,8 +51,22 @@ facility_colour_map = {
 	"Mutation Analysis Facility (MAF)": "#CfBd4fAA", // Regional facilities of national interest
 	"Bioinformatics and Expression Analysis (BEA)": "#BfAd3fAA", // Regional facilities of national interest
 	"BioMaterial Interactions (BioMat)": "#Af9d2fAA", // Regional facilities of national interest
-	"Advanced Mass Spectrometry Proteomics": "#9f8d1fAA" // Regional facilities of national interest
-}
+	"Advanced Mass Spectrometry Proteomics": "#9f8d1fAA", // Regional facilities of national interest
+	// Temporary updates
+	"National Genomics Infrastructure": "#fbcde5AA", // Genomics
+	"Glycoproteomics": "#BbDbB5AA",
+	"Chemical Proteomics": "#8cAb85AA",
+	"Bioinformatics Support, Infrastructure and Training": "#9e9aBaAA", // Bioinformatics
+	"National Resource for Mass Spectrometry Imaging": "#Ab3022AA",
+	"Targeted and Structural Proteomics": "#DcFbD5AA",
+	"In Situ Sequencing (ISS)": "#fbcde5AA", // Genomics
+	"Proteogenomics": "#80b1d3AA",
+	"Centre for Cellular Imaging": "#Ab3022AA",
+	"PLA and Single Cell Proteomics": "#8cAb85AA",
+	"AIDA Data Hub": "#9e9aBaAA",
+	"Advanced FISH Technologies": "#Ab3022AA",
+	"Gothenburg Imaging Mass Spectrometry": "#Ab3022AA",
+};
 
 function draw_label_pie(target_div, publications_json){
 	// Creating the datastructure for years

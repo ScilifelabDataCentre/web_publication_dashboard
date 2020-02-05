@@ -83,7 +83,21 @@ var facility_colour_map = {
 	"Mutation Analysis Facility (MAF)": "#CfBd4fAA", // Regional facilities of national interest
 	"Bioinformatics and Expression Analysis (BEA)": "#BfAd3fAA", // Regional facilities of national interest
 	"BioMaterial Interactions (BioMat)": "#Af9d2fAA", // Regional facilities of national interest
-	"Advanced Mass Spectrometry Proteomics": "#9f8d1fAA" // Regional facilities of national interest
+	"Advanced Mass Spectrometry Proteomics": "#9f8d1fAA", // Regional facilities of national interest
+	// Temporary updates
+	"National Genomics Infrastructure": "#fbcde5AA", // Genomics
+	"Glycoproteomics": "#BbDbB5AA",
+	"Chemical Proteomics": "#8cAb85AA",
+	"Bioinformatics Support, Infrastructure and Training": "#9e9aBaAA", // Bioinformatics
+	"National Resource for Mass Spectrometry Imaging": "#Ab3022AA",
+	"Targeted and Structural Proteomics": "#DcFbD5AA",
+	"In Situ Sequencing (ISS)": "#fbcde5AA", // Genomics
+	"Proteogenomics": "#80b1d3AA",
+	"Centre for Cellular Imaging": "#Ab3022AA",
+	"PLA and Single Cell Proteomics": "#8cAb85AA",
+	"AIDA Data Hub": "#9e9aBaAA",
+	"Advanced FISH Technologies": "#Ab3022AA",
+	"Gothenburg Imaging Mass Spectrometry": "#Ab3022AA",
 };
 
 function draw_content_latest_publications(publication_lists){

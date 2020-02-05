@@ -18,23 +18,30 @@ var platform_map = {
 	"Tissue Profiling": "Affinity Proteomics",
 	"Fluorescence Tissue Profiling": "Affinity Proteomics",
 	"Fluorescence Correlation Spectroscopy": "Bioimaging",
+	"AIDA Data Hub": "Bioinformatics", // temporary
 	"Bioinformatics Compute and Storage": "Bioinformatics",
 	"Bioinformatics Long-term Support WABI": "Bioinformatics",
 	"Bioinformatics Support and Infrastructure": "Bioinformatics",
+	"Bioinformatics Support, Infrastructure and Training": "Bioinformatics",
 	"Systems Biology": "Bioinformatics",
+	"Advanced FISH Technologies": "Cellular and Molecular Imaging", // temporary
+	"Gothenburg Imaging Mass Spectrometry": "Cellular and Molecular Imaging", // temporary
 	"Cryo-EM (SU)": "Cellular and Molecular Imaging",
 	"Advanced Light Microscopy (ALM)": "Cellular and Molecular Imaging",
 	"BioImage Informatics": "Cellular and Molecular Imaging",
 	"Cell Profiling": "Cellular and Molecular Imaging",
 	"Cryo-EM": "Cellular and Molecular Imaging",
 	"Cryo-EM (UmU)": "Cellular and Molecular Imaging",
+	"Centre for Cellular Imaging": "Cellular and Molecular Imaging", // temporary
 	"Protein Science Facility (PSF)": "Cellular and Molecular Imaging",
+	"National Resource for Mass Spectrometry Imaging": "Cellular and Molecular Imaging", // temporary
 	"Swedish NMR Centre (SNC)": "Cellular and Molecular Imaging",
 	"Chemical Biology Consortium Sweden (KI)": "Chemical Biology and Genome Engineering",
 	"Chemical Biology Consortium Sweden (UmU)": "Chemical Biology and Genome Engineering",
 	"Chemical Biology Consortium Sweden (CBCS)": "Chemical Biology and Genome Engineering",
 	"Genome Engineering Zebrafish": "Chemical Biology and Genome Engineering",
 	"High-throughput Genome Engineering (HTGE)": "Chemical Biology and Genome Engineering",
+	"Proteogenomics": "Chemical Biology and Genome Engineering", // temporary
 	"Clinical Genomics Gothenburg": "Diagnostics Development",
 	"Clinical Genomics Lund": "Diagnostics Development",
 	"Clinical Genomics Stockholm": "Diagnostics Development",
@@ -42,6 +49,8 @@ var platform_map = {
 	"Drug Discovery and Development (DDD)": "Drug Discovery and Development",
 	"Karolinska High Throughput Center (KHTC)": "Functional Genomics",
 	"Ancient DNA": "Genomics",
+	"In Situ Sequencing (ISS)": "Genomics", // temporary
+	"National Genomics Infrastructure": "Genomics",
 	"NGI Stockholm": "Genomics",
 	"NGI Stockholm (Genomics Applications)": "Genomics",
 	"NGI Stockholm (Genomics Production)": "Genomics",
@@ -50,17 +59,22 @@ var platform_map = {
 	"Eukaryotic Single Cell Genomics (ESCG)": "Genomics",
 	"Microbial Single Cell Genomics": "Genomics",
 	"Clinical Biomarkers": "Next-Generation Diagnostics",
+	"Glycoproteomics": "Proteomics and Metabolomics", // temporary
+	"Mass Cytometry": "Proteomics and Metabolomics",
 	"Mass Cytometry (KI)": "Proteomics and Metabolomics",
 	"Mass Cytometry (LiU)": "Proteomics and Metabolomics",
 	"Mass Cytometry": "Proteomics and Metabolomics",
 	"Single Cell Proteomics": "Proteomics and Metabolomics",
 	"Autoimmunity Profiling": "Proteomics and Metabolomics",
+	"Chemical Proteomics":	"Proteomics and Metabolomics", // temporary
 	"Chemical Proteomics and Proteogenomics (MBB)": "Proteomics and Metabolomics",
 	"Chemical Proteomics and Proteogenomics (OncPat)": "Proteomics and Metabolomics",
 	"Chemical Proteomics & Proteogenomics": "Proteomics and Metabolomics",
 	"PLA Proteomics": "Proteomics and Metabolomics",
+	"PLA and Single Cell Proteomics": "Proteomics and Metabolomics", // temporary
 	"Plasma Profiling": "Proteomics and Metabolomics",
 	"Swedish Metabolomics Centre (SMC)": "Proteomics and Metabolomics",
+	"Targeted and Structural Proteomics": "Proteomics and Metabolomics",
 	"Clinical Proteomics Mass spectrometry": "Regional facilities of national interest",
 	"Mass Spectrometry-based Proteomics, Uppsala": "Regional facilities of national interest",
 	"Array and Analysis Facility": "Regional facilities of national interest",
