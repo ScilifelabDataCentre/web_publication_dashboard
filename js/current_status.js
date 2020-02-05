@@ -18,17 +18,21 @@ var platform_map = {
 	"Tissue Profiling": "Affinity Proteomics",
 	"Fluorescence Tissue Profiling": "Affinity Proteomics",
 	"Fluorescence Correlation Spectroscopy": "Bioimaging",
+	"AIDA Data Hub": "Bioinformatics", // temporary
 	"Bioinformatics Compute and Storage": "Bioinformatics",
 	"Bioinformatics Long-term Support WABI": "Bioinformatics",
 	"Bioinformatics Support and Infrastructure": "Bioinformatics",
 	"Bioinformatics Support, Infrastructure and Training": "Bioinformatics",
 	"Systems Biology": "Bioinformatics",
+	"Advanced FISH Technologies": "Cellular and Molecular Imaging", // temporary
+	"Gothenburg Imaging Mass Spectrometry": "Cellular and Molecular Imaging", // temporary
 	"Cryo-EM (SU)": "Cellular and Molecular Imaging",
 	"Advanced Light Microscopy (ALM)": "Cellular and Molecular Imaging",
 	"BioImage Informatics": "Cellular and Molecular Imaging",
 	"Cell Profiling": "Cellular and Molecular Imaging",
 	"Cryo-EM": "Cellular and Molecular Imaging",
 	"Cryo-EM (UmU)": "Cellular and Molecular Imaging",
+	"Centre for Cellular Imaging": "Cellular and Molecular Imaging", // temporary
 	"Protein Science Facility (PSF)": "Cellular and Molecular Imaging",
 	"National Resource for Mass Spectrometry Imaging": "Cellular and Molecular Imaging", // temporary
 	"Swedish NMR Centre (SNC)": "Cellular and Molecular Imaging",
@@ -67,6 +71,7 @@ var platform_map = {
 	"Chemical Proteomics and Proteogenomics (OncPat)": "Proteomics and Metabolomics",
 	"Chemical Proteomics & Proteogenomics": "Proteomics and Metabolomics",
 	"PLA Proteomics": "Proteomics and Metabolomics",
+	"PLA and Single Cell Proteomics": "Proteomics and Metabolomics", // temporary
 	"Plasma Profiling": "Proteomics and Metabolomics",
 	"Swedish Metabolomics Centre (SMC)": "Proteomics and Metabolomics",
 	"Targeted and Structural Proteomics": "Proteomics and Metabolomics",
