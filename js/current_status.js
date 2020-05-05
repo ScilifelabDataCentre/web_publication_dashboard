@@ -1,17 +1,17 @@
 // Core colour for each platform, facility colours are based on these
 var platform_colour_map = {
-	"Affinity Proteomics": "#8dd3c7",
-	"Bioimaging": "#ffffb3",
-	"Bioinformatics": "#bebada",
-	"Cellular and Molecular Imaging": "#fb8072",
-	"Chemical Biology and Genome Engineering": "#80b1d3",
-	"Drug Discovery and Development": "#fdb462",
-	"Diagnostics Development": "#b3de69",
-	"Functional Genomics": "#d9d9d9",
-	"Genomics": "#fccde5",
-	"Next-Generation Diagnostics": "#bc80bd",
-	"Proteomics and Metabolomics": "#ccebc5",
-	"Regional facilities of national interest": "#ffed6f"
+	"Affinity Proteomics": "#e9f2d1", //
+	"Bioimaging": "#c0d6d8", //
+	"Bioinformatics": "#bdd775", //
+	"Cellular and Molecular Imaging": "#a7c947", //
+	"Chemical Biology and Genome Engineering": "#43858b", //
+	"Drug Discovery and Development": "#83aeb2", //
+	"Diagnostics Development": "#79b1b7", //
+	"Functional Genomics": "#a6cbcf", //
+	"Genomics": "#068793", //
+	"Next-Generation Diagnostics": "#d3e4a3", //
+	"Proteomics and Metabolomics": "#4c979f", //
+	"Regional facilities of national interest": "#d2e5e7" //
 };
 // Map from Facility label to Platform name
 var platform_map = {
@@ -35,6 +35,8 @@ var platform_map = {
 	"Centre for Cellular Imaging": "Cellular and Molecular Imaging", // temporary
 	"Protein Science Facility (PSF)": "Cellular and Molecular Imaging",
 	"National Resource for Mass Spectrometry Imaging": "Cellular and Molecular Imaging", // temporary
+    "Intravital Microscopy Facility": "Cellular and Molecular Imaging", 
+    "Biochemical Imaging Centre Umeå": "Cellular and Molecular Imaging", // temporary
 	"Swedish NMR Centre (SNC)": "Cellular and Molecular Imaging",
 	"Chemical Biology Consortium Sweden (KI)": "Chemical Biology and Genome Engineering",
 	"Chemical Biology Consortium Sweden (UmU)": "Chemical Biology and Genome Engineering",
@@ -101,6 +103,7 @@ function current_status_content(publications, year){
 			for (var key in labels){
 				// console.log(key);
 				platform = platform_map[key];
+                
 				// console.log(platform);
 				if (platforms.hasOwnProperty(platform)){
 					platforms[platform] += 1;
